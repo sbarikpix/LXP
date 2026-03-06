@@ -1,0 +1,150 @@
+
+p {
+    margin: 0px;
+}
+
+.form-control {
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
+    border: none;
+    padding: 0px;
+    height: 100px;
+}
+.form-control p{
+    font-family: "Open Sans", sans-serif;
+    font-weight: 600;
+    color: #000000b3;
+}
+
+.form-control input {
+    width: 40%;
+    height: 55px;
+    border-radius: 6px;
+    border: 1px solid;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px #b7b7b7;
+}
+.error input{
+    border: 1px solid #FC5723;
+}
+
+.form-control input:focus{
+    outline: none;
+}
+
+.mat-divider {
+    border-top-color: rgb(255 127 0);
+}
+
+#search i {
+    font-size: 20px;
+}
+
+#search input {
+    border: none;
+    outline: none;
+}
+
+#search input:focus {
+    border-bottom: 2px solid orange;
+}
+
+th {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+    color: #fff;
+    background-color: #474c5f;
+    box-shadow: 0px 0px 5px #7e7b7b;
+}
+
+td {
+    font-size: 14px;
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
+}
+.mat-mdc-form-field-error
+{
+    color: #ff3d00;
+    font-family: "Montserrat", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+}
+.text-bg-success{
+    padding: 7px 13px;
+    font-weight: 400;
+    font-family: 'Open Sans';
+    font-size: 13px;
+}
+.mat-mdc-raised-button
+{
+    height: 37px;
+    width: 130px;
+    background-color: #FC5723!important;
+    font-size: 15px;
+    letter-spacing: 2px;
+    color: #fff!important;
+    font-weight: 600;
+}
+.mat-mdc-raised-button:hover{
+    background-color: #fff !important;
+    color: #FC5723 !important;
+    border:1px solid #FC5723 !important;
+}
+.mat-mdc-button
+{
+    height: 37px;
+    width: 130px;
+    background-color: #474C60!important;
+    font-size: 15px;
+    letter-spacing: 2px;
+    color: #fff!important;
+    font-weight: 600;
+}
+.mat-mdc-button:hover{
+    background-color: #fff !important;
+    color: #111111 !important;
+    border:1px solid #111111  !important;
+
+}
+.search-interest {
+    position: relative;
+  }
+  
+  .input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .form-control {
+    padding-right: 40px; /* Adjust padding to make space for icons */
+  }
+  
+  .icon-search {
+    position: absolute;
+    right: 30px;
+    cursor: pointer;
+  }
+  .actionButtons{
+    margin-left: 10px;
+  }
+  
+  .icon-clear {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+  }
+  
+  /* Remove default margin and padding for input */
+  .form-control {
+    margin: 0;
+    height: auto;
+    padding-left: 10px;
+    padding-right: 35px; /* Adjust to avoid overlap with icons */
+    box-sizing: border-box;
+    box-shadow:none;
+  }

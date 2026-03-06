@@ -1,0 +1,50 @@
+.dialog-div {
+  width: 100%;
+  // height: 520px;
+  background: #fdfefe;
+  font-size: 15px;
+  padding: 20px;
+}
+
+.back-btn {
+  font-size: 15px;
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 4px 26px;
+  border-radius: 8px;
+  background-color: #474c60;
+  cursor: pointer;
+}
+
+.btn-connect {
+  font-size: 15px;
+  color: #fff;
+  cursor: pointer;
+  background-color: #fc5723;
+  padding: 4px 20px;
+  border-radius: 8px;
+  border: 1px solid #fff;
+}
+
+.addskill-div {
+  display: flex;
+  flex-direction: column;
+}
+
+.jobTitleField {
+  border-radius: 8px;
+  padding: 8px;
+  width: 100%;
+  margin: 0px !important;
+}
+
+.main-div {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  height: 320px;
+  padding: 10px;
+}
+
+::ng-deep .mat-mdc-form-field.underline-search-field {
+  width: 35% !important;
+}

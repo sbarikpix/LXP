@@ -1,0 +1,191 @@
+<div class="h-full relative bg-slate-50 overflow-hidden group min-h-0">
+    <!-- Map Container -->
+    <div #mapContainer class="absolute inset-0 z-0 bg-slate-50"></div>
+
+    <!-- Individual User Details Popup -->
+    <div *ngIf="selectedUser() as user" class="absolute z-[1000] pointer-events-none"
+        [style.left.px]="popupPosition().x" [style.top.px]="popupPosition().y"
+        style="transform: translate(-50%, -100%); margin-bottom: 22px;">
+
+        <!-- Arrow -->
+        <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-2.5 z-10">
+            <div
+                class="w-0 h-0 border-l-[10px] border-r-[10px] border-t-[10px] border-l-transparent border-r-transparent border-t-white drop-shadow-md">
+            </div>
+        </div>
+
+        <div
+            class="bg-white rounded-xl shadow-2xl border border-slate-100 w-[310px] overflow-hidden pointer-events-auto animate-in fade-in zoom-in-95 duration-200 font-sans">
+            <!-- Header Section -->
+            <div class="p-4 bg-white flex items-center gap-4 relative">
+                <div
+                    class="w-12 h-12 rounded-full bg-[#fc5723] bg-opacity-10 text-[#fc5723] flex items-center justify-center font-bold text-xl border border-[#fc5723] border-opacity-20 shrink-0">
+                    {{ user.name.charAt(0) }}
+                </div>
+                <div class="flex-1 min-w-0">
+                    <h3 class="font-bold text-slate-800 truncate text-[17px] leading-tight">{{ user.name }}</h3>
+                    <p class="text-xs text-slate-400 truncate mt-0.5 font-medium">{{ user.district }}, {{ user.state }}
+                    </p>
+                </div>
+                <button (click)="closeUserPopup()"
+                    class="absolute top-3.5 right-3.5 text-slate-300 hover:text-slate-500 transition-colors">
+                    <div class="icon-x text-sm"></div>
+                </button>
+            </div>
+
+            <!-- Stats Section -->
+            <div class="px-5 pb-5 space-y-3.5">
+                <div class="flex justify-between items-center text-[13px]">
+                    <span class="text-slate-400 font-medium">Experience</span>
+                    <span class="font-bold text-slate-700 tracking-tight">{{ user.exp }} Years</span>
+                </div>
+                <div class="flex justify-between items-center text-[13px]">
+                    <span class="text-slate-400 font-medium">Job Title</span>
+                    <span class="font-bold text-slate-700 truncate max-w-[150px] text-right">{{ user.jobTitle }}</span>
+                </div>
+                <div class="space-y-2">
+                    <div
+                        class="flex items-center gap-1.5 text-slate-400 font-semibold text-[11px] uppercase tracking-wider">
+                        <div class="icon-briefcase text-[10px]"></div>
+                        Skills & Expertise
+                    </div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <span *ngFor="let s of user.skills"
+                            class="bg-[#fc5723] bg-opacity-[0.08] text-[#fc5723] px-2.5 py-1 rounded-md text-[10px] font-bold border border-[#fc5723] border-opacity-10 uppercase tracking-tight hover:bg-opacity-20 transition-all cursor-default">
+                            {{ s }}
+                        </span>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center text-[13px]">
+                    <span class="text-slate-400 font-medium">Risk</span>
+                    <span class="font-bold px-3 py-0.5 rounded-full text-[11px] uppercase tracking-wider" [ngClass]="{
+                            'bg-red-50 text-red-500 border border-red-100': user.risk === 'High',
+                            'bg-orange-50 text-orange-500 border border-orange-100': user.risk === 'Medium',
+                            'bg-green-50 text-green-500 border border-green-100': user.risk === 'Low'
+                        }">
+                        {{ user.risk }}
+                    </span>
+                </div>
+
+                <!-- Shared Buttons Section -->
+                <div class="flex gap-3 pt-3.5">
+                    <button (click)="handleContact(user)"
+                        class="flex-1 inline-flex items-center justify-center gap-2 bg-[#fc5723] hover:bg-[#e0481d] text-white rounded-lg py-2.5 text-xs font-bold transition-all shadow-sm active:scale-95">
+                        <div class="icon-mail text-[14px]"></div>
+                        Contact
+                    </button>
+                    <a *ngIf="loggedInUser() as currentUser"
+                        [routerLink]="['/',currentUser.organizationName, currentUser.roleName, 'users', currentUser.organizationId, user.applicationUserId, 'overview']"
+                        class="flex-1 inline-flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-600 rounded-lg py-2.5 text-xs font-bold transition-all hover:bg-slate-50 active:scale-95 shadow-sm no-underline">
+                        Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Cluster Details Popup -->
+    <div *ngIf="selectedCluster() && clusterDetails()" class="absolute z-[1000] pointer-events-none"
+        [style.left.px]="popupPosition().x" [style.top.px]="popupPosition().y"
+        style="transform: translate(-50%, -100%); margin-bottom: 20px;">
+
+        <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1.5">
+            <div
+                class="w-0 h-0 border-l-[8px] border-r-[8px] border-t-[8px] border-l-transparent border-r-transparent border-t-slate-800 drop-shadow-sm">
+            </div>
+        </div>
+
+        <div class="bg-slate-800 text-white rounded-lg shadow-2xl min-w-[240px] overflow-hidden pointer-events-auto">
+            <div class="px-4 py-3 border-b border-slate-700 flex justify-between items-center">
+                <div>
+                    <h3 class="font-bold text-lg truncate">{{ selectedCluster().name }}</h3>
+                    <p class="text-xs text-slate-300">{{ selectedCluster().type }} Level • {{ selectedCluster().count }}
+                        candidates</p>
+                </div>
+                <!-- Fix close button to set selectedCluster to null -->
+                <button (click)="selectedCluster.set(null)" class="text-slate-400 hover:text-white">
+                    <div class="icon-x text-sm"></div>
+                </button>
+            </div>
+            <div class="p-4 space-y-3">
+                <div>
+                    <div class="text-xs text-slate-400 mb-1">Top Skills</div>
+                    <div class="flex flex-wrap gap-1">
+                        <span *ngFor="let s of clusterDetails().topSkills"
+                            class="px-2 py-0.5 bg-slate-700 rounded text-[10px] text-slate-200">
+                            {{ s.skill }} ({{ s.count }})
+                        </span>
+                    </div>
+                </div>
+                <!-- Restore zoomToCluster call -->
+                <button (click)="zoomToCluster()"
+                    class="w-full bg-[#fc5723] hover:bg-[#e0481d] text-white text-xs font-bold py-2 rounded transition-colors">
+                    Zoom In
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Map Controls -->
+    <div class="absolute top-4 left-4 right-4 flex justify-between pointer-events-none z-[400]">
+        <!-- View Mode -->
+        <div
+            class="flex bg-[var(--bg-panel)] rounded-lg border border-[var(--border-color)] p-1 shadow-md pointer-events-auto">
+            <div *ngFor="let mode of viewModes; let last = last" class="flex items-center">
+                <button class="map-control-btn" [class.active]="viewMode() === mode"
+                    [class.inactive]="viewMode() !== mode" [class.!text-[#fc5723]]="viewMode() === mode"
+                    [class.!bg-orange-50]="viewMode() === mode" (click)="appState.setViewMode(mode)">
+                    {{mode}}
+                </button>
+                <div *ngIf="!last" class="w-[1px] h-4 bg-slate-200 mx-1"></div>
+            </div>
+        </div>
+
+        <!-- Map Style, Overlay Toggle & Refresh -->
+        <div class="flex gap-2 pointer-events-auto">
+            <div class="flex bg-[var(--bg-panel)] rounded-lg border border-[var(--border-color)] p-1 shadow-md">
+                <button (click)="setMapLayout('Street')" class="flex items-center gap-1 map-control-btn"
+                    [class.active]="mapStyle() === 'Street'" [class.inactive]="mapStyle() !== 'Street'">
+                    <div class="icon-map text-xs"></div>
+                </button>
+                <button (click)="setMapLayout('Satellite')" class="flex items-center gap-1 map-control-btn"
+                    [class.active]="mapStyle() === 'Satellite'" [class.inactive]="mapStyle() !== 'Satellite'">
+                    <div class="icon-globe text-xs"></div>
+                </button>
+            </div>
+
+            <div class="flex bg-[var(--bg-panel)] rounded-lg border border-[var(--border-color)] p-1 shadow-md">
+                <button (click)="setOverlay('Clusters')" class="flex items-center gap-1 map-control-btn"
+                    [class.active]="mapOverlay() === 'Clusters'" [class.inactive]="mapOverlay() !== 'Clusters'">
+                    <div class="icon-layers text-xs"></div> Clusters
+                </button>
+                <button (click)="setOverlay('Heatmap')" class="flex items-center gap-1 map-control-btn"
+                    [class.active]="mapOverlay() === 'Heatmap'" [class.inactive]="mapOverlay() !== 'Heatmap'">
+                    <div class="icon-flame text-xs"></div> Heatmap
+                </button>
+            </div>
+
+            <div class="flex bg-[var(--bg-panel)] rounded-lg border border-[var(--border-color)] p-1 shadow-md">
+                <button (click)="refreshMap()"
+                    class="flex items-center gap-1 map-control-btn text-slate-500 hover:text-[#fc5723]"
+                    title="Reset View">
+                    <div class="icon-refresh-ccw text-xs"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Zoom Controls -->
+    <div
+        class="absolute bottom-6 right-4 flex flex-col bg-[var(--bg-panel)] rounded-lg border border-[var(--border-color)] shadow-md overflow-hidden z-[400]">
+        <button (click)="zoomIn()"
+            class="p-2 text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-slate-50 border-b border-[var(--border-color)]">
+            <div class="icon-plus text-sm"></div>
+        </button>
+        <button (click)="zoomOut()"
+            class="p-2 text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-slate-50">
+            <div class="icon-minus text-sm"></div>
+        </button>
+    </div>
+</div>

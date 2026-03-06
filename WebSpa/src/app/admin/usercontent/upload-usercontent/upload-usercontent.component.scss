@@ -1,0 +1,103 @@
+.full-width {
+  width: 100%;
+}
+
+.tab-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+  gap: 10px;
+}
+
+.submit-btn {
+  font-size: 14px;
+  color: #fff;
+  cursor: pointer;
+  background-color: #fc5723;
+  padding: 4px 20px;
+  border-radius: 8px;
+  border: 1px solid #fff;
+}
+
+.submit-btn:disabled {
+  background-color: #b0bec5;
+  cursor: not-allowed;
+}
+
+.cancel-btn {
+  font-size: 14px;
+  color: #fff;
+  cursor: pointer;
+  background-color: #474c60;
+  padding: 4px 20px;
+  border-radius: 8px;
+  border: 1px solid #fff;
+}
+
+.tabgroup-div {
+  padding: 10px;
+  background: #fdfefe;
+}
+
+.file-upload-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 10px;
+}
+
+.file-label {
+  font-weight: 500;
+  color: #444;
+  // margin-bottom: 5px;
+}
+
+.full-width ::nd-deep .mat-form-field-infix {
+  padding: 0 12px;
+  font-size: 14px;
+  min-height: 36px;
+  /* Adjust this if you want it smaller */
+}
+
+::ng-deep .mat-mdc-tab-body-content {
+  margin: 10px 20px;
+  overflow-y: auto !important;
+  scrollbar-width: none !important;
+  height: 75% !important;
+  max-height: 475px !important;
+}
+
+::ng-deep .mat-mdc-dialog-surface {
+  background: #fff;
+}
+
+.dialog-actions {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  z-index: 1;
+}
+
+.dropdown-scroll {
+  height: 250px;
+  /* Adjust this as needed */
+  overflow-y: auto;
+  position: relative;
+}
+
+::ng-deep .mat-mdc-autocomplete-panel {
+  max-height: unset !important;
+  /* Remove any default max-height */
+  overflow: hidden !important;
+  /* Disable the default overflow behavior */
+}
+.upload-form-div {
+  padding: 10px;
+}

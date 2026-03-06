@@ -1,0 +1,168 @@
+<div class="back-btn" *ngIf="!isMobile">
+  <a (click)="back()" class="btn btn-light"><i class="fa-solid fa-arrow-left"></i> Back</a>
+</div>
+<div id="main-container">
+  <div class="group-head m-0">
+    <h5>Group Details</h5>
+  </div>
+  <div class="group-view-headers mb-1">
+    <span class="header-text">Group Name</span>
+  </div>
+  <div class="mb-3">
+    <span class="textStyle">{{groupList.groupName}}</span>
+  </div>
+  <div class="group-view-headers mb-1">
+    <span class="header-text">Description</span>
+  </div>
+  <div class="mb-3">
+    <span class="textStyle">{{ groupList.description ? groupList.description : 'No description available.' }}</span>
+  </div>
+  <div>
+    <div class="group-view-headers">
+      <span class="header-text">Rule Sets</span>
+    </div>
+    <div class="d-flex justify-content-center mb-1">
+      <div style="width: 100%;" class="text-start">
+
+        <!-- loader -->
+        <div *ngIf="isLoading" class="text-center my-3">
+          <mat-spinner diameter="32"></mat-spinner>
+        </div>
+
+        <!-- rules list -->
+        <ng-container *ngIf="!isLoading">
+          <ng-container *ngIf="displayRules.length; else noRules">
+            <ng-container *ngFor="let r of visibleRules; let i = index">
+              <!-- rule block -->
+              <div class="border rounded p-2 my-2 d-flex align-items-center gap-3">
+                <span style="font-size: 13px; font-weight:550;">{{ r.text }}</span>:
+                <select class="form-select form-select-sm w-auto">
+                  <ng-container *ngIf="r && r.values && r.values.length > 0">
+                    <ng-container *ngFor="let val of r.values; let i = index">
+                      <option [value]="val">{{ val }}</option>
+                      <!-- Show operator only between values -->
+                      <option class="d-flex flex-center"
+                        *ngIf="!excludedRuleTypes.includes(r.ruleType) && i < r.values.length - 1" disabled
+                        style="text-align: center; font-style: italic; color: gray;">
+                        {{ r.targetOperator || '' }}
+                      </option>
+                    </ng-container>
+                  </ng-container>
+                </select>
+              </div>
+
+              <!-- operator that connects to the NEXT rule -->
+              <div *ngIf="r.nextOp && (pageStart + i) < displayRules.length - 1" class="text-center fw-bold">
+                {{ r.nextOp }}
+              </div>
+            </ng-container>
+
+            <!-- paginator -->
+            <mat-paginator *ngIf="!isMobile && displayRules.length>10" [length]="displayRules.length"
+              [pageSize]="pageSize" (page)="onPage($event)" [pageSizeOptions]="[]" aria-label="Rules paginator"
+              class="minimal-paginator hidePaginator mt-1"></mat-paginator>
+          </ng-container>
+
+          <ng-template #noRules>
+            <em>No rules configured</em>
+          </ng-template>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="group-view-headers mb-1">
+      <span class="header-text">Users</span>
+    </div>
+    <div class="row justify-content-center">
+      <div *ngIf="!isMobile">
+        <div class="row justify-content-center">
+          <div>
+            <p-table #dt [value]="filteredUsers" class="w-100 table-bordered table-hover table-striped"
+              styleClass="table" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users">
+              <ng-template pTemplate="header">
+                <tr class="table-light">
+                  <th class="text-center">Sl No.</th>
+                  <th>UserName</th>
+                  <th>Email</th>
+                  <th>Status</th>
+                </tr>
+                <tr class="table-light">
+                  <th></th>
+
+                  <th>
+                    <input pInputText type="text" class="searchfield" (input)="userFilter($event)"
+                      placeholder="search using name" />
+                  </th>
+                  <th>
+                    <input pInputText type="text" class="searchfield" (input)="
+                dt.filter($any($event.target).value, 'email', 'contains')
+              " placeholder="search using email" />
+                  </th>
+
+                  <th></th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-user let-rowIndex="rowIndex">
+                <tr>
+                  <td class="text-center">{{ rowIndex + 1 }}</td>
+                  <td>{{ user.firstName }} {{ user.lastName }}</td>
+                  <td>{{ user.email || 'N/A' }}</td>
+                  <td>{{ user.isActive ? 'Active' : 'InActive' }}</td>
+                </tr>
+              </ng-template>
+
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="6" class="text-center">No Users Found</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="isMobile">
+        <div class="card-mob">
+          <mat-form-field appearance="outline" class="mt-2 w-100 ">
+            <div class="d-flex align-items-center gap-2 w-100">
+              <i class="fa-solid fa-search"></i>
+              <input matInput placeholder="Type to search" class="w-100" (keyup)="userFilter($event)">
+            </div>
+          </mat-form-field>
+          <div *ngFor="let user of filteredUsers">
+            <mat-card class="example-card mb-3" appearance="outlined">
+              <mat-card-header>
+                <mat-card-title-group class="justify-content-start">
+                  <!-- <div>
+                                <ngx-avatars *ngIf="!user?.profileImagePath"
+                                    [name]="getInitials(user?.firstName, user?.lastName)" size="45" borderColor="#fff"
+                                    bgColor="#474C60"></ngx-avatars>
+
+                                <ngx-avatars *ngIf="user?.profileImagePath" [src]="user?.profileImagePath"
+                                    [name]="getInitials(user?.firstName, user?.lastName)" size="45"
+                                    borderColor="#fff"></ngx-avatars>
+                            </div> -->
+                  <div class="ms-3 mb-3">
+                    <mat-card-title class="user-title">{{ user.firstName }}
+                      {{ user.lastName }}
+                    </mat-card-title>
+                    <mat-card-subtitle>{{user.email}}</mat-card-subtitle>
+                    <mat-card-subtitle>{{user.isActive ? 'Active':'Inactive'}}</mat-card-subtitle>
+                  </div>
+
+                </mat-card-title-group>
+
+
+              </mat-card-header>
+
+            </mat-card>
+          </div>
+          <div *ngIf="filteredUsers.length == 0" class="d-flex justify-content-center align-items-center">
+            <p>Users not available</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

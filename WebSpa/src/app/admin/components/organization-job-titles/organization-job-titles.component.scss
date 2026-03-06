@@ -1,0 +1,165 @@
+
+p {
+    margin: 0px;
+}
+
+#main-container {
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings:
+        "wdth" 100;
+}
+
+h2,
+th {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+}
+th{
+    background-color: #474C60;
+    color: #fff;
+}
+
+td {
+    font-size: 14px;
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+.mat-divider {
+    border-top-color: rgb(255 127 0);
+}
+
+#search i {
+    font-size: 20px;
+}
+
+#search input {
+    border: none;
+    outline: none;
+}
+
+#search input:focus {
+    border-bottom: 2px solid orange;
+}
+
+.add-btn:hover,
+.status:hover {
+    cursor: pointer;
+}
+
+
+.form-control {
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
+    border: none;
+    padding: 0px;
+    height: 100px;
+}
+#description-control{
+    height: 185px;
+}
+
+.form-control input {
+    width: 85%;
+    height: 55px;
+    border-radius: 6px;
+    border: 1px solid;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px #b7b7b7;
+}
+.form-control #description {
+    height: 130px;
+    width: 85%;
+    border-radius: 6px;
+    border-radius: 6px;
+    border: 1px solid;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px #b7b7b7;
+    resize: none;
+}
+.error input, .error #description{
+    border: 1px solid #FC5723;
+}
+
+.form-control input:focus, #description-control #description:focus{
+    outline: none;
+}
+
+.mat-mdc-form-field-error
+{
+    color: #ff3d00;
+    font-family: "Montserrat", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+}
+.text-bg-success{
+    padding: 7px 13px;
+    font-weight: 400;
+    font-family: 'Open Sans';
+    font-size: 13px;
+}
+.mat-mdc-raised-button
+{
+    height: 37px;
+    width: 130px;
+    background-color: #FC5723!important;
+    font-size: 15px;
+    letter-spacing: 2px;
+    color: #fff!important;
+    font-weight: 600;
+}
+.mat-mdc-button
+{
+    height: 37px;
+    width: 130px;
+    background-color: #474C60!important;
+    font-size: 15px;
+    letter-spacing: 2px;
+    color: #fff!important;
+    font-weight: 600;
+}
+.btn-orange
+{
+    background-color: #FC5723;
+    color: white;
+}
+.search-Job {
+    position: relative;
+  }
+  
+  .input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .form-control {
+    padding-right: 40px; /* Adjust padding to make space for icons */
+  }
+  
+  .icon-search {
+    position: absolute;
+    right: 30px;
+    cursor: pointer;
+  }
+  
+  .icon-clear {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+  }
+  
+  /* Remove default margin and padding for input */
+  .form-control {
+    margin: 0;
+    height: auto;
+    padding-left: 10px;
+    padding-right: 35px; /* Adjust to avoid overlap with icons */
+    box-sizing: border-box;
+    box-shadow:none;
+  }

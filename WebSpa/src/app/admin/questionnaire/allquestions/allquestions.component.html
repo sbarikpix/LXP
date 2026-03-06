@@ -1,0 +1,115 @@
+<div class=" col-md-12 col-sm-12 col-xs-12" *ngIf="!isLoading">
+    <div class="col-md-12 padNull">
+        <div class="row">
+            <div class="col-md-12 d-flex buttonsdiv">                
+                <div class="col-md-6">
+                    <div *ngIf="isQuestionBankView">
+                        <a (click)="back()" class="btn btn-light"><i class="fa-solid fa-arrow-left"></i> Back</a>
+                    </div>
+                </div>
+                <div class="col-md-6 text-end">
+                    <!-- <button class="btnstyles" [routerLink]="['addquestion']">
+                        Add Question
+                    </button> -->
+                    <button class="btnstyles" (click)="addquetion()">
+                        Add Question
+                    </button>
+
+                    <button class="btnstyles" (click)="openImportDialog()">
+                        <i class="fa-solid fa-file-import me-2"></i> Import Questions
+                    </button>
+
+                    <button *ngIf="!isQuestionBankView"  class="btnstyles" routerLink="questionbank">
+                        <i class="fa-solid bi bi-bank2"></i>
+                        QuestionBank View                                            
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-sm-12 col-xs-12 table-container">
+
+            <div class="row mt-2">
+                <div class="col-md-12 col-sm-12 col-xs-12 textellipsis">
+
+                    <p-table #dt [value]="QuestionsList" [lazy]="true" (onLazyLoad)="loadQuestions($event)"
+                        [paginator]="true" [rows]="10" [totalRecords]="totalRecords" [loading]="loading"
+                        [responsiveLayout]="'scroll'">
+
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>S.No</th>
+                                <th pSortableColumn="question">Question <p-sortIcon field="question"></p-sortIcon></th>
+                                <th pSortableColumn="skillname">Skill <p-sortIcon field="skillname"></p-sortIcon></th>
+                                <th pSortableColumn="skillLevel">Level <p-sortIcon field="skillLevel"></p-sortIcon></th>
+                                <th>Marks</th>
+                                <th>Actions</th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th>
+                                    <input pInputText class="searchfield" type="text"
+                                        (input)="dt.filter($any($event.target).value, 'question', 'contains')"
+                                        placeholder="Search by Question">
+                                </th>
+                                <th>
+                                    <input pInputText class="searchfield" type="text"
+                                        (input)="dt.filter($any($event.target).value, 'skillname', 'contains')"
+                                        placeholder="Search by Skill">
+                                </th>
+                                <th>
+                                    <input pInputText class="searchfield" type="text"
+                                        (input)="dt.filter($any($event.target).value, 'skillLevel', 'contains')"
+                                        placeholder="Search by Level">
+                                </th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="body" let-question let-rowIndex="rowIndex">
+                            <tr>
+                                <td>{{ rowIndex + 1 }}</td>
+                                <td class="editor-content" [innerHTML]="question.questionType === 'Match Type' 
+                                ? renderHtml(renderMatchType(question.question)) 
+                                : renderHtml(question.question)"  (click)="onImageClick($event)" ></td>
+                                <td>{{ question.skillname }}</td>
+                                <td>{{ question.skillLevel }}</td>
+                                <td>{{ question.marks }}</td>
+                                <td>
+                                    <span [matMenuTriggerFor]="menu" style="cursor: pointer;padding: 0px 10px;">
+                                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                                    </span>
+                                </td>
+                                <mat-menu #menu="matMenu">
+                                    <!-- <button mat-menu-item
+                                        [routerLink]="[question.organizationId,'editquestion',question.questionId]">Edit</button> -->
+                                        <button mat-menu-item (click)="onEditQuestion(question)">
+                                            Edit
+                                          </button>
+                                    <button mat-menu-item *ngIf="!question.isActive"
+                                        (click)="changequestionStatus(question)">Active</button>
+                                    <button mat-menu-item *ngIf="question.isActive"
+                                        (click)="changequestionStatus(question)">In-Active</button>
+                                </mat-menu>
+                            </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="6" class="text-center">No Questions Found</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="image-popup" *ngIf="popupImage" (click)="popupImage = null">
+    <img [src]="popupImage">
+  </div>
+<div class="loader" *ngIf="isLoading">
+
+</div>

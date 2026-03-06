@@ -1,0 +1,131 @@
+.container {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+
+p {
+  margin: 0;
+}
+
+.dataButtons {
+  display: flex;
+  gap: 10px;
+  font-size: 15px;
+}
+
+.upload-container {
+  height: 300px;
+  width: 100%;
+  max-width: 500px;
+  border: 2px dashed lightgray;
+  border-radius: 7px;
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.upload-container i {
+  font-size: 28px;
+}
+
+.upload-container p {
+  font-size: 16px;
+  letter-spacing: 1px;
+  line-height: 40px;
+  text-align: center;
+}
+
+.upload-btn {
+  text-decoration: none;
+  border: none;
+  border-radius: 3px;
+  padding: 6px 17px;
+  background-color: #FC5723;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0px 0px 5px gray;
+}
+
+.cancelBtn {
+  height: 35px;
+  width: 96px;
+  background-color: #474C60;
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: #fff;
+  box-shadow: 0px 0px 5px gray;
+}
+
+.cancelBtn:hover{
+  background-color: #fff;
+  color: #474C60;
+  border: 1px solid #474C60;
+}
+  .uploadBtn {
+    height: 35px;
+    width: 96px;
+    background-color: #FC5723;
+    font-size: 14px;
+    letter-spacing: 2px;
+    color: #fff;
+    box-shadow: 0px 0px 5px gray;
+  }
+  .uploadBtn:hover{
+    background-color: #fff;
+    color: #FC5723;
+    border: 1px solid #FC5723;
+  }
+
+
+.header-txt {
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.selected-file {
+  height: 58px;
+  background-color: #dfdddd;
+  padding: 1rem;
+  border-radius: 7px;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.selected-file p {
+  font-size: 13px;
+  letter-spacing: 1.2px;
+}
+
+.selected-file a {
+  padding: 7px 10px;
+  background-color: #fc57232b;
+  border-radius: 50%;
+  font-size: 15px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* Center vertically */
+}
+
+.header-txt {
+  font-size: 15px;
+  font-weight: 400;
+  text-align: center;
+  /* Center text horizontally */
+  flex-grow: 1;
+  /* Allow the text to expand and take up space */
+}

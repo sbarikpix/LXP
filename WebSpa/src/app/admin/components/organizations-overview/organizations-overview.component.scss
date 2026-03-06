@@ -1,0 +1,16 @@
+::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+  text-transform: uppercase !important;
+  font-family: "Open Sans", sans-serif;
+  font-weight: bold !important;
+  color: #fc5723 !important;
+  font-size: 16px !important;
+}
+
+@media screen and (max-width: 768px) {
+  .main-container {
+    padding: 0 !important;
+  }
+  .org-view-mob {
+    padding: 0 !important;
+  }
+}

@@ -1,0 +1,256 @@
+.full-width {
+  width: 100%;
+}
+
+.tab-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+  gap: 10px;
+}
+
+.submit-btn {
+  font-size: 14px;
+  color: #fff;
+  cursor: pointer;
+  background-color: #fc5723;
+  padding: 4px 20px;
+  border-radius: 8px;
+  border: 1px solid #fff;
+}
+
+.submit-btn:disabled {
+  background-color: #b0bec5;
+  cursor: not-allowed;
+}
+
+.cancel-btn {
+  font-size: 14px;
+  color: #fff;
+  cursor: pointer;
+  background-color: #474c60;
+  padding: 4px 20px;
+  border-radius: 8px;
+  border: 1px solid #fff;
+}
+
+.tabgroup-div {
+  padding: 10px;
+  background: #fdfefe;
+  height: 100%;
+}
+.tab-div {
+  height: 100%;
+}
+.file-upload-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 10px;
+}
+
+.file-label {
+  font-weight: 500;
+  color: #444;
+  // margin-bottom: 5px;
+}
+
+.full-width ::ng-deep .mat-form-field-infix {
+  padding: 0 12px;
+  font-size: 14px;
+  min-height: 36px;
+  /* Adjust this if you want it smaller */
+}
+
+::ng-deep .mat-mdc-tab-body-content {
+  margin: 10px 20px;
+  overflow-y: auto !important;
+  scrollbar-width: none !important;
+  height: 75% !important;
+  max-height: 475px !important;
+}
+
+::ng-deep .mat-mdc-dialog-surface {
+  background: #fff;
+}
+
+.dialog-actions {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  z-index: 1;
+}
+.dropdown-scroll {
+  max-height: 250px;
+  /* Adjust this as needed */
+  overflow-y: auto;
+  position: relative;
+}
+
+::ng-deep .mat-mdc-autocomplete-panel {
+  max-height: unset !important;
+  /* Remove any default max-height */
+  overflow: hidden !important;
+  /* Disable the default overflow behavior */
+}
+.upload-form-div {
+  padding: 10px;
+}
+
+.cust-multiselect .selected-item {
+  background-color: #007bff;
+  color: white;
+  border-radius: 20px;
+  padding: 5px 10px;
+  margin-right: 5px;
+}
+
+/* Dropdown box */
+.cust-multiselect .dropdown-list {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.cust-multiselect .checkbox {
+  margin-right: 10px;
+}
+
+.dialog-scroll-container {
+  max-height: 90%;
+  overflow-y: auto;
+  padding-right: 12px;
+  overflow-x: hidden;
+  scrollbar-width: thin !important;
+}
+
+.country-select {
+  width: 120px;
+  min-width: 100px;
+  margin-right: 8px;
+
+  .mat-select-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.state-select {
+  // flex: 1;
+  min-width: 100px;
+}
+
+.mat-form-field {
+  margin: 0;
+}
+
+.ml-1 {
+  margin-left: 0.25rem;
+}
+
+.ml-2 {
+  margin-left: 0.5rem;
+}
+
+// .disabled-div {
+//   pointer-events: none;
+//   opacity: 0.6;
+// }
+
+// ::ng-deep .custom-select-wrapper .mdc-text-field--outlined {
+//   height: 36px;
+//   padding: 0 0px 0px 0px;
+// }
+
+// ::ng-deep .custom-select-wrapper .mat-mdc-select-trigger {
+//     align-items: center;
+//     padding-left: 6px;
+//     width: 98%;
+// }
+
+// ::ng-deep .custom-select-wrapper .mat-mdc-form-field-flex {
+//   margin-top: -8px;
+// }
+
+/* Hide the checkbox and icon for the search input row in mat-select */
+::ng-deep .mat-mdc-select-panel .search-option .mat-pseudo-checkbox-full,
+::ng-deep .mat-mdc-select-panel .search-option .mat-icon {
+  display: none !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+::ng-deep .mat-mdc-select-panel .search-option input::placeholder {
+  color: #888 !important; /* Make it visible */
+  opacity: 1 !important; /* Ensure it's not faded out */
+  font-style: italic;
+}
+
+// .target-operator-container {
+//   display: flex;
+//   align-items: center; /* Vertical center */
+//   gap: 6px; /* Space between label and select */
+//   height: 56px; /* Match material form-field height */
+// }
+
+// .target-operator-container {
+//   display: flex;
+//   flex-direction: column; /* Stack label above the select */
+//   align-items: stretch; /* Stretch select to container width */
+//   height: auto; /* Allow natural height */
+// //  margin-left: 8px; /* optional spacing from other elements */
+// }
+
+// .target-operator-label {
+//   white-space: nowrap;
+// }
+
+// .target-operator-select {
+//   margin: 0;
+//   width: 100%;
+// }
+
+.mat-form-field-infix {
+  display: flex;
+  align-items: center; /* vertically center the select content */
+}
+
+.addrule-btn {
+  color: white;
+  background-color: #484d61;
+  border-radius: 20px;
+}
+
+@media (max-width: 767.98px) {
+  .mobileGroup {
+    flex-wrap: wrap !important;
+  }
+
+  .dialog-scroll-container {
+    scrollbar-width: none !important;
+    max-height: 50vh;
+    overflow-y: auto;
+    padding-right: 0px;
+    overflow-x: hidden;
+  }
+  .remove-btn {
+    margin-right: 10px !important;
+  }
+  .target-operator-container {
+    flex-wrap: wrap !important;
+  }
+  ::ng-deep .mat-mdc-select-panel {
+    max-height: 200px !important;
+  }
+}

@@ -1,0 +1,263 @@
+.stat-cards {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  // box-shadow: 0px 0px 3px #979797;
+}
+
+.card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 0.5rem;
+  color: #fff;
+  height: 150px;
+}
+
+.card.purple {
+  display: flex;
+  justify-content: space-between;
+  background: linear-gradient(45deg, #301947, #5f318e);
+}
+
+.card.orange {
+  background: linear-gradient(45deg, #cf4c07, #f58e33);
+}
+
+.card.blue {
+  background: linear-gradient(45deg, #007891, #56c6d3);
+}
+
+.card.dark {
+  background: linear-gradient(45deg, #010203, #4d4760);
+}
+
+.count {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0px !important;
+}
+
+.countdiv {
+  text-align-last: center;
+}
+
+.btn-div {
+  margin-top: 5rem;
+}
+
+// button {
+//     background: transparent;
+//     border: none;
+//     color: #fff;
+//     font-weight: bold;
+//     cursor: pointer;
+//     margin-top: 1rem;
+// }
+
+.btnclass {
+  background-color: #fff;
+  color: #1f1f1f;
+  padding: 2px 6px;
+  border: 1px solid;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 1rem;
+  font-size: 13px;
+  position: absolute;
+  bottom: 5%;
+  right: 2%;
+}
+
+.org-skills {
+  background: #fff;
+  padding: 12px;
+  border-radius: 0.5rem;
+  box-shadow: 0px 0px 3px #979797;
+}
+
+.progress-container {
+  padding: 10px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 0px 3px #979797;
+}
+
+.progress-container h3 {
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.progress-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+p-progressBar {
+  flex-grow: 1;
+  height: 0.5rem !important;
+  margin: 0 10px;
+  border-radius: 5px;
+}
+
+.progress-value {
+  min-width: 40px;
+  text-align: right;
+  font-size: 14px;
+  color: #4c465e;
+}
+
+.interestName {
+  color: #1f1f1f;
+  font-size: 14px;
+}
+
+.card-img-top {
+  width: 100%;
+  height: auto;
+}
+
+.admin-card {
+  // height: 150px;
+  // border: 1px solid #979797;
+  // background: linear-gradient(45deg, #301947, #5f318e);
+  // border-radius: 8px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 0px 4px;
+  gap: 35px;
+  color: #fff;
+}
+
+.global-view-cards {
+  height: 150px;
+  width: 100%;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  align-items: center;
+}
+.g-card-one {
+  background: #e03555;
+}
+.g-card-two {
+  background: #7360ee;
+}
+.g-card-three {
+  background: #ffb32a;
+}
+// .g-card-four {
+//   background: #46adf0;
+// }
+.g-icon {
+  position: absolute;
+  left: 0;
+}
+.g-icon img {
+  width: 35%;
+  height: auto;
+}
+.g-card-details {
+  position: absolute;
+  right: 10%;
+  text-align: center;
+  width: 60%;
+}
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .card-one {
+    width: 50%;
+    padding-top: 0px !important;
+  }
+  .card-two {
+    width: 50%;
+    padding-top: 0px !important;
+  }
+  .stat-cards {
+    width: 100% !important;
+  }
+  .org-inst {
+    width: 100% !important;
+  }
+  .dashboard {
+    padding: 10px;
+  }
+}
+
+@media (min-width: 599px) and (max-width: 767.98px) {
+  .stat-cards {
+    width: 100% !important;
+  }
+  .org-inst {
+    width: 100% !important;
+  }
+  .card-one {
+    width: 50%;
+    padding-top: 0px !important;
+  }
+  .card-two {
+    width: 50%;
+    padding-top: 0px !important;
+  }
+  .dashboard {
+    padding-top: 10px;
+  }
+  .card {
+    height: 100px;
+  }
+  .card-img-top {
+    width: 70%;
+  }
+  .count {
+    font-size: 1.25rem;
+  }
+  .admin-card {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .global-view-cards {
+    height: 100px;
+  }
+}
+
+@media (max-width: 598.98px) {
+  .card-one {
+    width: 100%;
+    padding-top: 0px !important;
+  }
+  .card-two {
+    width: 100%;
+    padding-top: 0px !important;
+  }
+
+  .icon-mob {
+    position: absolute;
+  }
+  .countdiv {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .dashboard {
+    padding-top: 10px;
+  }
+  .card {
+    height: 100px;
+  }
+  .card-img-top {
+    width: 70%;
+  }
+  .count {
+    font-size: 1.25rem;
+  }
+  .admin-card {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .global-view-cards {
+    height: 100px;
+  }
+}

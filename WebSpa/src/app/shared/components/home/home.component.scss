@@ -1,0 +1,253 @@
+@use "@angular/material" as mat;
+@import "src/styles.scss";
+
+.mat-stepper-horizontal {
+  margin-top: 8px;
+}
+
+.mat-mdc-form-field {
+  margin-top: 16px;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.welcome-message {
+  text-align: center;
+  margin-bottom: 20px;
+
+  h3 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 14px;
+    color: #666;
+  }
+}
+
+.profile-pic {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.avatar-icon {
+  font-size: 100px;
+  color: #ccc;
+  display: block;
+}
+
+.mat-form-field {
+  margin-top: 10px;
+}
+
+.mat-form-field .mat-hint {
+  float: right;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.justify-content-end {
+  justify-content: flex-end;
+}
+
+.mt-5 {
+  margin-top: 40px;
+}
+
+.progress-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+
+  .progress-line {
+    width: 40px;
+    height: 2px;
+    background-color: #ccc;
+    margin: 0 8px;
+  }
+
+  span {
+    width: 30px;
+    height: 30px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+  }
+}
+
+.addButton {
+  width: 100px;
+  height: 40px;
+  background-color: #474c60;
+  color: #fff;
+  border-radius: 8px;
+}
+
+.actionButtons {
+  gap: 30px;
+}
+
+.interest-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-top: 20px;
+  background-color: #fafafa;
+}
+
+.cancelBtn {
+  font-size: 15px !important;
+  border: none !important;
+  color: #666;
+  background-color: transparent;
+}
+
+.cancelBtn:hover {
+  color: #ff1744;
+  background-color: transparent;
+}
+
+.interest-item {
+  margin-bottom: 15px;
+}
+
+.interest-name {
+  font-size: 14px;
+  margin-right: 8px;
+}
+
+.interest-level {
+  font-size: 14px;
+  margin-right: 15px;
+}
+
+#matStepper {
+  width: 100% !important;
+  padding: 0 18% !important;
+  background-color: #fff;
+  font-family: "Roboto", sans-serif;
+}
+
+.mat-step-icon-selected,
+.mat-step-icon-state-edit,
+.mat-step-icon {
+  background-color: #fc5722 !important;
+}
+
+::ng-deep .skillName .mdc-evolution-chip__text-label {
+  display: flex;
+  align-items: center;
+}
+
+::ng-deep .mat-mdc-chip-action-label {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.mat-step-header {
+  pointer-events: none !important;
+}
+
+.detailsField,
+.jobTitleField,
+.interestField {
+  border-radius: 8px;
+  padding: 8px;
+  width: 100%;
+  margin: 0px !important;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  border-radius: 8px;
+}
+
+.nxtBtn {
+  background-color: #fff;
+  color: #fc5722;
+  padding: 5px 30px;
+  border: 1px solid;
+  border-radius: 8px;
+}
+
+.nxtBtn:hover {
+  background-color: #fc5723;
+  color: #fff;
+  border: 1px solid #fff;
+}
+
+.backBtn {
+  background-color: #fff;
+  color: #474c60;
+  padding: 5px 30px;
+  border: 1px solid;
+  border-radius: 8px;
+}
+
+.backBtn:hover {
+  background-color: #474c60;
+  color: #fff;
+  border: 1px solid #fff;
+}
+
+span.mdc-evolution-chip__text-label.mat-mdc-chip-action-label {
+  display: flex !important;
+  align-items: center;
+}
+
+#Logo-container {
+  padding: 18px 0px 18px 50px !important;
+}
+.dropdown-scroll {
+  max-height: 200px;
+  overflow-y: auto;
+}
+.container {
+  height: 100vh !important;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  padding-top: 62px;
+}
+@media screen and (min-width: 768px) and (max-width: 1023.98px) {
+  #matStepper {
+    padding: 0px !important;
+  }
+}
+
+@media (max-width: 767.98px) {
+  #matStepper {
+    padding: 0px !important;
+    margin-top: 5% !important;
+  }
+  #Logo-container {
+    padding: 0px 0px 0px 20px !important;
+  }
+  .interest-item {
+    margin-bottom: 0px !important;
+  }
+  .welcome-message h3 {
+    font-size: 20px;
+  }
+  .nxtBtn {
+    padding: 5px 15px;
+  }
+  ::ng-deep .mat-vertical-content {
+    padding: 0px 15px 25px 15px !important;
+  }
+  .container {
+    padding-top: calc(62px + var(--safe-area-inset-top, 0px)) !important;
+  }
+}

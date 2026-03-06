@@ -1,0 +1,172 @@
+p {
+  margin: 0px;
+}
+
+.back-btn {
+  font-size: 19px;
+  margin: 0px 6px;
+}
+
+.back-btn a {
+  font-size: 13px;
+  padding: 4px 7px;
+  margin: 8px 18px;
+  border-radius: 3px;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-weight: bold;
+}
+
+.profile-container {
+  padding: 5px 23px;
+}
+
+#profile-details {
+  font-family: "Montserrat", sans-serif;
+  height: 200px;
+  align-items: center;
+  background-color: #fc5723;
+  font-size: 25px;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 1px;
+  box-shadow: 0px 0px 8px gray;
+}
+
+.back-btn {
+  font-size: 19px;
+}
+
+.header {
+  padding-left: 10px;
+}
+
+.sub-header {
+  font-size: 16px;
+  background-color: #f7f7f7;
+  font-weight: bold;
+  color: #fc5723;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  padding-left: 14px;
+}
+
+.details {
+  display: flex;
+  gap: 4%;
+  padding-left: 14px;
+}
+
+.sub-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 18%;
+  font-family: "Open Sans", sans-serif;
+  padding-left: 10px;
+}
+
+.details-header p {
+  color: #474c60;
+  font-weight: bold;
+}
+
+.description {
+  font-size: 14px;
+}
+
+#tenant-details {
+  box-shadow: 0px 0px 8px gray;
+  border-radius: 4px;
+}
+
+.user-details hr {
+  border-top: 1px dashed;
+}
+
+.mat-mdc-card {
+  width: 25%;
+}
+
+#contact-details p {
+  font-family: "Open Sans", sans-serif;
+}
+
+.contact-form p {
+  font-size: 13px;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+@media (max-width: 768px) {
+  .profile-avatar {
+    width: 50px !important;
+    height: 50px !important;
+  }
+
+  #profile-avatar {
+    width: auto !important;
+    height: auto !important;
+  }
+  #profile-details {
+    height: auto;
+    padding: 1rem 0rem !important;
+  }
+  #tenant-details {
+    padding: 10px 10px !important;
+    box-shadow: none;
+  }
+  .header {
+    padding: 0px !important;
+  }
+  .profile-details-group {
+    margin-top: 0rem !important;
+  }
+  .details {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .sub-details {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .description {
+    text-align: start;
+    width: 40%;
+  }
+  .res-sub-details {
+    width: 100%;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .res-desc {
+    width: 100% !important;
+  }
+  .profile-container {
+    padding: 5px 10px !important;
+  }
+  ::ng-deep .avatar-content {
+    font: 20px / 50px Helvetica, Arial, sans-serif !important;
+    width: 50px !important;
+    height: 50px !important;
+  }
+  ::ng-deep .avatar-container {
+    width: 50px !important;
+    height: 50px !important;
+  }
+  ::ng-deep .profile-avatar .avatar-content {
+    font: 20px Helvetica, Arial, sans-serif !important;
+    width: 50px !important;
+    height: 50px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+}

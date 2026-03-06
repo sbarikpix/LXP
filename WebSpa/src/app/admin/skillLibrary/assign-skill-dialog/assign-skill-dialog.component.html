@@ -1,0 +1,221 @@
+<div class="dialog-div" *ngIf="!isLoading">
+    <div *ngIf="selectedSkill" class="h-100">
+        <div class="d-flex justify-content-between">
+            <h4 mat-dialog-title class="p-0">Assign Skill</h4>
+
+            <mat-form-field class="underline-search-field">
+                <input matInput [placeholder]="selectedTab === 0 ? 'Search User' : 'Search Group'"
+                    (keyup)="filterUser($event)" class="searchInput">
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+
+        </div>
+        <mat-tab-group [(selectedIndex)]="selectedTab" (selectedTabChange)="tabChange($event)">
+            <div>
+                <mat-tab label="Users">
+                    <p class="m-0 pt-3" style="padding: 10px;">Assign <b>{{ selectedSkill.name }}</b> to users:</p>
+                    <div class="main-div">
+
+                        <!-- Select All Checkbox -->
+                        <mat-checkbox [(ngModel)]="selectAllUsers" *ngIf="filteredUser.length > 0"
+                            (change)="toggleSelectAll($event)">
+                            <b>Select All Users</b>
+                        </mat-checkbox>
+
+                        <span class="d-flex align-items-center justify-content-center"
+                            *ngIf="filteredUser.length === 0">User not found</span>
+
+                        <!-- User List with Checkboxes -->
+                        <div class="userslist-div" *ngFor="let user of filteredUser">
+                            <mat-checkbox [(ngModel)]="user.selected" (ngModelChange)="updateSelectedUsers()">
+                                {{ user.fullName }}({{user.email}})
+                            </mat-checkbox>
+                        </div>
+
+                    </div>
+                </mat-tab>
+
+                <mat-tab label="Groups">
+                    <p class="m-0 pt-3" style="padding: 10px;">Assign <b>{{ selectedSkill.name }}</b> to groups:</p>
+                    <div class="main-div">
+
+                        <!-- Select All Checkbox -->
+                        <mat-checkbox [(ngModel)]="selectedAllGroups" *ngIf="filteredGroups.length > 0"
+                            (change)="toggleSelectAll($event)">
+                            <b>Select All Groups</b>
+                        </mat-checkbox>
+
+                        <span class="d-flex align-items-center justify-content-center"
+                            *ngIf="filteredGroups.length === 0">Group not found</span>
+
+                        <!-- User List with Checkboxes -->
+                        <div class="userslist-div" *ngFor="let group of filteredGroups">
+                            <mat-checkbox [(ngModel)]="group.selected" (ngModelChange)="updateSelectedGroups()">
+                                {{ group.groupName }}
+                            </mat-checkbox>
+                        </div>
+                    </div>
+
+                </mat-tab>
+            </div>
+
+        </mat-tab-group>
+
+        <div class="action-btns mt-1" align="end">
+            <button class="back-btn" mat-dialog-close>Cancel</button>
+            <button class="btn-connect" (click)="assignSkill()" *ngIf="selectedTab == 0">Save</button>
+            <button class="btn-connect" (click)="assignSkillToGroup()"
+                *ngIf="currentRoute && selectedTab == 1">Save</button>
+            <button class="btn-connect" (click)="assignSkillToGroup()"
+                *ngIf="contentroute && selectedTab == 1">Save</button>
+        </div>
+    </div>
+    <div *ngIf="!selectedSkill && !selectedjourney">
+        <div class="addskill-div mt-4">
+            <!-- <mat-form-field appearance="outline" class="jobTitleField">
+                <mat-label>Select Job Title</mat-label>
+                <input type="text" matInput #jobTitleInput [matAutocomplete]="autoJobTitles"
+                    (input)="onSearchInput($event, 'job')" placeholder="Search Job Titles" required
+                    formControlName="jobTitle" />
+                <mat-autocomplete #autoJobTitles="matAutocomplete"
+                    (optionSelected)="onJobTitleChange($event.option.value)">
+                    <div (scroll)="onDropdownScroll($event, 'jobTitles')" class="dropdown-scroll">
+                        <mat-option *ngFor="let job of filteredJobTitles | async" [value]="job.name">
+                            {{ job.name }}
+                        </mat-option>
+                    </div>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Skill Name</mat-label>
+                <input matInput formControlName="skillName">
+            </mat-form-field> -->
+            <mat-form-field appearance="outline">
+                <mat-label>Select Job Title</mat-label>
+                <mat-select [(ngModel)]="selectedJobTitle">
+                    <mat-option *ngFor="let jobTitle of jobTitleList" [value]="jobTitle">
+                        {{ jobTitle.name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Skill Name</mat-label>
+                <input matInput [(ngModel)]="skillName">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Skill Description</mat-label>
+                <input matInput [(ngModel)]="skilldescription">
+            </mat-form-field>
+        </div>
+        <div class="action-btns" align="end">
+            <button class="back-btn" mat-dialog-close>Cancel</button>
+            <button class="btn-connect" (click)="addNewSkill()">Save</button>
+        </div>
+    </div>
+    <!-- <div *ngIf="selectedjourney" class="h-100">
+
+        <div class="d-flex justify-content-between align-items-center">
+            <h4 mat-dialog-title>Assign Journey</h4>
+            <mat-form-field class="underline-search-bar ">
+                <input matInput placeholder="Search user" (keyup)="filterUser($event)">
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+        </div>
+
+        <p class="m-0 p-1" style="padding: 10px;">Assign <b>{{ selectedjourney.learningJourneyTitle }}</b> to users:</p>
+        <div class="main-div" *ngIf="users.length !==0">
+
+            
+            <mat-checkbox [(ngModel)]="selectAllUsers" *ngIf="allSelect" (change)="toggleSelectAll($event)">
+                <b>Select All Users</b>
+            </mat-checkbox>
+
+            <span class="d-flex align-items-center justify-content-center" *ngIf="!allSelect">User not found</span>
+
+            
+            <div class="userslist-div" *ngFor="let user of filteredUser">
+                <mat-checkbox [(ngModel)]="user.selected" (ngModelChange)="updateSelectedUsers()">
+                    {{ user.fullName }}({{user.email}})
+                </mat-checkbox>
+            </div>
+
+        </div>
+        <div *ngIf="users.length ===0">
+            No users found to assignjourney
+        </div>
+
+        <div class="action-btns mt-1" align="end">
+            <button class="back-btn" mat-dialog-close>Cancel</button>
+            <button class="btn-connect" (click)="assignjourney()">Save</button>
+        </div>
+    </div> -->
+    <div *ngIf="selectedjourney" class="h-100">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4 mat-dialog-title>Assign Journey</h4>
+            <mat-form-field class="underline-search-bar ">
+                <input matInput [placeholder]="selectedTab === 0 ? 'Search User' : 'Search Group'"
+                    (keyup)="filterUser($event)" class="searchInput">
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+        </div>
+
+        <mat-tab-group [(selectedIndex)]="selectedTab" (selectedTabChange)="tabChange($event)">
+            <mat-tab label="Users">
+                <p class="m-0 p-1" style="padding: 10px;">
+                    Assign <b>{{ selectedjourney.learningJourneyTitle }}</b> to users:
+                </p>
+
+                <div class="main-div">
+                    <mat-checkbox [(ngModel)]="selectAllUsers" *ngIf="allSelect" (change)="toggleSelectAll($event)">
+                        <b>Select All Users</b>
+                    </mat-checkbox>
+                    <span class="d-flex align-items-center justify-content-center"
+                        *ngIf="!allSelect && filteredUser.length === 0">
+                        User not found
+                    </span>
+
+                    <div class="userslist-div" *ngFor="let user of filteredUser">
+                        <mat-checkbox [(ngModel)]="user.selected" (ngModelChange)="updateSelectedUsers()">
+                            {{ user.fullName }}({{ user.email }})
+                        </mat-checkbox>
+                    </div>
+                </div>
+            </mat-tab>
+
+            <mat-tab label="Groups">
+                <p class="m-0 p-1" style="padding: 10px;">
+                    Assign <b>{{ selectedjourney.learningJourneyTitle }}</b> to groups:
+                </p>
+
+                <div class="main-div">
+                    <mat-checkbox [(ngModel)]="selectedAllGroups" *ngIf="filteredGroups.length > 0"
+                        (change)="toggleSelectAll($event)">
+                        <b>Select All Groups</b>
+                    </mat-checkbox>
+                    <span class="d-flex align-items-center justify-content-center"
+                        *ngIf="!allSelect && filteredGroups.length === 0">
+                        Group not found
+                    </span>
+
+                    <div class="userslist-div" *ngFor="let group of groupList">
+                        <mat-checkbox [(ngModel)]="group.selected" (ngModelChange)="updateSelectedGroups()">
+                            {{ group.groupName }}
+                        </mat-checkbox>
+                    </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+
+        <div class="action-btns mt-1" align="end">
+            <button class="back-btn" mat-dialog-close>Cancel</button>
+            <button *ngIf="selectedTab == 0" class="btn-connect" (click)="assignjourney()">Save</button>
+            <button *ngIf="selectedTab == 1" class="btn-connect" (click)="assignGroupJourney()">Save</button>
+        </div>
+    </div>
+</div>
+<div class="loader" *ngIf="isLoading">
+
+</div>

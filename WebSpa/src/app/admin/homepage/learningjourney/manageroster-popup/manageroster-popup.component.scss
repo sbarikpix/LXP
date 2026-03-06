@@ -1,0 +1,57 @@
+.roster-list-container {
+  max-height: 400px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+
+  .header-row,
+  .user-row {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    font-weight: 500;
+
+    .col {
+      flex: 1;
+      text-align: left;
+    }
+  }
+
+  .header-row {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .user-row {
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    font-weight: normal;
+
+    mat-chip {
+      font-weight: 600;
+    }
+  }
+}
+
+.username {
+  font-size: 15px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-weight: 500;
+}
+.back-btn {
+  font-size: 15px;
+  color: #000000;
+  border: 1px solid #474c60;
+  padding: 4px 20px;
+  border-radius: 8px;
+  background-color: #fff;
+}

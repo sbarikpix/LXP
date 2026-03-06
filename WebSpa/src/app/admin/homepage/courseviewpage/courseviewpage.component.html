@@ -1,0 +1,73 @@
+<div class="d-flex back-btn">
+    <a (click)="back()" class="btn btn-light"><i class="fa-solid fa-arrow-left"></i> Back</a>
+</div>
+<div class="row ms-1 me-2 card-box">
+    <div class="col-12 d-flex main-box p-0" *ngFor="let main of mainCourse">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAUmka06uFKW8BxmZXi8uH_N1euTnUnTWmhQ&amp;s"
+            alt="" class="col-4 m-2 box-img">
+        <div class="col-8 d-flex flex-column m-2 pe-4">
+            <div class="mb-3">
+                <div class="badge">{{main.badge}}</div>
+            </div>
+            <div class="mb-2">
+                <div class="title">{{main.activityType}}</div>
+                <div class="title">{{main.activityName}}</div>
+            </div>
+            <span class="desc-title">Description</span>
+            <div class="overflow-auto mb-2 desc">
+                <div class="">{{main.activityDescription}}</div>
+            </div>
+            <div>
+                <button class="btn-start" (click)="startcourse(main.cbtPath)"><mat-icon
+                        id="play">play_circle_filled</mat-icon>Start</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- <div class="m-2 d-flex justify-content-between align-items-center">
+        <div>
+            <button mat-raised-button class="crs-btn m-2">All Status</button>
+            <button mat-raised-button class="crs-btn m-2">Not Started</button>
+            <button mat-raised-button class="crs-btn m-2">In Progress</button>
+            <button mat-raised-button class="crs-btn m-2">Completed</button>
+        </div>
+        <mat-form-field class="underline-search-bar me-2 align-items-center">
+            <input matInput placeholder="Type to search">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+
+    </div>
+    <div class="mt-2">
+        <div class="row">
+            <div class="col-md-3" id="course-main" *ngFor="let course of recomendedCourse">
+                <div class="card position-relative m-2" [routerLink]="'/courseview'">
+                    <img [src]="course.image" class="card-img-top" alt="Course image" *ngIf="course.image.length > 0">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAUmka06uFKW8BxmZXi8uH_N1euTnUnTWmhQ&amp;s"
+                        class="card-img-top" alt="Course image" *ngIf="course.image.length <= 0">
+                    <div>
+                        <span class="card-badge ms-3" [class]="course.badge">{{ course.badge }}</span>
+                    </div>
+                    <div class="card-body d-flex">
+                        <div class="title-txt">
+                            <span class="card-title">{{ course.title }}</span>
+                            <p class="card-text">{{ course.subtitle }}</p>
+                        </div>
+                    </div>
+                    <div class="main-progress w-100">
+                        <div class="d-flex justify-content-between w-100">
+                            <span class="bar-title">Progress</span>
+                            <span class="bar-title">{{course.value}}%</span>
+                        </div>
+                        <div class="progress-section w-100">
+                            <p-progressBar [value]="course.value" [showValue]="false"
+                                [style]="{ 'background': '#FCE4D0' }"
+                                [styleClass]="'progress-bar-learning'"></p-progressBar>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+</div>

@@ -1,0 +1,928 @@
+<div *ngIf="!isLoading">
+    <div class="report-container" *ngIf="!selectedReport">
+        <h2 class="section-title">Quick Summary Reports</h2>
+        <div class="report-grid">
+            <div class="report-card" *ngFor="let report of filteredReports; let i = index">
+                <i class="{{report.icon}}" style="font-size: xx-large;color: #fc5723;padding: 10px;"></i>
+                <h5>{{ report.title }}</h5>
+                <p class="report-description">{{ report.description }}</p>
+
+                <button class="btn-generate" (click)="selectReport(i)">
+                    {{ report.buttonLabel }}
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="selectedReport" style="min-height: 80vh;">
+        <button class="btn-back" (click)="backToReports()" *ngIf="!isMobile">
+            Back
+        </button>
+        <div class="p-4">
+            <div class="d-flex items-center gap-3 mb-4">
+                <h4 class="text-xl font-semibold">{{selectedReport.title}}</h4>
+            </div>
+
+            <div class="d-flex justify-between items-center mb-4 graph-item-mob"
+                style="justify-content: space-between;">
+                <div class="btn-group" role="group">
+                    <button class="btn-toggle" [class.btn-ontoggle]="showGraph" (click)="showGraph = !showGraph"
+                        (change)="onOrganizationChange($event)">
+                        <i [class]="showGraph ? 'fa-solid fa-table-list' : 'fa-solid fa-chart-simple'"></i>
+                        {{ showGraph ? 'Table View' : 'Graph View' }}
+                    </button>
+                    <ng-container *ngIf="isMobile">
+                        <ng-container *ngTemplateOutlet="MobileView">
+                        </ng-container>
+                    </ng-container>
+                </div>
+                <div class="btns-div">
+                    <div class="filter-btns"
+                        [ngStyle]="{'width': selectedReport.title != 'Users learning Journey Summary' || selectedReport.title != 'Users Assessment Summary' ? '100%' : 'auto'}">
+
+                        <div class="filters"
+                            *ngIf="selectedReport.title === 'Users learning Journey Summary' || selectedReport.title === 'Users Assessment Summary'">
+                            <p-calendar [(ngModel)]="selectedDateRange" selectionMode="range" [showIcon]="true"
+                                (onSelect)="onDateRangeChange()" [readonlyInput]="true" [iconDisplay]="'input'"
+                                placeholder="Select date range" />
+                            <ng-container *ngIf="!isMobile">
+                                <ng-container *ngTemplateOutlet="MobileView">
+                                </ng-container>
+                            </ng-container>
+                        </div>
+
+                        <div class="filters" *ngIf="loggedInUser.roleName === 'GlobalAdmin'">
+                            <select [(ngModel)]="selectedOrganization" (change)="onOrganizationChange($event)"
+                                style="width: 220px; margin-right: 10px; padding: 8px; border-radius: 4px; border: 1px solid #ccc;"
+                                class="form-select-mob">
+                                <option [ngValue]="null" disabled>Select Organization</option>
+                                <option *ngFor="let org of organizations" [ngValue]="org">
+                                    {{ org.name }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn-generate" (click)="downloadReport()">
+                        <i class="fa-solid fa-download" style="margin-right: 5px;"></i>Download
+                    </button>
+                </div>
+            </div>
+
+            <!-- Table View -->
+            <div *ngIf="!showGraph && !isMobile">
+                <p-table *ngIf="selectedReport.title === 'Users learning Journey Summary'" #dt
+                    [value]="learningreportData" [lazy]="true" (onLazyLoad)="loadReportData($event)" [paginator]="true"
+                    [rows]="10" [totalRecords]="totallearnings" [loading]="loading" [responsiveLayout]="'scroll'"
+                    class="p-datatable-gridlines" [scrollable]="true" scrollHeight="500px">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="userName">
+                                User Name <p-sortIcon field="userName"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="userEmail">
+                                User Email <p-sortIcon field="userEmail"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="learningJourneyName">
+                                Learning Journey <p-sortIcon field="learningJourneyName"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="isCompleted">
+                                Is Completed <p-sortIcon field="isCompleted"></p-sortIcon>
+                            </th>
+                            <th>
+                                Completed Date
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>
+                                <input pInputText type="text" class="searchfield" (input)="
+                    dt.filter($any($event.target).value, 'userName', 'contains')
+                " placeholder="Search by name" />
+                            </th>
+                            <th>
+                                <input pInputText type="text" class="searchfield" (input)="
+                    dt.filter($any($event.target).value, 'userEmail', 'contains')
+                " placeholder="Search by email" />
+                            </th>
+                            <th>
+                                <input pInputText type="text" class="searchfield" (input)="
+                    dt.filter($any($event.target).value, 'learningJourneyName', 'contains')
+                " placeholder="Search by journey" />
+                            </th>
+                            <th>
+                                <p-dropdown [options]="completionStatusOptions" optionLabel="label" optionValue="value"
+                                    (onChange)="dt.filter($event.value, 'isCompleted', 'equals')" [showClear]="true"
+                                    placeholder="Filter by status">
+                                </p-dropdown>
+                            </th>
+                            <th>
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-row>
+                        <tr>
+                            <td>{{ row.userName }}</td>
+                            <td>{{ row.userEmail }}</td>
+                            <td>{{ row.learningJourneyName }}</td>
+                            <td>
+                                <p-tag [value]="row.isCompleted ? 'Yes' : 'No'"
+                                    [severity]="row.isCompleted ? 'success' : 'warning'"></p-tag>
+                            </td>
+                            <td>{{ row.completedDate ? (row.completedDate | date:'medium') : '-' }}</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="5" style="text-align: center;">No data found</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+                <p-table *ngIf="selectedReport.title === 'Users Skill Proficiency Report'" #dt
+                    [value]="skillsreportData" [lazy]="true" (onLazyLoad)="loadReportData($event)" [paginator]="true"
+                    [rows]="10" [totalRecords]="totalskills" [loading]="loading" [responsiveLayout]="'scroll'"
+                    class="p-datatable-gridlines" [scrollable]="true" scrollHeight="500px">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="userName">
+                                User Name <p-sortIcon field="userName"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="userEmail">
+                                User Email <p-sortIcon field="userEmail"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="skillName">
+                                Skill <p-sortIcon field="skillName"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="levelName">
+                                Level <p-sortIcon field="levelName"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="jobTitle">
+                                JobTitle<p-sortIcon field="jobTitle"></p-sortIcon>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>
+                                <input pInputText type="text" class="searchfield" (input)="
+                                dt.filter($any($event.target).value, 'userName', 'contains')
+                            " placeholder="Search by name" />
+                            </th>
+                            <th>
+                                <input pInputText type="text" class="searchfield" (input)="
+                                dt.filter($any($event.target).value, 'userEmail', 'contains')
+                            " placeholder="Search by email" />
+                            </th>
+                            <th>
+                                <input pInputText type="text" class="searchfield" (input)="
+                                dt.filter($any($event.target).value, 'skillName', 'contains')
+                            " placeholder="Search by skill" />
+                            </th>
+                            <th>
+                                <input pInputText type="text" class="searchfield" (input)="
+                               dt.filter($any($event.target).value, 'levelName', 'contains')
+                             " placeholder="Search by level" />
+                            </th>
+                            <th>
+                                <input pInputText type="text" class="searchfield" (input)="
+                                dt.filter($any($event.target).value, 'jobTitle', 'contains')
+                            " placeholder="Search by jobTitle" />
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-row>
+                        <tr>
+                            <td>{{ row.userName }}</td>
+                            <td>{{ row.userEmail }}</td>
+                            <td>{{ row.skillName }}</td>
+                            <td>{{ row.levelName}}</td>
+                            <td>{{ row.jobTitle}}</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="5" style="text-align: center;">No data found</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+                <p-table *ngIf="selectedReport.title === 'Users Assessment Summary'" #dt [value]="assessmentreportData"
+                    [lazy]="true" (onLazyLoad)="loadReportData($event)" [paginator]="true" [rows]="10"
+                    [totalRecords]="totalassessments" [loading]="loading" [responsiveLayout]="'scroll'"
+                    class="p-datatable-gridlines" [scrollable]="true" scrollHeight="500px">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="userName">
+                                User Name <p-sortIcon field="userName"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="userEmail">
+                                User Email <p-sortIcon field="userEmail"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="assessmentType">
+                                AssessmentType <p-sortIcon field="assessmentType"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="assessmentName">
+                                AssessmentName <p-sortIcon field="assessmentName"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="assignedBy">
+                                AssignedBy<p-sortIcon field="assignedBy"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="result">
+                                Result<p-sortIcon field="result"></p-sortIcon>
+                            </th>
+                            <th>
+                                Score
+                            </th>
+                            <!-- <th pSortableColumn="assignedOn">
+                            AssignedOn<p-sortIcon field="assignedOn"></p-sortIcon>
+                        </th>-->
+                            <th>
+                                TakenDate
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>
+                                <input pInputText type="text" class="searchfield" (input)="
+                                            dt.filter($any($event.target).value, 'userName', 'contains')
+                                        " placeholder="Search by name" />
+                            </th>
+                            <th>
+                                <input pInputText type="text" class="searchfield" (input)="
+                                            dt.filter($any($event.target).value, 'userEmail', 'contains')
+                                        " placeholder="Search by email" />
+                            </th>
+                            <th>
+                                <input pInputText type="text" class="searchfield" (input)="
+                                            dt.filter($any($event.target).value, 'assessmentType', 'contains')
+                                        " placeholder="Search by assessmentType" />
+                            </th>
+                            <th>
+                                <input pInputText type="text" class="searchfield" (input)="
+                                           dt.filter($any($event.target).value, 'assessmentName', 'contains')
+                                         " placeholder="Search by assessmentName" />
+                            </th>
+                            <th>
+                                <input pInputText type="text" class="searchfield" (input)="
+                                            dt.filter($any($event.target).value, 'assignedBy', 'contains')
+                                        " placeholder="Search by assignedBy" />
+                            </th>
+                            <th>
+                                <input pInputText type="text" class="searchfield" (input)="
+                                                                    dt.filter($any($event.target).value, 'result', 'contains')
+                                                                " placeholder="Search by result" />
+                            </th>
+                            <th></th>
+                            <!-- <th></th> -->
+                            <th></th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-row>
+                        <tr>
+                            <td>{{ row.userName }}</td>
+                            <td>{{ row.userEmail }}</td>
+                            <td>{{ row.assessmentType }}</td>
+                            <td>{{ row.assessmentName}}</td>
+                            <td>{{ row.assignedBy?row.assignedBy:'-'}}</td>
+                            <td>{{ row.result}}</td>
+                            <td>{{ row.score}}</td>
+                            <!-- <td>{{ row.assignedOn}}</td> -->
+                            <td>{{ row.takenDate| date:'medium'}}</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="5" style="text-align: center;">No data found</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+                <p-table *ngIf="selectedReport.title === 'Manager Users Summary'" #dt [value]="managerusersreportData"
+                    [lazy]="true" (onLazyLoad)="loadReportData($event)" [paginator]="true" [rows]="10"
+                    [totalRecords]="totalmanagerusers" [loading]="loading" [responsiveLayout]="'scroll'"
+                    class="p-datatable-gridlines" [scrollable]="true" scrollHeight="500px">
+
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="managerName">
+                                Manager Name <p-sortIcon field="managerName"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="managerEmail">
+                                Manager Email <p-sortIcon field="managerEmail"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="managerOrganization">
+                                Organization <p-sortIcon field="managerOrganization"></p-sortIcon>
+                            </th>
+                            <th>
+                                Users
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>
+                                <input pInputText type="text"
+                                    (input)="dt.filter($any($event.target).value, 'managerName', 'contains')"
+                                    placeholder="Search by name" />
+                            </th>
+                            <th>
+                                <input pInputText type="text"
+                                    (input)="dt.filter($any($event.target).value, 'managerEmail', 'contains')"
+                                    placeholder="Search by email" />
+                            </th>
+                            <th>
+                                <input pInputText type="text"
+                                    (input)="dt.filter($any($event.target).value, 'managerOrganization', 'contains')"
+                                    placeholder="Search by org" />
+                            </th>
+                            <th>
+                                <!-- <input pInputText type="text"
+                                (input)="dt.filter($any($event.target).value, 'managerUsers', 'contains')"
+                                placeholder="Search by user" /> -->
+                            </th>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-row>
+                        <tr>
+                            <td>{{ row.managerName }}</td>
+                            <td>{{ row.managerEmail }}</td>
+                            <td>{{ row.managerOrganization }}</td>
+                            <td>
+                                <ul>
+                                    <li *ngFor="let user of row.managerUsers">{{ user }}</li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="managerName">
+                                Manager Name <p-sortIcon field="managerName"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="managerEmail">
+                                Manager Email <p-sortIcon field="managerEmail"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="managerOrganization">
+                                Organization <p-sortIcon field="managerOrganization"></p-sortIcon>
+                            </th>
+                            <th>Users count</th>
+                            <th>Avg. Skills</th>
+                            <th>Users</th>
+                        </tr>
+                        <tr>
+                            <th>
+                                <input pInputText type="text"
+                                    (input)="dt.filter($any($event.target).value, 'managerName', 'contains')"
+                                    placeholder="Search by name" />
+                            </th>
+                            <th>
+                                <input pInputText type="text"
+                                    (input)="dt.filter($any($event.target).value, 'managerEmail', 'contains')"
+                                    placeholder="Search by email" />
+                            </th>
+                            <th>
+                                <input pInputText type="text"
+                                    (input)="dt.filter($any($event.target).value, 'managerOrganization', 'contains')"
+                                    placeholder="Search by org" />
+                            </th>
+                            <th>
+
+                            </th>
+                            <th>
+
+                            </th>
+                            <th>
+
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-manager>
+                        <tr>
+                            <td>{{ manager.managerName }}</td>
+                            <td>{{ manager.managerEmail }}</td>
+                            <td>{{ manager.managerOrganization }}</td>
+                            <td>{{ manager.managerUsers.length }}</td>
+                            <td>{{ getAvgSkills(manager) }}</td>
+                            <td>
+                                <ul>
+                                    <li *ngFor="let user of manager.managerUsers">{{ user.username }}</li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </ng-template>
+
+
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="4" class="text-center">No manager data found</td>
+                        </tr>
+                    </ng-template>
+
+                </p-table>
+
+                <p-table *ngIf="selectedReport.title === 'All Users Summary'" #dt [value]="allusersummaryreportData"
+                    [lazy]="true" (onLazyLoad)="loadReportData($event)" [paginator]="true" [rows]="10"
+                    [totalRecords]="totalAllUsers" [loading]="loading" [responsiveLayout]="'scroll'"
+                    class="p-datatable-gridlines" [scrollable]="true" scrollHeight="500px">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>
+                                Profile
+                            </th>
+                            <th pSortableColumn="userName">
+                                User Name <p-sortIcon field="userName"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="userEmail">
+                                User Email <p-sortIcon field="userEmail"></p-sortIcon>
+                            </th>
+                            <th>
+                                Role
+                            </th>
+                            <th>
+                                Manager <p-sortIcon field="managerName"></p-sortIcon>
+                            </th>
+                            <th>
+                                Organization
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th>
+                                <input pInputText type="text" class="searchfield" (input)="
+                dt.filter($any($event.target).value, 'userName', 'contains')
+              " placeholder="search using name" />
+                            </th>
+                            <th>
+                                <input pInputText type="text" class="searchfield" (input)="
+                dt.filter($any($event.target).value, 'userEmail', 'contains')
+              " placeholder="search using email" />
+                            </th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-user>
+                        <tr>
+                            <td>
+                                <div id="profile-avatar" class="d-flex gap-3 align-items-center">
+
+                                    <ngx-avatars *ngIf="!user?.profileImagePath" [name]="getInitials(user?.userName)"
+                                        size="45" borderColor="#fff" bgColor="#474C60"></ngx-avatars>
+
+                                    <ngx-avatars *ngIf="user?.profileImagePath" [src]="user?.profileImagePath"
+                                        [alt]="getInitials(user?.userName)" size="45" borderColor="#fff"></ngx-avatars>
+
+                                </div>
+                            </td>
+                            <td> {{ user.userName }}</td>
+                            <td>{{ user.userEmail }}</td>
+                            <td>{{ user.role }}</td>
+                            <td>{{ user.managerName}}</td>
+                            <td>{{ user.organaization }}</td>
+                            <td>{{ user.isActive ? 'Active' : 'In Active' }}</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="7" style="text-align: center;">No data found</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+            </div>
+
+            <div *ngIf="!showGraph && isMobile">
+                <div *ngIf="selectedReport.title === 'Users learning Journey Summary'">
+                    <div *ngFor="let user of learningreportData">
+                        <mat-card class="example-card mb-3" appearance="outlined">
+                            <mat-card-header>
+                                <mat-card-title-group class="justify-content-start">
+                                    <div class="mb-3">
+                                        <mat-card-title class="user-title">
+                                            {{ user.userName }}
+                                        </mat-card-title>
+                                        <mat-card-subtitle>{{ user.userEmail }}</mat-card-subtitle>
+                                    </div>
+                                </mat-card-title-group>
+                            </mat-card-header>
+
+                            <mat-card-content class="d-flex justify-content-between align-items-start flex-wrap">
+                                <div class="user-details">
+                                    <p>Learning Journey: {{ user.learningJourneyName }}</p>
+                                    <p>Completed:
+                                        <span [ngClass]="user.isCompleted ? 'text-success' : 'text-warning'">
+                                            {{ user.isCompleted ? 'Yes' : 'No' }}
+                                        </span>
+                                    </p>
+                                    <p>Completed Date: {{ user.completedDate ? (user.completedDate |
+                                        date:'medium') : '-' }}</p>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+
+                    <div *ngIf="learningreportData.length === 0"
+                        class="d-flex justify-content-center align-items-center">
+                        <p>No data found</p>
+                    </div>
+                </div>
+                <div *ngIf="selectedReport.title === 'Users Skill Proficiency Report'">
+                    <div *ngFor="let row of skillsreportData">
+                        <mat-card class="example-card mb-3" appearance="outlined">
+                            <mat-card-header class="mb-3">
+                                <mat-card-title>{{ row.userName }}</mat-card-title>
+                                <mat-card-subtitle>{{ row.userEmail }}</mat-card-subtitle>
+                            </mat-card-header>
+
+                            <mat-card-content class="user-details">
+                                <p><strong>Skill:</strong> {{ row.skillName }}</p>
+                                <p><strong>Level:</strong> {{ row.levelName }}</p>
+                                <p><strong>Job Title:</strong> {{ row.jobTitle }}</p>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+
+                    <div *ngIf="skillsreportData.length === 0" class="text-center">
+                        <p>No data found</p>
+                    </div>
+                </div>
+                <div *ngIf="selectedReport.title === 'Users Assessment Summary'">
+                    <div *ngFor="let row of assessmentreportData">
+                        <mat-card class="example-card mb-3" appearance="outlined">
+                            <mat-card-header class="mb-3">
+                                <mat-card-title>{{ row.userName }}</mat-card-title>
+                                <mat-card-subtitle>{{ row.userEmail }}</mat-card-subtitle>
+                            </mat-card-header>
+
+                            <mat-card-content class="user-details">
+                                <p><strong>Assessment Type:</strong> {{ row.assessmentType }}</p>
+                                <p><strong>Assessment Name:</strong> {{ row.assessmentName }}</p>
+                                <p><strong>Assigned By:</strong> {{ row.assignedBy ? row.assignedBy : '-' }}</p>
+                                <p><strong>Result:</strong> {{ row.result }}</p>
+                                <p><strong>Score:</strong> {{ row.score }}</p>
+                                <p><strong>Taken Date:</strong> {{ row.takenDate | date:'medium' }}</p>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+
+                    <div *ngIf="assessmentreportData.length === 0" class="text-center">
+                        <p>No data found</p>
+                    </div>
+                </div>
+                <div *ngIf="selectedReport.title === 'Manager Users Summary'">
+                    <div *ngFor="let manager of managerusersreportData">
+                        <mat-card class="example-card mb-3" appearance="outlined">
+                            <mat-card-header class="mb-3">
+                                <mat-card-title>{{ manager.managerName }}</mat-card-title>
+                                <mat-card-subtitle>{{ manager.managerEmail }}</mat-card-subtitle>
+                            </mat-card-header>
+
+                            <mat-card-content class="user-details">
+                                <p><strong>Organization:</strong> {{ manager.managerOrganization }}</p>
+                                <p><strong>Users Count:</strong> {{ manager.managerUsers.length }}</p>
+                                <p><strong>Avg. Skills:</strong> {{ getAvgSkills(manager) }}</p>
+
+                                <div *ngIf="manager.managerUsers?.length">
+                                    <p><strong>Users:</strong></p>
+                                    <ul>
+                                        <li *ngFor="let user of manager.managerUsers">
+                                            {{ user.username || user }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+
+                    <div *ngIf="managerusersreportData.length === 0" class="text-center">
+                        <p>No manager data found</p>
+                    </div>
+                </div>
+                <div *ngIf="selectedReport.title === 'All Users Summary'">
+                    <div *ngFor="let user of allusersummaryreportData">
+                        <mat-card class="example-card mb-3" appearance="outlined">
+                            <mat-card-header class="mb-3">
+                                <div class="d-flex align-items-center">
+                                    <ngx-avatars *ngIf="!user?.profileImagePath" [name]="getInitials(user?.userName)"
+                                        size="45" borderColor="#fff" bgColor="#474C60"></ngx-avatars>
+                                    <ngx-avatars *ngIf="user?.profileImagePath" [src]="user?.profileImagePath"
+                                        [alt]="getInitials(user?.userName)" size="45" borderColor="#fff"></ngx-avatars>
+                                    <div class="ms-3">
+                                        <mat-card-title>{{ user.userName }}</mat-card-title>
+                                        <mat-card-subtitle>{{ user.userEmail }}</mat-card-subtitle>
+                                    </div>
+                                </div>
+                            </mat-card-header>
+
+                            <mat-card-content class="user-details">
+                                <p><strong>Role:</strong> {{ user.role }}</p>
+                                <p><strong>Manager:</strong> {{ user.managerName }}</p>
+                                <p><strong>Organization:</strong> {{ user.organaization }}</p>
+                                <p><strong>Status:</strong> {{ user.isActive ? 'Active' : 'Inactive' }}</p>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+
+                    <div *ngIf="allusersummaryreportData.length === 0" class="text-center">
+                        <p>No data found</p>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- Graph View -->
+            <div *ngIf="showGraph">
+                <div class="card" *ngIf="selectedReport.title === 'Users learning Journey Summary'">
+                    <div class="kpi-grid mb-4">
+                        <div class="kpi-card">
+                            <h4>Total Journeys</h4>
+                            <div class="kpi-value">{{ totalJourneys }}</div>
+                            <div class="kpi-comparison">{{ uniqueUsers }} active users</div>
+                        </div>
+                        <div class="kpi-card">
+                            <h4>Completion Rate</h4>
+                            <div class="kpi-value">{{ completionRate }}%</div>
+                            <!-- <div class="kpi-comparison">vs target 75%</div> -->
+                        </div>
+                        <div class="kpi-card">
+                            <h4>Avg. Duration</h4>
+                            <div class="kpi-value">{{ averageDuration }} days</div>
+                            <!-- <div class="kpi-comparison">vs target 7 days</div> -->
+                        </div>
+                        <div class="kpi-card">
+                            <h4>Popular Journey</h4>
+                            <div class="kpi-value">{{ popularJourney }}</div>
+                            <div class="kpi-comparison">{{ popularJourneyCount }} users</div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Section -->
+                    <div class="chart-grid mb-4">
+                        <!-- Completion Status Pie Chart -->
+                        <div class="chart-card">
+                            <h3>Journey Completion Status</h3>
+                            <canvas baseChart [data]="completionPieData" [options]="PieChartOptions" [type]="'pie'">
+                            </canvas>
+                        </div>
+
+                        <!-- Journey Progress Bar Chart -->
+                        <div class="chart-card">
+                            <h3>User Progress by Journey</h3>
+                            <canvas baseChart [data]="learningbarChartData" [options]="barChartOptions" [type]="'bar'">
+                            </canvas>
+                        </div>
+
+                        <!-- Completion Timeline -->
+                        <div class="chart-card">
+                            <h3>Weekly Completions</h3>
+                            <canvas baseChart [data]="timelineData" [options]="lineChartOptions" [type]="'line'">
+                            </canvas>
+                        </div>
+
+                        <!-- Journey Distribution -->
+                        <div class="chart-card">
+                            <h3>Journey Popularity</h3>
+                            <canvas baseChart [data]="journeyDistributionData" [options]="horizontalBarOptions"
+                                [type]="'bar'">
+                            </canvas>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card" *ngIf="selectedReport.title === 'Users Skill Proficiency Report'">
+                    <div class="kpi-grid mb-4">
+                        <div class="kpi-card">
+                            <h4>Total Skills Assessed</h4>
+                            <div class="kpi-value">{{ totalSkills }}</div>
+                            <div class="kpi-comparison">{{ uniqueUsers }} users</div>
+                        </div>
+                        <div class="kpi-card">
+                            <h4>Expert Level Skills</h4>
+                            <div class="kpi-value">{{ expertSkills }}</div>
+                            <div class="kpi-comparison">{{ expertPercentage }}% of total</div>
+                        </div>
+                        <div class="kpi-card">
+                            <h4>Most Common Skill</h4>
+                            <div class="kpi-value">{{ popularSkill }}</div>
+                            <div class="kpi-comparison">{{ popularSkillCount }} users</div>
+                        </div>
+                        <div class="kpi-card">
+                            <h4>Avg. Proficiency</h4>
+                            <div class="kpi-value">{{ averageProficiency }}</div>
+                            <div class="kpi-comparison">out of 4 levels</div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Section -->
+                    <div class="chart-grid mb-4">
+                        <!-- Proficiency Distribution Pie Chart -->
+                        <div class="chart-card">
+                            <h3>Proficiency Level Distribution</h3>
+                            <canvas baseChart [data]="proficiencyPieData" [options]="pieChartOptions" [type]="'pie'">
+                            </canvas>
+                        </div>
+
+                        <!-- Skills by Level Bar Chart -->
+                        <div class="chart-card">
+                            <h3>Top Skills by Proficiency Level</h3>
+                            <canvas baseChart [data]="skillsBarChartData" [options]="stackedBarOptions" [type]="'bar'">
+                            </canvas>
+                        </div>
+
+                        <!-- User Skill Matrix -->
+                        <div class="chart-card">
+                            <h3>User Skill Matrix</h3>
+                            <canvas baseChart [data]="userSkillMatrixData" [options]="HeatmapOptions" [type]="'bar'">
+                            </canvas>
+                        </div>
+
+                        <!-- Skill Category Distribution -->
+                        <div class="chart-card">
+                            <h3>Top Skills Matrix</h3>
+                            <canvas baseChart [data]="skillCategoryData" [options]="horizontalBarOptions"
+                                [type]="'bar'">
+                            </canvas>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card" *ngIf="selectedReport.title === 'Users Assessment Summary'">
+                    <div class="kpi-grid mb-4">
+                        <div class="kpi-card">
+                            <h4>Total Assessments</h4>
+                            <div class="kpi-value">{{ totalassessments }}</div>
+                            <!-- <div class="kpi-comparison">vs previous period</div> -->
+                        </div>
+                        <div class="kpi-card">
+                            <h4>Pass Rate</h4>
+                            <div class="kpi-value">{{ passRate }}%</div>
+                            <!-- <div class="kpi-comparison">vs target 85%</div> -->
+                        </div>
+                        <div class="kpi-card">
+                            <h4>Average Score</h4>
+                            <div class="kpi-value">{{ averageScore }}</div>
+                            <!-- <div class="kpi-comparison">vs target 80</div> -->
+                        </div>
+                        <div class="kpi-card">
+                            <h4>Active Users</h4>
+                            <div class="kpi-value">{{ uniqueUsers }}</div>
+                            <!-- <div class="kpi-comparison">vs total {{ totalUsers }}</div> -->
+                        </div>
+                    </div>
+
+                    <!-- Charts Section -->
+                    <div class="chart-grid mb-4">
+                        <!-- Pass/Fail Distribution Pie Chart -->
+                        <div class="chart-card">
+                            <h3>Result Distribution</h3>
+                            <canvas baseChart [data]="pieChartData" [options]="pieChartOptions" [type]="'pie'">
+                            </canvas>
+                        </div>
+
+                        <!-- Assessment Types Bar Chart -->
+                        <div class="chart-card">
+                            <h3>Assessments by Type</h3>
+                            <canvas baseChart [data]="typeBarChartData" [options]="barchartOptions" [type]="'bar'">
+                            </canvas>
+                        </div>
+
+                        <!-- Scores Over Time Line Chart -->
+                        <div class="chart-card">
+                            <h3>Average Scores Over Time</h3>
+                            <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="'line'">
+                            </canvas>
+                        </div>
+
+                        <!-- User Activity Heatmap -->
+                        <div class="chart-card">
+                            <h3>User Activity Heatmap</h3>
+                            <canvas baseChart [data]="heatmapData" [options]="heatmapOptions" [type]="'bar'">
+                            </canvas>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card" *ngIf="selectedReport.title === 'Manager Users Summary'">
+                    <div class="kpi-grid mb-4">
+                        <div class="kpi-card">
+                            <h4>Total Managers</h4>
+                            <div class="kpi-value">{{ managerData.length }}</div>
+                        </div>
+                        <div class="kpi-card">
+                            <h4>Total Managed Users</h4>
+                            <div class="kpi-value">{{ totalManagedUsers }}</div>
+                        </div>
+                        <div class="kpi-card">
+                            <h4>Avg. Skills per User</h4>
+                            <div class="kpi-value">{{ avgSkillsPerUser }}</div>
+                        </div>
+                        <div class="kpi-card">
+                            <h4>Top Manager</h4>
+                            <div class="kpi-value">{{ topManager.name }}</div>
+                            <div class="kpi-comparison">{{ topManager.count }} users</div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Section -->
+                    <div class="chart-grid mb-4">
+                        <!-- Users per Manager -->
+                        <div class="chart-card">
+                            <h3>Manager Users Details</h3>
+                            <canvas baseChart [data]="managerUsersBarChartData" [options]="BaRChartOptions" type="bar">
+                            </canvas>
+                        </div>
+
+                        <!-- Skills Distribution -->
+                        <div class="chart-card">
+                            <h3>Top User Skills</h3>
+                            <canvas baseChart [data]="userSkillsChartData" [options]="BaRChartOptions" type="bar">
+                            </canvas>
+                        </div>
+
+                        <!-- Proficiency Levels -->
+                        <div class="chart-card">
+                            <h3>Learning Journeys Status</h3>
+                            <canvas baseChart [data]="learningJourneysChartData" [options]="PiEChartOptions" type="pie">
+                            </canvas>
+                        </div>
+
+                        <div class="chart-card">
+                            <h3>Assessments Results</h3>
+                            <canvas baseChart [data]="assessmentsChartData" [options]="BaRChartOptions" type="bar">
+                            </canvas>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card" *ngIf="selectedReport.title === 'All Users Summary'">
+                    <!-- KPI Cards Section -->
+                    <div class="kpi-grid mb-4">
+                        <div class="kpi-card">
+                            <h4>Total Users</h4>
+                            <div class="kpi-value">{{ totalUsers }}</div>
+                        </div>
+                        <div class="kpi-card">
+                            <h4>Avg. Skills per User</h4>
+                            <div class="kpi-value">{{ avgSkillsPerUser | number:'1.1-1' }}</div>
+                        </div>
+                        <div class="kpi-card">
+                            <h4>Learning Journeys</h4>
+                            <div class="kpi-value">{{ completedJourneys }}/{{ totalJourneys }}</div>
+                            <div class="kpi-comparison">{{ completionRate }}% completed</div>
+                        </div>
+                        <div class="kpi-card">
+                            <h4>Top Skill</h4>
+                            <div class="kpi-value">{{ topSkill }}</div>
+                            <div class="kpi-comparison">{{ topSkillCount }} users</div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Section -->
+                    <div class="chart-grid mb-4">
+                        <!-- User Details (by Role) -->
+                        <div class="chart-card">
+                            <h3>Users by Role</h3>
+                            <canvas baseChart [data]="userDetailsChartData" [options]="bArChartOptions" [type]="'bar'">
+                            </canvas>
+                        </div>
+
+                        <!-- User Skills -->
+                        <div class="chart-card">
+                            <h3>Top User Skills</h3>
+                            <canvas baseChart [data]="userSkillsChartData" [options]="skillbArChartOptions"
+                                [type]="'bar'">
+                            </canvas>
+                        </div>
+
+                        <!-- User Assessments -->
+                        <div class="chart-card">
+                            <h3>Assessment Results</h3>
+                            <canvas baseChart [data]="userAssessmentsChartData" [options]="pIeChartOptions"
+                                [type]="'pie'">
+                            </canvas>
+                        </div>
+
+                        <!-- User Learning Journeys -->
+                        <div class="chart-card">
+                            <h3>Learning Journey Status</h3>
+                            <canvas baseChart [data]="userLearningJourneysChartData" [options]="doughnutOptions"
+                                [type]="'doughnut'">
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <ng-template #MobileView>
+        <button *ngIf="selectedDateRange.length != 0" class="p-button" (click)="clearDateFilter()"
+            [disabled]="!selectedDateRange.length">Clear Filter</button>
+    </ng-template>
+</div>
+<div *ngIf="loading" class="loader"></div>

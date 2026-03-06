@@ -1,0 +1,38 @@
+:host {
+  --bg-app: #f8fafc;
+  --bg-panel: #ffffff;
+  --border-color: #e2e8f0;
+  --accent-blue: #fc5723;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --risk-high: #ef4444;
+  --risk-med: #f59e0b;
+  --risk-low: #10b981;
+}
+
+.dashboard-card {
+  background-color: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.btn-primary {
+  background-color: #fc5723;
+  color: white;
+  padding: 0.375rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #e0481d;
+}

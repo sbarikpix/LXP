@@ -1,0 +1,174 @@
+<div *ngIf="!isLoading" class="p-4 overflow-hidden" style="background-color: #fdfefe;">
+  <div class="cancel-btn" style="cursor: pointer">
+    <a class="text-dark" (click)="closeUploader()"><img
+        src="https://chasmadevstore.blob.core.windows.net/public/gamification/badges/close.png" alt=""
+        style="height: 15px" /></a>
+  </div>
+  <div class="col-12 d-flex dialog">
+    <div class="img-import">
+      <div>
+        <a class="text-dark cancel-img" *ngIf="this.imagePreview" (click)="cancelFileSelection()"><i
+            class="fa-solid fa-xmark"></i></a>
+      </div>
+      <div class="add-img mb-3" (click)="!selectedFile && fileInput.click()" (drop)="!selectedFile && onDrop($event)"
+        (dragover)="!selectedFile && onDragOver($event)">
+
+        <img *ngIf="!this.imagePreview" class="placeholder-img"
+          src="https://chasmadevstore.blob.core.windows.net/public/gamification/badges/Add_badge_place holder_icon.png"
+          alt="" style="cursor: pointer" title="Select or Drag & Drop the image" />
+
+        <img *ngIf="this.imagePreview" [src]="this.imagePreview" alt="" class="preview-img" />
+
+        <input type="file" #fileInput style="display: none" accept="image/png, image/jpeg"
+          (change)="!selectedFile && onFileSelected($event)" />
+      </div>
+
+      <span id="add-img-text">Add badge image here</span>
+
+      <!-- File requirements note -->
+      <small class="text-muted d-block mt-2">
+        Accepted formats: PNG, JPEG. Max size: {{ maxFileSizeMB }} MB.
+      </small>
+
+      <p *ngIf="errMessage !== ''" class="text-danger">{{ errMessage }}</p>
+      <!-- <div class="selected-file d-flex justify-content-between" *ngIf="selectedFile">
+        <div class="d-flex gap-3">
+          <div style="font-size: 28px; color: #fc5723">
+            <i class="fa-solid fa-file"></i>
+          </div>
+          <div>
+            <p class="m-0">{{ selectedFile.name }}</p>
+            <p style="font-size: 10px; color: #fc5723">
+              {{ formatBytes(selectedFile.size) }}
+            </p>
+          </div>
+        </div>
+      </div> -->
+    </div>
+    <div class="col-12">
+      <form [formGroup]="BadgeFormGroup" class="col-7 dialog-field">
+        <div class="row form-view-mob">
+          <div class="col-6 badge-from">
+            <h6>Badge Details</h6>
+            <!-- <div class="mb-3 w-90">
+              <label class="form-label">Badge Name</label>
+              <input class="form-control" formControlName="badgeName" maxlength="250" placeholder="Badge Name" required
+                autocomplete="off" />
+            </div> -->
+            <mat-form-field appearance="outline" class="mb-2">
+              <mat-label>Badge Name</mat-label>
+              <input type="text" matInput formControlName="badgeName" />
+              <mat-error *ngIf="BadgeFormGroup.get('badgeName')?.hasError('required')">
+                Badge Name is required.
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="mb-2">
+              <mat-label>Badge Description</mat-label>
+              <textarea type="text" matInput formControlName="badgeDescription" class="desc"></textarea>
+              <mat-error *ngIf="BadgeFormGroup.get('badgeDescription')?.hasError('required')">
+                Badge Description is required.
+              </mat-error>
+            </mat-form-field>
+            <!-- <div class="mb-3 w-90">
+              <label class="form-label">Badge Description</label>
+              <textarea class="form-control desc" formControlName="badgeDescription" maxlength="350"
+                placeholder="Badge Description" required autocomplete="off"></textarea>
+            </div> -->
+          </div>
+          <div class="col-6 badge-from">
+            <h6>Badge Criteria Details</h6>
+            <mat-form-field appearance="outline" class="jobTitleField mb-2">
+              <mat-label>Select Job Title</mat-label>
+              <input type="text" matInput #jobTitleInput [matAutocomplete]="autoJobTitles"
+                (input)="onSearchInput($event, 'job')" [value]="selectedJobTitle" placeholder="Search Job Titles"
+                required formControlName="jobTitle" />
+              <mat-autocomplete #autoJobTitles="matAutocomplete" (optionSelected)="
+                  onJobTitleChange($event.option.value); jobTitleInput.blur()
+                ">
+                <div infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="500" [scrollWindow]="false"
+                  (scrolled)="onDropdownScroll('jobTitles')" class="dropdown-scroll">
+                  <mat-option *ngFor="let job of filteredJobTitles | async" [value]="job.name">
+                    {{ job.name }}
+                  </mat-option>
+                </div>
+              </mat-autocomplete>
+              <mat-error *ngIf="BadgeFormGroup.get('jobTitle')?.hasError('required')">
+                Job title is required.
+              </mat-error>
+            </mat-form-field>
+            <div class="" [formGroup]="skillsFormGroup">
+              <mat-form-field appearance="outline" class="interestField mb-2">
+                <mat-label>Select Skills</mat-label>
+                <input type="text" matInput [matAutocomplete]="autoSkills" formControlName="skills"
+                  placeholder="Search Skills" [required]="selectedSkills.length === 0"
+                  (input)="onSearchInput($event, 'skill')" />
+                <mat-icon matSuffix *ngIf="isLoadingSkills" class="spinner-icon">
+                  <mat-progress-spinner mode="indeterminate" diameter="20" strokeWidth="3" color="primary">
+                  </mat-progress-spinner>
+                </mat-icon>
+                <mat-autocomplete #autoSkills="matAutocomplete">
+                  <div infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="500" [scrollWindow]="false"
+                    (scrolled)="onDropdownScroll('skills')" class="dropdown-scroll">
+                    <mat-option *ngFor="let skill of filteredSkills | async" [value]="skill.name">
+                      {{ skill.name }}
+                    </mat-option>
+                    <mat-option *ngIf="(filteredSkills | async)?.length === 0" disabled>
+                      No data available
+                    </mat-option>
+                  </div>
+                </mat-autocomplete>
+                <mat-error *ngIf="skillsFormGroup.get('skills')?.hasError('required')">
+                  Please select atleast one skill.
+                </mat-error>
+                <mat-error *ngIf="
+                    skillsFormGroup.get('skills')?.hasError('alreadyAdded')
+                  ">
+                  This skill has already been added.
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="interestField mb-2">
+                <mat-label>Level</mat-label>
+                <mat-select formControlName="level" (selectionChange)="onLevelChange($event)"
+                  [required]="selectedSkills.length === 0">
+                  <mat-option *ngFor="let level of LevelList" [value]="level.levelValue">{{ level.levelValue
+                    }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="skillsFormGroup.get('level')?.hasError('required')">
+                  Please select the level.
+                </mat-error>
+              </mat-form-field>
+
+              <div class="d-flex justify-content-end p-2">
+                <button (click)="addSkills()" class="btn btn-secondary addButton">
+                  Add
+                </button>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="selectedSkills.length > 0"
+            class="interest-box d-flex flex-wrap gap-2 p-2 border rounded overflow-auto"
+            style="max-height: 150px; min-height: 50px; width: 100%">
+            <div *ngFor="let skill of selectedSkills"
+              class="d-flex align-items-center gap-2 border rounded p-2 bg-light">
+              <strong class="text-primary">{{ skill.level }}</strong>
+              <span class="text-dark">{{ skill.name }}</span>
+              <button mat-icon-button class="cancelBtn d-flex align-items-center p-0" (click)="removeSkill(skill)">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="action-btns">
+          <button class="btn-connect" (click)="onSubmit()" [disabled]="!isFormValid()"
+            [ngClass]="{'disabled-btn': !isFormValid() }">
+            Save & Close <i class="fas fa-save"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div *ngIf="isLoading" class="loader">
+
+</div>

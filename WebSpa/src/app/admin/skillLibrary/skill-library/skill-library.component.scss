@@ -1,0 +1,156 @@
+.main-container {
+  padding: 0 10px;
+}
+.skill-table {
+  overflow-y: auto;
+}
+
+.loading-node {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+.add-btn {
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+.btns-div {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+.loading-node p-skeleton {
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+
+.skeleton-node {
+  height: 20px;
+  margin: 5px 0;
+}
+
+.ui-treenode-skeleton {
+  height: 20px;
+  background-color: #eee;
+  border-radius: 4px;
+  margin: 4px 0;
+}
+
+.node-leaf-label {
+  width: 60% !important;
+}
+
+.node-leaf-btn {
+  width: 40% !important;
+}
+
+#add-skill-btn {
+  height: 25px;
+  color: white;
+  font-size: 10px;
+  border-radius: 5px;
+  background-color: #fc5722;
+  font-weight: lighter;
+}
+.add-skill-btn-mob {
+  background-color: #fc5723;
+  color: white;
+  height: 25px;
+}
+
+#leaf-separator {
+  margin: 2px;
+}
+
+.search-bar-mob {
+  width: 40% !important;
+}
+
+.underline-search-bar {
+  display: flex;
+  align-items: end;
+}
+
+/* Deep styling overrides for PrimeNG and Angular Material */
+::ng-deep .p-treenode-label > span.ng-star-inserted {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+::ng-deep span.p-treenode-label {
+  width: 100%;
+}
+
+::ng-deep .p-tree-container,
+::ng-deep .p-treenode-children {
+  padding: 0px !important;
+}
+
+::ng-deep .p-component {
+  padding: 0px !important;
+  border: none !important;
+}
+
+::ng-deep .p-treenode-content {
+  display: flex !important;
+  align-items: baseline !important;
+}
+
+::ng-deep .mat-mdc-text-field-wrapper {
+  padding: 0px !important;
+}
+
+::ng-deep .mat-mdc-form-field-flex {
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px !important;
+  border-radius: 10px !important;
+}
+
+::ng-deep .mat-mdc-notch-piece {
+  border: none !important;
+}
+
+::ng-deep .mat-mdc-form-field-infix {
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+}
+
+::ng-deep .mat-mdc-form-field-has-icon-suffix .mat-mdc-text-field-wrapper {
+  background: transparent !important;
+}
+
+/* Responsive Styles */
+@media (max-width: 767.98px) {
+  .search-bar-mob {
+    width: 40% !important;
+  }
+
+  .edit-btn {
+    font-size: 12px;
+    padding: 2px 10px;
+    margin-left: 0px;
+  }
+
+  .node-leaf-label {
+    width: 100% !important;
+  }
+
+  #add-skill-btn {
+    padding: 0px !important;
+  }
+  .btns-div {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: end;
+    gap: 10px;
+  }
+  .main-container {
+    padding: 10px !important;
+  }
+  .add-btn {
+    flex-direction: column;
+  }
+}

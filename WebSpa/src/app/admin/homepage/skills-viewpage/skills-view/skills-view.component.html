@@ -1,0 +1,376 @@
+<div id="main-container" *ngIf="!isLoading">
+    <div class="d-flex back-btn" *ngIf="isbackbtn">
+        <a (click)="back()" class="btn btn-light"><i class="fa-solid fa-arrow-left"></i> Back</a>
+    </div>
+        <div class="mt-2" style="justify-content: space-between;align-items: start;">
+            <h4 class="heading-mob"> Job Title</h4>
+            <div class="skill-container">
+                <div class="description">
+                    <p>{{userJobfromParent}}</p>
+                </div>            
+            </div>
+        </div>
+
+    <div class="userskills">
+        <div class="chartContent mt-3">
+            <div class="heading d-flex mt-2" style="justify-content: space-between;align-items: start;">
+                <h4 class="heading-mob"> Skill Proficiency Overview</h4>
+                <span *ngIf="userId == loggedInUser.applicationUserId && !isMobile" class="d-flex"
+                    style="justify-content: space-between;align-items: start;">
+                    <!-- <button class="edit-btn d-flex align-items-center" (click)="generatePDF()">
+                        <i class="fa fa-qrcode" aria-hidden="true" style="margin-right: 5px;"></i>Generate QR
+                    </button> -->
+
+                    <button class="edit-btn d-flex align-items-center" (click)="showQR = !showQR">
+                        <i class="fa fa-eye" aria-hidden="true" style="margin-right: 5px;"></i>View QR
+                    </button>
+                </span>
+                <div *ngIf="isMobile">
+                    <span [matMenuTriggerFor]="menu" style="cursor: pointer;padding: 0px 10px;">
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </span>
+                </div>
+                <mat-menu #menu="matMenu">
+                    <!-- <button mat-menu-item (click)="generatePDF()">Generate QR</button> -->
+                    <button mat-menu-item (click)="showQR = !showQR">{{showQR ? 'Hide QR':'View QR'}}</button>
+
+                </mat-menu>
+            </div>
+
+            <div *ngIf="showQR" class="qr-container">
+                <div class="qrcode-div">
+                    <qrcode [qrdata]="qrData" [width]="256" errorCorrectionLevel="M"></qrcode>
+                </div>
+                <div class="action-btns">
+                    <button class="edit-btn" (click)="downloadQRCode()"><i class="fa fa-download" aria-hidden="true"
+                            style="margin-right: 5px;"></i>Download QR</button>
+
+                    <button *ngIf="isIOSdevice" class="wallet-btn" (click)="addToAppleWallet()">
+                        <img src="https://chasmadevstore.blob.core.windows.net/public/add-to-apple-wallet-logo.png"
+                            alt="Add to Apple Wallet" />
+                    </button>
+                    <button *ngIf="isAndroiddevice" class="wallet-btn" (click)="addToGoogleWallet()">
+                        <img src="https://chasmadevstore.blob.core.windows.net/public/add-to-google-wallet-logo.png"
+                            alt="Add to Google Wallet" />
+                    </button>
+                </div>
+            </div>
+
+            <div class="skill-container">
+                <!-- <p class="align-items-start tab-header">Your Skill Proficiency</p> -->
+                <div class="col-md-12 d-flex justify-content-center align-items-center text-center">
+                    <div class="" style="padding-left: 20px;">
+                        <canvas *ngIf="userSkills.length !== 0" baseChart [type]="'pie'" [datasets]="pieChartDatasets"
+                            [labels]="pieChartLabels" [options]="pieChartOptions" [plugins]="pieChartPlugins"
+                            [legend]="pieChartLegend" class="pieChart">
+                        </canvas>
+                        <p *ngIf="userSkills.length === 0" class="pieChart">No Skills to Show</p>
+                    </div>
+                    <!-- <div class="col-md-6">
+                        <canvas baseChart [data]="barChartData" [options]="barChartOptions" [plugins]="barChartPlugins"
+                            [legend]="barChartLegend" [type]="'bar'">
+                        </canvas>
+                    </div> -->
+                </div>
+            </div>
+
+            <div class="heading mt-4">
+                <h4 class="heading-mob"> Skill Analysis</h4>
+            </div>
+            <div class="skillanalysis-container">
+
+                <div class="skills-div" *ngFor="let skill of skillsList;let i = index">
+                    <div class="skill-header">
+                        <div style="display: flex;align-items: center; " class="skill-header-mob">
+                            <span class="skill-name">{{ skill.skillName }}
+                            </span>
+                            <span class="skillexperience-name">
+                                Experience (in years): {{skill.experience}}
+                            </span>
+                            <div *ngIf="isMobile">
+                                <span [matMenuTriggerFor]="skillMenu" style="cursor: pointer;padding: 0px 10px;">
+                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div style="display: flex;align-items: center;" *ngIf="!isMobile">
+                            <button *ngIf="skill.proficiencyValue != 4" (click)="upskill(skill)" class="upskill">Up
+                                Skill</button>
+                            <button *ngIf="skill.proficiencyValue == 4" (click)="upskill(skill)"
+                                class="upskill">Re-Skill</button>
+                            <button class="edit-btn" (click)="toggleDetails(i)">Edit</button>
+                        </div>
+                        <mat-menu #skillMenu="matMenu">
+                            <button mat-menu-item *ngIf="skill.proficiencyValue != 4" (click)="upskill(skill)">Up
+                                Skill</button>
+                            <button mat-menu-item *ngIf="skill.proficiencyValue == 4"
+                                (click)="upskill(skill)">Re-Skill</button>
+                            <button mat-menu-item (click)="toggleDetails(i)">Edit</button>
+
+                        </mat-menu>
+                    </div>
+                    <div class="proficiency-level">
+                        <span class="range-headings">Proficiency level</span>
+                        <input type="range" class="progress-range" [min]="1" [max]="skillLevelList.length"
+                            [value]="skill.proficiencyValue" [style.background]="skill.gradient" disabled />
+                        <div class="levels">
+                            <span *ngFor="let level of skillLevelList" class="range-level">{{ level.levelValue }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Skill Details Section -->
+                    <div class="skill-details" *ngIf="expandedIndex === i">
+                        <!-- <h5 class="skill-header">{{ skill.skillName }}</h5>
+                        <h5 class="skill-header">{{skill.proficiencyValue}}</h5> -->
+                        <form class="skill-form">
+                            <div class="form-group">
+                                <label for="experience">Experience (in years):</label>
+                                <input type="number" id="experience" [(ngModel)]="skill.experience" name="experience"
+                                    class="form-control" min="0" placeholder="Enter years of experience" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="certificate">Upload Certificate:</label>
+                                <div class="file-actions">
+                                    <span>
+                                        <input type="file" id="certificate" accept="application/pdf"
+                                            (change)="onFileUpload($event, skill)" class="form-control file-input" />
+                                    </span>
+                                    <button *ngIf="skill.certificatePath" type="button" class="preview-btn"
+                                        (click)="previewCertificate(skill.certificatePath)">
+                                        Preview
+                                    </button>
+                                </div>
+                            </div>
+                            <button class="save-btn" [disabled]="!skill.experience" (click)="saveDetails(skill)">
+                                Save
+                            </button>
+                        </form>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+
+
+            <div class="heading mt-4">
+                <h4 class="heading-mob"> Skill's Overview</h4>
+            </div>
+
+            <div class="p-3 mt-3 skill-container">
+                <div class="p-3 tab-pane">
+                    <mat-tab-group (selectedTabChange)="changeUpperTab($event.index)" id="tab" color="warn">
+                        <mat-tab label="Aquired Skills">
+                            <ng-template matTabContent>
+                            </ng-template>
+                        </mat-tab>
+                        <mat-tab label="Targeted Skills">
+                            <ng-template matTabContent>
+                            </ng-template>
+                        </mat-tab>
+                        <mat-tab label="Interested Skills">
+                            <ng-template matTabContent>
+                            </ng-template>
+                        </mat-tab>
+                    </mat-tab-group>
+
+                    <div class="d-flex justify-content-end" *ngIf="!isMobile">
+                        <div class="mt-2" *ngIf="aquiredSkills && !targettedSkills">
+                            <mat-form-field class="underline-search-bar">
+                                <input matInput placeholder="Type to search"
+                                    (keyup)="filterSkills($any($event.target).value)">
+                                <mat-icon matSuffix>search</mat-icon>
+                            </mat-form-field>
+                        </div>
+                        <div class="mt-2" *ngIf="!aquiredSkills && targettedSkills">
+                            <mat-form-field class="underline-search-bar">
+                                <input matInput placeholder="Type to search"
+                                    (keyup)="filterSkills($any($event.target).value)">
+                                <mat-icon matSuffix>search</mat-icon>
+                            </mat-form-field>
+                        </div>
+                        <div class="mt-2" *ngIf="!aquiredSkills && !targettedSkills && interestedSkills">
+                            <mat-form-field class="underline-search-bar">
+                                <input matInput placeholder="Type to search"
+                                    (keyup)="filterSkills($any($event.target).value)">
+                                <mat-icon matSuffix>search</mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div *ngIf="isMobile">
+                        <div class="mt-2" *ngIf="aquiredSkills && !targettedSkills">
+                            <mat-form-field appearance="outline" class="mt-2 w-100">
+                                <div class="d-flex align-items-center gap-2 w-100">
+                                    <i class="fa-solid fa-search"></i>
+                                    <input matInput placeholder="Type to search" class="w-100"
+                                        (keyup)="filterSkills($any($event.target).value)">
+                                </div>
+                            </mat-form-field>
+                        </div>
+                        <div class="mt-2" *ngIf="!aquiredSkills && targettedSkills">
+                            <mat-form-field appearance="outline" class="mt-2 w-100">
+                                <div class="d-flex align-items-center gap-2 w-100">
+                                    <i class="fa-solid fa-search"></i>
+                                    <input matInput placeholder="Type to search" class="w-100"
+                                        (keyup)="filterSkills($any($event.target).value)">
+                                </div>
+                            </mat-form-field>
+                        </div>
+                        <div class="mt-2" *ngIf="!aquiredSkills && !targettedSkills && interestedSkills">
+                            <mat-form-field appearance="outline" class="mt-2 w-100">
+                                <div class="d-flex align-items-center gap-2 w-100">
+                                    <i class="fa-solid fa-search"></i>
+                                    <input matInput placeholder="Type to search" class="w-100"
+                                        (keyup)="filterSkills($any($event.target).value)">
+                                </div>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="tableData" *ngIf="!isMobile">
+                        <div class="aquired-skill skill-table"
+                            *ngIf="aquiredSkills && !targettedSkills && !interestedSkills">
+                            <table class="table table-hover mt-3">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Category</th>
+                                        <th scope="col">Your Proficiency</th>
+                                        <th scope="col">Rating</th>
+                                        <!-- <th scope="col">Action</th> -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let skill of userSkills">
+                                        <td>{{ skill.skillName }}</td>
+                                        <td>{{skill.jobTitleName}}</td>
+                                        <td>{{ getSkillLevelName(skill.skillLevelId) }}</td>
+                                        <td>
+                                            <div class="rating">
+                                                <span *ngFor="let star of stars; let i = index"
+                                                    [class.filled]="i < userSkillRatingMap[skill.skillId]"
+                                                    [class.disabled]="loggedInUser.applicationUserId !== userId"
+                                                    (click)="loggedInUser.applicationUserId === userId ? rateSkill(skill.skillId, i) : null">
+                                                    &#9733;
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr *ngIf="userSkills.length ==0">
+                                        <p>No data found</p>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div *ngIf="isMobile && aquiredSkills && !targettedSkills && !interestedSkills">
+                        <div *ngFor="let skill of userSkills">
+                            <mat-card class="example-card mb-3" appearance="outlined">
+                                <mat-card-header class="d-flex justify-content-between align-items-center">
+                                    <mat-card-title-group class="justify-content-start">
+                                        <div>
+                                            <mat-card-title class="skillname-mob">{{skill.skillName}}</mat-card-title>
+                                        </div>
+                                    </mat-card-title-group>
+                                    <div class="rating">
+                                        <span *ngFor="let star of stars; let i = index"
+                                            [class.filled]="i < userSkillRatingMap[skill.skillId]"
+                                            [class.disabled]="loggedInUser.applicationUserId !== userId"
+                                            (click)="loggedInUser.applicationUserId === userId ? rateSkill(skill.skillId, i) : null">
+                                            &#9733;
+                                        </span>
+                                    </div>
+                                </mat-card-header>
+                                <mat-card-content class="d-flex justify-content-between flex-column">
+                                    <div>
+                                        <p>Category : {{skill.jobTitleName}}</p>
+                                        <p>Your Proficiency : {{ getSkillLevelName(skill.skillLevelId)
+                                            }}</p>
+                                    </div>
+
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+                        <div *ngIf="userSkills.length ==0">
+                            <p>No data found</p>
+                        </div>
+                    </div>
+
+                    <div class="tableData targeted-mob pt-3 pb-3">
+                        <div class="aquired-skill skill-table"
+                            *ngIf="!aquiredSkills && targettedSkills && !interestedSkills">
+                            <table class="table table-hover mt-3">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="name-col">Name</th>
+                                        <!-- <th scope="col">Your Proficiency</th>
+                                                        <th scope="col">Rating</th> -->
+                                        <th scope="col" class="action-col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let skill of userTargettedskills">
+                                        <td>{{ skill.name }}</td>
+                                        <td>
+                                            <div>
+                                                <button mat-raised-button id="add-skill-btn"
+                                                    (click)="openAddSkillDialog(skill.name)">Add Level</button>
+                                                <!-- <button>Rate Skill</button> -->
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        @if(userTargettedskills.length == 0){
+
+                                        <p>No data found</p>
+                                        }
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                    <div class="interested-skill skill-table"
+                        *ngIf="!aquiredSkills && !targettedSkills && interestedSkills">
+                        <p-tree [value]="jobTitleTree" (onNodeExpand)="loadSkills($event)"
+                            (onNodeCollapse)="collapseSkills($event)" [lazy]="true"
+                            [loadingIcon]="'pi pi-spinner pi-spin'">
+
+                            <ng-template let-node pTemplate="default" class="d-flex align-items-center">
+
+                                <div *ngIf="node.loading" class="loading-node">
+                                    <p-skeleton width="20px" height="1rem"></p-skeleton>
+                                    <p-skeleton width="150px" height="1rem"></p-skeleton>
+                                </div>
+                                <div *ngIf="!node.loading"
+                                    class="node-content node-btn d-flex justify-content-between w-100">
+                                    <span class="node-leaf-label">{{node.label }}</span>
+                                    <div class="node-leaf-btn d-flex justify-content-end align-items-center"
+                                        *ngIf="node.leaf && !node.isMatch">
+                                        <button mat-flat-button id="add-skill-btn"
+                                            (click)="openAddSkillDialog(node.label,node)">Add
+                                            Level</button>
+                                    </div>
+                                </div>
+                                <div class="search-bar-mob" *ngIf="node.showSearch && !node.leaf">
+                                    <mat-form-field class="underline-search-bar">
+                                        <input matInput (keyup)="filterSkillLabel($event, node)">
+                                        <mat-icon matSuffix>search</mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <hr *ngIf="node.leaf" id="leaf-separator">
+
+                            </ng-template>
+                        </p-tree>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div *ngIf="isLoading" class="loader">
+
+</div>

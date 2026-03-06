@@ -1,0 +1,158 @@
+<!-- <div class="d-flex back-btn">
+    <a (click)="back()" class="btn btn-light"><i class="fa-solid fa-arrow-left"></i> Back</a>
+</div>
+
+<div class="container">
+    <h4>{{learningJourneyTitle}}</h4>
+    <div *ngFor="let modules of learningJourney; let m = index">
+        <mat-card class="section">
+            <div class="d-flex justify-content-between align-items-center" (click)="toggleModule(m)">
+                <h5 class="m-0">{{modules.learningJourneyModuleTitle}}</h5>
+                <mat-icon class="arrow">{{ isModuleVisible[m] ? 'arrow_drop_up' :
+                    'arrow_drop_down'
+                    }}</mat-icon>
+            </div>
+            <div *ngIf="isModuleVisible[m]">
+                <div *ngFor="let lesson of modules.getLearningJourneySubModuleResponses; let i = index" class="lesson">
+                    <div class="lesson-number">{{i+1}}</div>
+                    <div class="lesson-details">
+                        <h4>{{ lesson.learningJourneySubModuleName }}</h4>
+                        <p>{{ lesson.levelName }}</p>
+                    </div>
+                    <div class="video-time">
+                        <p>Video time</p>
+                    </div>
+                </div>
+            </div>
+
+        </mat-card>
+    </div>
+</div> -->
+
+<div class="main-div" *ngIf="!isLoading ">
+    <div class="d-flex back-btn" *ngIf="!isMobile">
+        <a (click)="back()" class="btn btn-light"><i class="fa-solid fa-arrow-left"></i> Back</a>
+    </div>
+
+    <div *ngIf="learningJourney[0].getLearningJourneySubModuleResponses.length === 0" class="description-container">
+        <div class="header">
+            <h2>Welcome to the <strong>{{ learningJourneyTitle }}</strong> Learning Journey</h2>
+            <p>Get ready to explore and grow your skills step-by-step!</p>
+        </div>
+
+        <div class="info-section">
+            <div class="info-box">
+                <h4>Progress Tracking</h4>
+                <p>Track your progress as you complete each submodule.</p>
+            </div>
+            <div class="info-box">
+                <h4>Unlocking Mechanism</h4>
+                <p>Complete one submodule to unlock the next. Stay consistent and unlock new knowledge!</p>
+            </div>
+        </div>
+
+        <div class="skills-section">
+            <h4>Skills You'll Learn</h4>
+            <ul>
+                <li *ngFor="let skilldetails of learningJourney">
+                    {{ skilldetails.skillName }}
+                </li>
+            </ul>
+        </div>
+
+        <div class="image-div">
+            <img id="image" src="https://chasmadevstore.blob.core.windows.net/public/learningjourney.png"
+                alt="Learning Journey Illustration">
+        </div>
+
+        <div class="text-end start-btn" style="margin-right: 20px;">
+            <button class="btn-connect" (click)="startLearning()">Start Learning</button>
+        </div>
+    </div>
+
+
+    <div *ngIf="learningJourney[0].getLearningJourneySubModuleResponses.length !== 0" class="container-div mt-4">
+
+        <div class="journeydiv">
+            <div class="col-4 journeytitlediv">
+                <h5>
+                    {{ learningJourneyTitle }}
+                </h5>
+            </div>
+            <div class="col-6 text-start journey-progress">
+                <p-progressBar [styleClass]="'journey-progress'" [value]="overallProgress"></p-progressBar>
+            </div>
+        </div>
+
+        <div *ngFor="let module of learningJourney; let m = index">
+            <mat-card class="section mt-4">
+                <div class="d-flex justify-content-between align-items-center" style="cursor: pointer;"
+                    (click)="toggleModule(m)">
+                    <div class="heading-div col-4">
+                        <h5 class="m-0">{{ module.learningJourneyModuleTitle }}</h5>
+                    </div>
+                    <div class="col-6">
+                        <p-progressBar [styleClass]="'module-progress'" [value]="module.progress"></p-progressBar>
+                    </div>
+                    <div class="col-1 text-end">
+                        <!-- <i class="pi" [ngClass]="isModuleVisible[m] ? 'pi-chevron-up' : 'pi-chevron-down'"></i> -->
+                        <i class="fa" [ngClass]="isModuleVisible[m] ? 'fa-chevron-up' : 'fa-chevron-down'"
+                            aria-hidden="true"></i>
+                    </div>
+                </div>
+
+                <div class="mt-4 submodule-div" *ngIf="isModuleVisible[m]">
+                    <div *ngFor="let lesson of module.getLearningJourneySubModuleResponses; let i = index"
+                        class="lesson"
+                        [ngStyle]="{'background-color': lesson.isCompleted && isMobile ? '#E6F4EA' : ''}">
+                        <div class="lesson-number col-1">{{ i+1 }}</div>
+                        <div class="lesson-details col-6">
+                            <h4>{{ lesson.learningJourneySubModuleName }}</h4>
+                            <p>{{ lesson.levelName }}</p>
+                        </div>
+                        <div class="video-time text-end col-5" *ngIf="!isMobile">
+                            <button class="btn-connect"
+                                [disabled]="i !== 0 && !module.getLearningJourneySubModuleResponses[i - 1].isCompleted"
+                                [ngClass]="{ 'btn-review': lesson.isCompleted }"
+                                (click)="onstart(module.skillId, lesson.levelId)">
+                                {{ lesson.isCompleted ? 'Review' : 'Start' }}
+                            </button>
+
+                            <button class="btn-completed"
+                                [disabled]="i !== 0 && !module.getLearningJourneySubModuleResponses[i - 1].isCompleted"
+                                [ngClass]="{ 'btn-green': lesson.isCompleted }"
+                                (click)="isCompleted(lesson.userLearningJourneyModuleId)">
+                                {{ lesson.isCompleted ? 'Completed' : 'Complete' }}
+                            </button>
+                        </div>
+                        <div class="video-time text-end" *ngIf="isMobile">
+                            <span [matMenuTriggerFor]="menu" style="cursor: pointer;padding: 0px 10px;">
+                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                            </span>
+                            <mat-menu #menu="matMenu">
+                                <!-- <button mat-menu-item (click)="navigateToUserView(user.applicationUserId)">View</button>
+                            <button mat-menu-item (click)="navigateToUserEdit(user.applicationUserId)">Edit</button> -->
+                                <button mat-menu-item
+                                    [disabled]="i !== 0 && !module.getLearningJourneySubModuleResponses[i - 1].isCompleted"
+                                    (click)="onstart(module.skillId, lesson.levelId)">
+                                    {{ lesson.isCompleted ? 'Review' : 'Start' }}
+                                </button>
+
+                                <button mat-menu-item
+                                    [disabled]="i !== 0 && !module.getLearningJourneySubModuleResponses[i - 1].isCompleted"
+                                    (click)="isCompleted(lesson.userLearningJourneyModuleId)">
+                                    {{ lesson.isCompleted ? 'Completed' : 'Complete' }}
+                                </button>
+                            </mat-menu>
+
+                        </div>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+    </div>
+</div>
+
+<div class="loader" *ngIf="isLoading">
+
+</div>

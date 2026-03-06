@@ -1,0 +1,82 @@
+<div class="main-container">
+    <div class="add-btn">
+        <div class="search-div">
+            <mat-form-field class="underline-search-bar" *ngIf="!isMobile">
+                <input matInput placeholder="Type to search" (keyup)="filterSkills($any($event.target).value)">
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="mt-2 w-100 " *ngIf="isMobile">
+                <div class="d-flex align-items-center gap-2 w-100">
+                    <i class="fa-solid fa-search"></i>
+                    <input matInput placeholder="Type to search" class="w-100"
+                        (keyup)="filterSkills($any($event.target).value)">
+                </div>
+            </mat-form-field>
+        </div>
+        <div class="btns-div">
+            <button class="add-skill-btn-mob btn d-flex align-items-center" (click)="openAssignDialog()">Add
+                Skill</button>
+            <button class="add-skill-btn-mob btn d-flex align-items-center" (click)="openImportDialog()">
+                <i class="fa-solid fa-file-import me-2"></i>
+                Import
+            </button>
+        </div>
+
+    </div>
+    <!-- <div class="interested-skill skill-table" *ngIf="!isLoading">
+    <p-tree [value]="jobTitleTree" (onNodeExpand)="loadSkills($event)" (onNodeCollapse)="collapseSkills($event)"
+        [lazy]="true" [loadingIcon]="'pi pi-spinner pi-spin'">
+        <ng-template let-node pTemplate="default">
+            <div *ngIf="node.loading" class="loading-node">
+                <p-skeleton width="20px" height="1rem"></p-skeleton>
+                <p-skeleton width="150px" height="1rem"></p-skeleton>
+            </div>
+            <div *ngIf="!node.loading" class="node-content node-btn">
+                <span>{{ node.label }}</span>
+                <button *ngIf="node.leaf && !node.isMatch" id="add-skill-btn"
+                    (click)="openAssignDialog(node)">Assign</button>
+            </div>
+            <div *ngIf="node.showSearch && !node.leaf">
+                <mat-form-field class="underline-search-bar">
+                    <input matInput placeholder="Type to search" (keyup)="filterSkillLabel($event,node)">
+                    <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+            </div>
+            <hr *ngIf="node.leaf" id="leaf-separator">
+
+        </ng-template>
+    </p-tree>
+</div> -->
+    <div class="interested-skill skill-table" *ngIf="!isLoading">
+        <p-tree [value]="jobTitleTree" (onNodeExpand)="loadSkills($event)" (onNodeCollapse)="collapseSkills($event)"
+            [lazy]="true" [loadingIcon]="'pi pi-spinner pi-spin'">
+
+            <ng-template let-node pTemplate="default" class="d-flex align-items-center">
+
+                <div *ngIf="node.loading" class="loading-node">
+                    <p-skeleton width="20px" height="1rem"></p-skeleton>
+                    <p-skeleton width="150px" height="1rem"></p-skeleton>
+                </div>
+                <div *ngIf="!node.loading" class="node-content node-btn d-flex justify-content-between w-100">
+                    <span class="node-leaf-label">{{node.label }}</span>
+                    <div class="node-leaf-btn d-flex justify-content-end align-items-center"
+                        *ngIf="node.leaf && !node.isMatch">
+                        <button mat-flat-button id="add-skill-btn" (click)="openAssignDialog(node)">Add
+                            Level</button>
+                    </div>
+                </div>
+                <div class="search-bar-mob" *ngIf="node.showSearch && !node.leaf">
+                    <mat-form-field class="underline-search-bar">
+                        <input matInput (keyup)="filterSkillLabel($event, node)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>
+                <hr *ngIf="node.leaf" id="leaf-separator">
+
+            </ng-template>
+        </p-tree>
+    </div>
+</div>
+<div class="loader" *ngIf="isLoading">
+
+</div>

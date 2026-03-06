@@ -1,0 +1,33 @@
+.main-div{
+    height: 88vh;
+    gap: 7%;
+    padding: 6%;
+}
+.img-div, .text-div{
+    width: 50%;
+}
+.text-div h1{
+    font-size: 43px;
+    font-weight: bold;
+    color: #FD552A;
+}
+.text-div p{
+    font-size: 22px;
+    letter-spacing: 0.5px;
+    color: #464B5E;
+}
+.text-div button{
+    height: 45px;
+    width: 170px;
+    border-radius: 22px;
+    background-color: #464B5E;
+    color: #fff;
+    border: none;
+    font-size: 17px;
+    letter-spacing: 0.6px;
+}
+
+.img-div img{
+    height: 100%;
+    width: 100%;
+}

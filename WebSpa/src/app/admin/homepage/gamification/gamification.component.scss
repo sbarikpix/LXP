@@ -1,0 +1,416 @@
+.btn-connect {
+  font-size: 15px;
+  color: #fff;
+  cursor: pointer;
+  background-color: #fc5723;
+  padding: 4px 20px;
+  border-radius: 8px;
+  border: 1px solid #fff;
+}
+
+.card {
+  border-radius: 15px;
+  padding: 10px;
+  align-items: center;
+  flex: 0 0 auto;
+  width: 220px;
+  box-sizing: border-box;
+  margin-right: 1rem;
+}
+
+.card-content {
+  border-radius: 15px;
+  width: 135px;
+  height: 155px;
+  padding: 5px 10px;
+}
+
+.badge-card {
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 20px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+
+.point-card {
+  background: #fff;
+  display: flex;
+  padding: 16px;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 20px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.badge-text {
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.my-badge-text {
+  font-size: 15px;
+  font-weight: 500;
+  text-align: center;
+}
+
+#level {
+  font-size: 0.9rem;
+}
+
+.card-img-top {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+}
+
+.inc-img {
+  width: 100px;
+  height: 45px;
+}
+
+#point {
+  font-size: 5rem;
+  font-weight: 600;
+  padding: 10px;
+  align-items: center;
+}
+
+.index-1 {
+  background-color: #feedcb;
+}
+
+.index-2 {
+  background-color: #f3f3f3;
+}
+
+.index-3 {
+  background-color: #f9e3d7;
+}
+
+.striped {
+  background-color: #f4f1f6;
+}
+
+.t-head {
+  background-color: #fc5723 !important;
+  color: #ffff;
+}
+
+#t-start {
+  border-radius: 10px 0px 0px 10px;
+}
+
+#t-end {
+  border-radius: 0px 10px 10px 0px;
+}
+
+.rank {
+  align-items: center;
+  padding: 14px 14px 14px 27px !important;
+}
+
+.rank-img {
+  width: 30px;
+  height: 35px;
+  position: absolute;
+  top: 20%;
+}
+
+.top-rank {
+  position: relative;
+  padding-left: 20px;
+}
+
+.t-count {
+  position: absolute;
+  left: 30px;
+  top: 30%;
+  z-index: 1;
+}
+
+.t-data {
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: black;
+}
+
+.back-btn a {
+  background-color: transparent;
+  border: none;
+  color: #000000;
+  padding-left: 0px;
+}
+
+@media (max-width: 1200px) {
+  .badges {
+    width: 100%;
+  }
+
+  .reward {
+    margin: 10px 0px !important;
+  }
+}
+
+.card-body {
+  text-align: center;
+  overflow: hidden;
+  max-height: 6rem;
+  width: 100%;
+  /* Keeps card height consistent */
+}
+
+.my-card-body {
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: contents;
+  text-align: center;
+  overflow: hidden;
+  max-height: 6rem;
+}
+
+.card-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  display: block;
+  cursor: pointer;
+  -webkit-line-clamp: 2; /* Show max 2 lines */
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+}
+
+/* Tooltip Styling */
+.card-text:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  white-space: normal;
+  width: max-content;
+  max-width: 200px;
+  text-align: left;
+  z-index: 10;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  visibility: visible;
+  opacity: 1;
+}
+
+.card-text::after {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.truncated-text {
+  display: block;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.badge-carousel {
+  position: relative;
+  overflow-x: auto;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  position: relative;
+  cursor: grab;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.badge-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.badge-list {
+  display: flex;
+  gap: 10px;
+}
+
+.badge-item {
+  flex: 0 0 auto;
+  width: 8rem;
+  min-height: 9rem;
+  max-height: 9rem;
+}
+
+.badge-card-spacing {
+  margin: 0 10px;
+}
+
+.badge-skills {
+  background: #fff;
+  padding: 16px;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 20px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+::ng-deep .p-carousel {
+  width: 100% !important;
+  max-width: 100vw;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+::ng-deep .p-carousel-items-content {
+  width: 100vw !important;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  overflow: hidden;
+  margin-left: 0px !important;
+}
+
+::ng-deep .p-carousel-item {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 0px !important;
+}
+
+::ng-deep .p-carousel-prev,
+::ng-deep .p-carousel-next {
+  background-color: #fc5723;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  color: white;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+// ::ng-deep .p-carousel-next {
+//   background-color: #fc5723;
+//   border-radius: 50%;
+//   font-size: 1.5rem;
+//   color: white;
+//   width: 30px;
+//   height: 30px;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   z-index: 2;
+// }
+
+::ng-deep .p-carousel-prev {
+  position: relative;
+}
+
+::ng-deep .custom-badges-carousel .p-carousel-prev {
+  position: relative;
+}
+
+::ng-deep .custom-badges-carousel .p-carousel-container {
+  width: 80vw;
+}
+
+::ng-deep .p-carousel-container {
+  justify-content: center;
+}
+
+::ng-deep .custom-badges-carousel .p-carousel-items-container {
+  width: 100% !important;
+}
+::ng-deep .p-carousel-items-container {
+  width: 100vw !important;
+}
+.p-element {
+  width: 100% !important;
+}
+.no-skill {
+  height: 170px;
+}
+
+.badge-skills,
+.point-card {
+  height: 180px;
+}
+
+#badgeName {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  ::ng-deep .custom-badges-carousel .p-carousel-container {
+    width: 95vw !important;
+  }
+  .my-badge-mob {
+    flex-direction: column;
+  }
+  .no-skill {
+    height: auto !important;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .my-badge-mob {
+    flex-direction: column;
+  }
+  .no-skill {
+    height: auto !important;
+  }
+  .top-rank {
+    position: static;
+  }
+  .rank-img {
+    top: 7%;
+    right: 5%;
+  }
+  #point {
+    height: auto !important;
+    font-size: 3rem !important;
+  }
+  .card-head-mob {
+    background: #fc5722;
+    padding-bottom: 10px;
+    color: #fff;
+    border-radius: 10px 10px 0px 0px;
+  }
+  .rank {
+    padding: 0% !important;
+    font-size: 1.2rem;
+  }
+  ::ng-deep .p-carousel-container {
+    width: 100% !important;
+  }
+}
+.badge-card-empty {
+  height: 175px !important;
+}

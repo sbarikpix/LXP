@@ -1,0 +1,687 @@
+.pieChart {
+  // margin: auto;
+  height: 450px !important;
+  width: 450px !important;
+}
+
+.pie-chart-container {
+  box-shadow: 0px 0px 8px #a5a3a3;
+}
+
+.skill-container {
+  border: 2px solid #f4f4f4;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #fff;
+  // box-shadow: 0px 0px 3px #979797;
+}
+
+.skillanalysis-container {
+  border: 2px solid #f4f4f4;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #fff;
+  height: 700px;
+  overflow-y: scroll;
+}
+
+.skills-div {
+  padding: 10px;
+}
+
+.skill-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.skill-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 4px 26px;
+  border-radius: 10px;
+  background-color: #474c60;
+}
+
+.skillexperience-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: #474c60;
+  border: 1px solid #fff;
+  padding: 4px 26px;
+  border-radius: 10px;
+}
+
+.upskill {
+  font-size: 14px;
+  color: #fc5723;
+  cursor: pointer;
+  background-color: #fff;
+  padding: 3px 20px;
+  border-radius: 8px;
+  border: 1px solid #e1cece;
+}
+
+.edit-btn {
+  font-size: 14px;
+  color: #fff;
+  cursor: pointer;
+  background-color: #fc5723;
+  padding: 4px 20px;
+  border-radius: 8px;
+  border: 1px solid #fff;
+  margin-left: 5px;
+}
+
+.proficiency-level {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.proficiency-level span {
+  color: #474c60;
+}
+
+.progress-range {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 5px;
+  outline: none;
+  margin: 8px 0;
+  cursor: pointer;
+}
+
+.progress-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  border-radius: 50%;
+  border: 2px solid #fc5723;
+  cursor: pointer;
+}
+
+// .progress-range::-moz-range-thumb {
+//   width: 20px;
+//   height: 20px;
+//   background-color: #fff;
+//   border-radius: 50%;
+//   border: none;
+//   cursor: pointer;
+// }
+
+.levels {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 14px;
+  color: #717171;
+}
+
+.levels span {
+  text-align-last: center;
+}
+
+.hr {
+  margin: 1.5rem 0 !important;
+}
+
+.h4 {
+  color: #717171;
+}
+
+p {
+  margin: 0px;
+}
+
+#profile-details {
+  font-family: "Montserrat", sans-serif;
+  height: 200px;
+  align-items: center;
+  background-color: #fc5723;
+  font-size: 25px;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 1px;
+  box-shadow: 0px 0px 8px gray;
+}
+
+.back-btn a {
+  background-color: transparent;
+  border: none;
+  color: #000000;
+}
+
+.profile-container {
+  padding: 5px 23px;
+}
+
+.details {
+  display: flex;
+  gap: 4%;
+  padding-left: 14px;
+}
+
+.header {
+  padding-left: 10px;
+}
+
+.sub-header {
+  font-size: 16px;
+  background-color: #f7f7f7;
+  font-weight: bold;
+  color: #fc5723;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  padding-left: 14px;
+}
+
+.sub-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 18%;
+  font-family: "Open Sans", sans-serif;
+  padding-left: 10px;
+}
+
+.details-header p {
+  color: #474c60;
+  font-weight: bold;
+}
+
+.description {
+  font-size: 14px;
+}
+
+.user-details {
+  box-shadow: 0px 0px 8px gray;
+  border-radius: 4px;
+}
+
+.user-details hr {
+  border-top: 1px dashed;
+}
+
+.mat-mdc-card {
+  width: 25%;
+}
+
+#contact-details p {
+  font-family: "Open Sans", sans-serif;
+}
+
+.contact-form p {
+  font-size: 13px;
+}
+
+#interest p {
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+}
+
+.interest-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-left: 12px;
+}
+
+.interest-item {
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  border: 2px solid #c3c6d1;
+  padding: 10px;
+  margin-right: 10px;
+  border-radius: 4px;
+}
+
+.pieChart {
+  // margin: auto;
+  height: 450px !important;
+  width: 450px !important;
+}
+
+.pie-chart-container {
+  box-shadow: 0px 0px 8px #a5a3a3;
+}
+
+.skill-table {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+#tab-header {
+  font-size: 24px;
+  font-weight: 500;
+  color: #747474;
+}
+
+#tab {
+  width: 100%;
+}
+
+.table {
+  font-size: 14px;
+}
+
+.rating {
+  font-size: 24px;
+  color: #ccc;
+}
+
+.rating span {
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.rating .filled {
+  color: #f39c12;
+}
+
+.rating .disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.loading-node {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+.loading-node p-skeleton {
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+
+.skeleton-node {
+  height: 20px;
+  margin: 5px 0;
+}
+
+.ui-treenode-skeleton {
+  height: 20px;
+  background-color: #eee;
+  border-radius: 4px;
+  margin: 4px 0;
+}
+
+#add-skill-btn {
+  height: 25px;
+  color: white;
+  font-size: smaller;
+  border-radius: 5px;
+  background-color: #fc5722;
+  font-weight: lighter;
+}
+
+// .node-btn {
+//   width: 887px !important;
+//   display: flex;
+//   justify-content: space-between;
+// }
+
+#leaf-separator {
+  margin: 2px;
+}
+
+.skill-details {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.skill-header {
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.skill-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 14px;
+  margin-bottom: 4px;
+  color: #555;
+}
+
+.form-group input {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-group input:focus {
+  border-color: #fc5722;
+  outline: none;
+  box-shadow: 0 0 3px rgba(255, 136, 0, 0.5);
+}
+
+.save-btn {
+  padding: 4px 20px;
+  font-size: 14px;
+  color: #fff;
+  background-color: #fc5722;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+// .edit-btn {
+//   font-size: 14px;
+//   color: #fc5723;
+//   cursor: pointer;
+//   background-color: #fff;
+//   padding: 2px 20px;
+//   border-radius: 8px;
+//   border: 1px solid #fff;
+//   display: flex;
+//   align-items: center;
+//   box-shadow: 0px 0px 3px #fc5723;
+//   margin-right: 10px;
+// }
+
+.save-btn:disabled {
+  background-color: #b0bec5;
+  cursor: not-allowed;
+}
+
+.file-upload-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.file-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.file-input {
+  flex: 1;
+}
+
+.preview-btn {
+  font-size: 14px;
+  color: #fff;
+  cursor: pointer;
+  background-color: #fc5723;
+  padding: 4px 20px;
+  border-radius: 8px;
+  border: 1px solid #fff;
+}
+
+.preview-btn:hover {
+  background-color: #fff;
+  color: #fc5723;
+  border: 1px solid #fc5723;
+}
+
+::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+  // text-transform: uppercase !important;
+  color: #fc5723 !important;
+}
+
+::ng-deep span.p-treenode-label {
+  width: 100%;
+}
+
+::ng-deep .p-treenode-label>span.ng-star-inserted {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.qr-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.node-leaf-label {
+  width: 60% !important;
+}
+
+.node-leaf-btn {
+  width: 40% !important;
+}
+
+::ng-deep .mat-mdc-form-field-has-icon-suffix .mat-mdc-text-field-wrapper {
+  background: transparent !important;
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .pieChart {
+    height: auto !important;
+    width: 350px !important;
+  }
+
+  .skillanalysis-container {
+    height: auto;
+    padding: 0px !important;
+  }
+
+  .mat-mdc-card {
+    width: 100%;
+  }
+
+  .heading-mob {
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    margin-left: 5px !important;
+  }
+
+  #main-container {
+    padding: 0px 20px !important;
+  }
+
+  .example-card {
+    background: #fff;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px,
+      rgba(60, 64, 67, 0.15) 0px 2px 6px !important;
+  }
+
+  .rating {
+    width: 35% !important;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .pieChart {
+    height: auto !important;
+    width: 250px !important;
+  }
+
+  .skillanalysis-container {
+    height: auto;
+    padding: 0px !important;
+  }
+
+  .mat-mdc-card {
+    width: 100%;
+  }
+
+  .heading-mob {
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    margin-left: 5px !important;
+  }
+
+  .qr-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+  }
+
+  .edit-btn {
+    font-size: 12px;
+    padding: 2px 10px;
+    margin-left: 0px;
+  }
+
+  .skill-name {
+    padding: 2px 10px;
+    border-radius: 5px;
+  }
+
+  .skillexperience-name,
+  .range-headings,
+  .range-level {
+    font-size: 12px;
+    padding: 0px;
+  }
+
+  .skill-name {
+    width: 40%;
+    font-size: 12px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .skill-container {
+    padding: 0px !important;
+    margin: 0px !important;
+    border: none !important;
+    border-radius: 0px !important;
+  }
+
+  .tab-pane {
+    padding: 0px !important;
+  }
+
+  .rating {
+    display: flex;
+  }
+
+  .targeted-mob {
+    padding: 0px !important;
+  }
+
+  .name-col {
+    width: 70% !important;
+  }
+
+  .action-col {
+    width: 30% !important;
+  }
+
+  .node-leaf-label {
+    width: 100% !important;
+  }
+
+  .search-bar-mob {
+    width: 40% !important;
+  }
+
+  #add-skill-btn {
+    padding: 0px !important;
+  }
+
+  ::ng-deep canvas {
+    width: 150px !important;
+    height: 150px !important;
+  }
+
+  ::ng-deep .p-tree-container,
+  ::ng-deep .p-treenode-children {
+    padding: 0px !important;
+  }
+
+  ::ng-deep .p-component {
+    padding: 0px !important;
+    border: none !important;
+  }
+
+  ::ng-deep .p-treenode-content {
+    display: flex !important;
+    align-items: baseline !important;
+  }
+
+  .underline-search-bar {
+    display: flex;
+    align-items: end;
+  }
+
+  .example-card {
+    background: #fff;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px,
+      rgba(60, 64, 67, 0.15) 0px 2px 6px !important;
+  }
+
+  .skillname-mob {
+    font-size: 15px !important;
+  }
+
+  #main-container {
+    padding: 0px 10px !important;
+  }
+
+  .skill-header-mob {
+    width: 100% !important;
+    justify-content: space-between !important;
+  }
+
+  ::ng-deep .mat-mdc-text-field-wrapper {
+    padding: 0px !important;
+  }
+
+  ::ng-deep .mat-mdc-form-field-flex {
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px,
+      rgba(60, 64, 67, 0.15) 0px 2px 6px !important;
+    border-radius: 10px !important;
+  }
+
+  ::ng-deep .mat-mdc-notch-piece {
+    border: none !important;
+  }
+
+  ::ng-deep .mat-mdc-form-field-infix {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }
+
+  ::ng-deep .mat-mdc-form-field-has-icon-suffix .mat-mdc-text-field-wrapper {
+    background: transparent !important;
+  }
+}
+
+.action-btns {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.wallet-btn {
+  background: none;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.wallet-btn img {
+  width: 100px;
+  height: 25px;
+}

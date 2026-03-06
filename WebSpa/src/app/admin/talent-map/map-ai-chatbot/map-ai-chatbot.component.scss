@@ -1,0 +1,15 @@
+:host {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  --bg-app: #f8fafc;
+  --bg-panel: #ffffff;
+  --border-color: #e2e8f0;
+  --accent-blue: #fc5723;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --risk-high: #ef4444;
+  --risk-med: #f59e0b;
+  --risk-low: #10b981;
+}

@@ -1,0 +1,185 @@
+<aside class="flex flex-col h-full overflow-y-auto shrink-0 z-10 custom-scrollbar transition-colors duration-300">
+    <div
+        class="p-4 border-b border-[var(--border-color)] flex items-center justify-between sticky top-0 bg-[var(--bg-panel)] z-10">
+        <h2 class="font-semibold text-[var(--text-main)] uppercase tracking-wider text-sm">Controls & Metrics</h2>
+        <div class="text-xs text-[#fc5723] cursor-pointer hover:underline" (click)="resetAll()">
+            Reset All
+        </div>
+    </div>
+
+    <div class="p-4 space-y-6">
+
+        <!-- Metrics Section -->
+        <div class="filter-section">
+            <div class="flex items-center justify-between mb-2 cursor-pointer group" (click)="toggleSection('metrics')">
+                <span class="filter-label !mb-0 text-[var(--text-main)]">Key Metrics</span>
+                <div class="icon-chevron-up text-xs text-[var(--text-muted)] transition-transform"
+                    [class.rotate-180]="!openSections().metrics"></div>
+            </div>
+
+            <div *ngIf="openSections().metrics" class="space-y-3 animate-in slide-in-from-top-2">
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="bg-slate-50 border border-slate-200 rounded p-2 text-center">
+                        <div class="text-[10px] text-[var(--text-muted)] uppercase">Risk Index</div>
+                        <div class="text-lg font-bold"
+                            [ngClass]="{'text-red-500': +riskIndex() > 0.5, 'text-green-500': +riskIndex() <= 0.5}">
+                            {{ riskIndex() }}
+                        </div>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 rounded p-2 text-center">
+                        <div class="text-[10px] text-[var(--text-muted)] uppercase">Mentors</div>
+                        <div class="text-lg font-bold text-[var(--text-main)]">
+                            {{ mentorCoverage() }}%
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Scarce Skills Widget -->
+                <div class="bg-slate-50 border border-slate-200 rounded p-3">
+                    <h3 class="text-[10px] font-bold text-[var(--text-muted)] uppercase mb-2">Scarcity Alert</h3>
+                    <div class="space-y-2">
+                        <div>
+                            <div class="flex justify-between text-[10px] mb-0.5">
+                                <span>GenAI</span>
+                                <span class="text-red-500">82%</span>
+                            </div>
+                            <div class="h-1 bg-slate-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-red-500 w-[82%]"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-[10px] mb-0.5">
+                                <span>Prompt Eng.</span>
+                                <span class="text-orange-500">65%</span>
+                            </div>
+                            <div class="h-1 bg-slate-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-orange-500 w-[65%]"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Geography Section -->
+        <div class="filter-section pt-4 border-t border-[var(--border-color)]">
+            <div class="flex items-center justify-between mb-2 cursor-pointer group"
+                (click)="toggleSection('geography')">
+                <span
+                    class="filter-label !mb-0 text-[#fc5723] group-hover:text-[#e0481d] transition-colors">Geography</span>
+                <div class="icon-chevron-up text-xs text-[var(--text-muted)] transition-transform"
+                    [class.rotate-180]="!openSections().geography"></div>
+            </div>
+
+            <div *ngIf="openSections().geography" class="space-y-3">
+                <div>
+                    <label class="text-xs text-[var(--text-muted)] block mb-1">Country</label>
+                    <select class="custom-select" [ngModel]="filters().country"
+                        (ngModelChange)="updateFilter('country', $event)">
+                        <option value="All Countries">All Countries</option>
+                        <option *ngFor="let country of availableCountries()" [value]="country">{{country}}</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="text-xs text-[var(--text-muted)] block mb-1">State</label>
+                    <select class="custom-select" [ngModel]="filters().state"
+                        (ngModelChange)="updateFilter('state', $event)">
+                        <option value="All States">All States</option>
+                        <option *ngFor="let state of availableStates()" [value]="state">{{state}}</option>
+                    </select>
+                </div>
+
+                <div *ngIf="filters().state !== 'All States'" class="animate-in slide-in-from-top-2 duration-200">
+                    <label class="text-xs text-[var(--text-muted)] block mb-1">District</label>
+                    <select class="custom-select" [ngModel]="filters().district"
+                        (ngModelChange)="updateFilter('district', $event)">
+                        <option [ngValue]="null">All Districts</option>
+                        <option *ngFor="let district of availableDistricts()" [value]="district">{{district}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Skills Section -->
+        <div class="filter-section pt-4 border-t border-[var(--border-color)]">
+            <div class="flex items-center justify-between mb-2 cursor-pointer" (click)="toggleSection('skills')">
+                <span class="filter-label !mb-0 text-[var(--text-main)]">Skills</span>
+                <div class="icon-chevron-up text-xs text-[var(--text-muted)] transition-transform"
+                    [class.rotate-180]="!openSections().skills"></div>
+            </div>
+
+            <div *ngIf="openSections().skills" class="space-y-3">
+                <div>
+                    <label class="text-xs text-[var(--text-muted)] block mb-1">Job Title</label>
+                    <select class="custom-select" [ngModel]="filters().jobTitle"
+                        (ngModelChange)="updateFilter('jobTitle', $event)">
+                        <option value="Select Job Title">All Job Titles</option>
+                        <option *ngFor="let title of availableJobTitles()" [value]="title">{{title}}</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="text-xs text-[var(--text-muted)] block mb-1">Skill Name</label>
+                    <select class="custom-select" [ngModel]="filters().skill"
+                        (ngModelChange)="updateFilter('skill', $event)">
+                        <option [ngValue]="null">All Skills</option>
+                        <option *ngFor="let skill of availableSkills()" [value]="skill">{{skill}}</option>
+                    </select>
+                </div>
+
+                <div class="pt-2">
+                    <label class="flex items-center gap-2 cursor-pointer group">
+                        <div class="w-4 h-4 rounded border flex items-center justify-center transition-colors"
+                            [ngClass]="filters().mentor ? 'bg-[#fc5723] border-[#fc5723]' : 'border-slate-300 bg-white'"
+                            (click)="updateFilter('mentor', !filters().mentor)">
+                            <div *ngIf="filters().mentor" class="icon-check text-white text-[10px]"></div>
+                        </div>
+                        <span class="text-sm text-[var(--text-main)] group-hover:text-[#fc5723] transition-colors">Only
+                            Show Mentors</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Risk Signals -->
+        <div class="filter-section pt-4 border-t border-[var(--border-color)]">
+            <div class="flex items-center justify-between mb-2 cursor-pointer" (click)="toggleSection('risk')">
+                <span class="filter-label !mb-0 text-[var(--text-main)]">Risk Signals</span>
+                <div class="icon-chevron-up text-xs text-[var(--text-muted)] transition-transform"
+                    [class.rotate-180]="!openSections().risk"></div>
+            </div>
+
+            <div *ngIf="openSections().risk" class="space-y-4 mt-4">
+                <div>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span class="text-[var(--text-muted)]">ATTRITION RISK</span>
+                    </div>
+                    <div class="flex gap-1 h-6 mt-2">
+                        <div class="flex-1 bg-green-500 rounded-l cursor-pointer hover:opacity-90 flex items-center justify-center transition-all"
+                            [ngClass]="{'ring-2 ring-offset-1 ring-green-500': filters().risk === 'Low', 'opacity-30': filters().risk && filters().risk !== 'Low'}"
+                            (click)="updateFilter('risk', filters().risk === 'Low' ? null : 'Low')">
+                            <span class="text-[10px] text-white font-bold">Low</span>
+                        </div>
+                        <div class="flex-1 bg-orange-500 cursor-pointer hover:opacity-90 flex items-center justify-center transition-all"
+                            [ngClass]="{'ring-2 ring-offset-1 ring-orange-500': filters().risk === 'Medium', 'opacity-30': filters().risk && filters().risk !== 'Medium'}"
+                            (click)="updateFilter('risk', filters().risk === 'Medium' ? null : 'Medium')">
+                            <span class="text-[10px] text-white font-bold">Med</span>
+                        </div>
+                        <div class="flex-1 bg-red-500 rounded-r cursor-pointer hover:opacity-90 flex items-center justify-center transition-all"
+                            [ngClass]="{'ring-2 ring-offset-1 ring-red-500': filters().risk === 'High', 'opacity-30': filters().risk && filters().risk !== 'High'}"
+                            (click)="updateFilter('risk', filters().risk === 'High' ? null : 'High')">
+                            <span class="text-[10px] text-white font-bold">High</span>
+                        </div>
+                    </div>
+                    <div *ngIf="filters().risk"
+                        class="text-[10px] text-[#fc5723] mt-1 cursor-pointer hover:underline text-right"
+                        (click)="updateFilter('risk', null)">
+                        Clear Filter
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</aside>

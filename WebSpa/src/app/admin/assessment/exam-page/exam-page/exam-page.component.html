@@ -1,0 +1,161 @@
+<div class="assessment-container" *ngIf="!loading">
+    <div class="background-image">
+        <img src="https://chasmadevstore.blob.core.windows.net/public/novo_exambgimage.png" alt="Background" />
+    </div>
+    <!-- Header -->
+    <div class="form-container h-75" *ngIf="!Examfinished && !preview">
+        <h2 class="form-title">Answer the following questions</h2>
+
+        <!-- Question Card -->
+        <div class="question-card">
+            <form class="h-100">
+                <div class="main-div overflow-y-auto h-100" *ngFor="let skillGroup of QuestionsList">
+                    <div *ngFor="let skills of skillGroup.skills">
+                        <div class="skillsdetails">
+                            <span style="font-size: 15px;">Skill: {{ skills.skillName }}</span>
+                            <span style="font-size: 15px;margin-left: 15px;">Level: {{ skills.skillLevelName }}</span>
+                        </div>
+
+                        <!-- Loop through questions -->
+                        <!-- <div *ngIf="skills.examQuestions; else noQuestions"> -->
+                        <div *ngFor="let sq of skills.examQuestions; let i = index">
+                            <div class="d-flex">
+                                <span style="font-size: medium;">{{ i + 1 }}.</span>
+                                <span class="question-span" [innerHTML]="sq.question">{{ sq.question }} </span>
+                            </div>
+
+                            <!-- Options -->
+                            <div class="options" *ngIf="sq.questionType!=='Multiselect Type'">
+                                <div style="padding: 5px;"
+                                    *ngFor="let option of [sq.option1, sq.option2, sq.option3, sq.option4]; let i = index">
+                                    <input type="radio" *ngIf="option" [id]="'option' + i + sq.questionId"
+                                        [name]="sq.questionId" [value]="option" [(ngModel)]="answers[sq.questionId]"
+                                        (change)="validateAnswers()" />
+                                    <label [for]="'option' + i + sq.questionId" [innerHtml]="option">{{ option
+                                        }}</label>
+                                </div>
+                            </div>
+
+                            <div class="options" *ngIf="sq.questionType==='Multiselect Type'">
+                                <div style="padding: 5px;"
+                                    *ngFor="let option of [sq.option1, sq.option2, sq.option3, sq.option4]; let i = index">
+                                    <input type="checkbox" *ngIf="option" [id]="'option' + i + sq.questionId"
+                                        [name]="sq.questionId" [value]="option"
+                                        [checked]="answers[sq.questionId].includes(option)"
+                                        (change)="onCheckboxChange($event, sq.questionId, option)" />
+                                    <label [for]="'option' + i + sq.questionId" [innerHtml]="option">{{ option
+                                        }}</label>
+                                </div>
+                            </div>
+                            <hr />
+                        </div>
+                        <div class="options" style="color: red;" *ngIf="skills.examQuestions?.length === 0">
+                            No Assessment is available for the above Skill
+                        </div>
+                        <!-- </div> -->
+                        <hr class="skill-hr" *ngIf="skills.examQuestions?.length === 0">
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+            </form>
+        </div>
+        <div class="button-group">
+            <button type="button" class="cancel-button" (click)="onCancel()">Cancel</button>
+            <button type="button" class="submit-button" [disabled]="isSubmitDisabled"
+                (click)="confirmsubmitexam()">Submit</button>
+        </div>
+    </div>
+    <div class="result-container" *ngIf="Examfinished && !preview">
+        <div class="question-card">
+            <form>
+                <div>
+                    Your Assessment Completed Successfully.
+                    <div>
+                        Result: You are secured <span style="color:green;font-weight: bold;">{{obtainedMarks}}</span>
+                        score out of
+                        <span style="color:red;font-weight: bold;">{{totalMarks}}</span> score
+                    </div>
+                </div>
+                <div class="homebtn">
+                    <button class="btn-gohome" (click)="gohome()">Home</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <div class="form-container h-75" *ngIf="!Examfinished && preview">
+        <!-- Question Card -->
+        <div class="question-card " id="preview">
+            <form class="h-100">
+                <div class="main-div overflow-y-auto h-100"
+                    *ngIf="attemptQuestion.skills && attemptQuestion.skills.length > 0; else emptyData">
+                    <div *ngFor="let skill of attemptQuestion.skills, let s=index" class="skill-div-mob">
+                        <!-- <div class="sub-div" *ngFor="let skill of skills"> -->
+                        <!-- Display Skill Details -->
+                        <div class="skillsdetails">
+                            <span class="skill-span" style="font-size: 15px;">Skill: {{ skill.skillName }}</span>
+                            <span class="skill-span" style="font-size: 15px; margin-left: 15px;">Level: {{
+                                skill.skillLevelName }}</span>
+                        </div>
+
+                        <!-- Loop through questions -->
+                        <div *ngFor="let sq of skill.examQuestions; let i = index">
+                            <div class="d-flex">
+                                <Span> {{getGlobalIndex(s, i) + 1}}. </Span>
+                                <span class="question-span" [innerHtml]="sq.question">{{ sq.question }}</span>
+                            </div>
+
+                            <!-- Options -->
+                            <div class="options">
+                                <div style="padding: 5px;"
+                                    *ngFor="let option of [sq.option1, sq.option2, sq.option3, sq.option4]; let optIndex = index">
+                                    <input type="radio" *ngIf="option && sq.questionType!=='Multiselect Type'"
+                                        [id]="'option' + optIndex + sq.questionId" [name]="sq.questionId"
+                                        [value]="option" [checked]="stripHtml(option).trim() === sq.userAnswer"
+                                        disabled />
+
+                                    <input type="checkbox" *ngIf="option && sq.questionType==='Multiselect Type'"
+                                        [id]="'option' + optIndex + sq.questionId" [name]="sq.questionId"
+                                        [value]="option" [checked]="sq.userAnswer.includes(stripHtml(option).trim())"
+                                        disabled />
+                                    <label [for]="'option' + optIndex + sq.questionId" [innerHtml]="option">{{ option
+                                        }}</label>
+                                </div>
+                            </div>
+
+                            <!-- Display User and Actual Answers -->
+                            <div class="answers">
+                                <!-- <span>User Answer: {{ sq.userAnswer || 'Not Attempted' }}</span> -->
+                                <!-- <span style="margin-left: 20px;">Correct Answer: {{ sq.correctAnswer }}</span> -->
+                            </div>
+                            <hr />
+                        </div>
+                        <!-- </div> -->
+                    </div>
+                </div>
+                <ng-template #emptyData>
+                    <div class="empty-data-container text-center text-danger">
+                        No data available.
+                    </div>
+                </ng-template>
+            </form>
+        </div>
+        <div class="homebtn">
+            <button class="btn-gohome" (click)="gohome()">Home</button>
+        </div>
+    </div>
+
+    <!-- <div *ngIf="resize && !loading">
+        <div>
+            <mat-icon class="marginRight10">work_off</mat-icon>
+            <span>Your are not allowed to take Assessment in this device.</span>
+        </div>
+    
+    </div> -->
+
+</div>
+
+<div class="loader" *ngIf="loading && !Examfinished && !preview">
+
+</div>

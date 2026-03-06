@@ -1,0 +1,37 @@
+<mat-tab-group [(selectedIndex)]="activatedTab" (selectedTabChange)="onTabChange($event)" class="p-4 main-container"
+    color="warn">
+    <mat-tab label="overview" class="tab">
+        <div class="py-4 org-view-mob" *ngIf="activatedTab === 0">
+            <app-organization-view></app-organization-view>
+        </div>
+    </mat-tab>
+    <mat-tab label="users" class="tab">
+        <div class="py-4 org-view-mob" *ngIf="activatedTab === 1">
+            <app-users></app-users>
+        </div>
+    </mat-tab>
+    <!-- <mat-tab label="data" class="tab">
+        <mat-tab-group [(selectedIndex)]="activatedSubTab" *ngIf="activatedTab === 2" (selectedTabChange)="onsubTabChange($event)" class="p-4" color="warn">
+            <mat-tab label="interests" class="tab">
+                <div class="py-4" *ngIf="subtabName === 'interests'">
+                    <app-organization-interests></app-organization-interests>
+                </div>
+            </mat-tab>
+            <mat-tab label="skills" class="tab">
+                <div class="py-4" *ngIf="subtabName === 'skills'">
+                    <app-organization-skills></app-organization-skills>
+                </div>
+            </mat-tab>
+            <mat-tab label="job-titles" class="tab">
+                <div class="py-4" *ngIf="subtabName === 'job-titles'">
+                    <app-organization-job-titles></app-organization-job-titles>
+                </div>
+            </mat-tab>
+            <mat-tab label="teams" class="tab">
+                <div class="py-4" *ngIf="subtabName === 'teams'">
+                    <app-organization-teams></app-organization-teams>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-tab> -->
+</mat-tab-group>

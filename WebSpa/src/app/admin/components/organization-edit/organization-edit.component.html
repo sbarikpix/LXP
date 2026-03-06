@@ -1,0 +1,174 @@
+<div class="edit-user-mob" *ngIf="!isLoading">
+    <div class="d-flex gap-5 align-items-center p-2 mb-1 avatar-container-mob">
+        <div class="d-flex flex-column justify-content-center">
+            <div class="avatar-container" (mouseenter)="hoverAvatar = true" (mouseleave)="hoverAvatar = false">
+                <ngx-avatars *ngIf="!selectedImage && isNameValid()" [name]="getFullName()" size="100"
+                    bgColor="#FC5723"></ngx-avatars>
+                <ngx-avatars *ngIf="selectedImage" [src]="selectedImage" size="100"></ngx-avatars>
+                <div class="avatar-icons d-flex" *ngIf="checkAvatarPresence() && isNameValid()">
+                    <i class="fa-solid fa-pen-to-square" (click)="openUploadImageDialog()" matTooltip="upload"></i>
+                </div>
+            </div>
+
+            <button *ngIf="selectedImage !== '' && selectedImage !== null && selectedImage !== undefined"
+                (click)="removeUploadedImage()" class="remove-btn d-flex justify-content-center align-items-center">
+                <i class="fa-solid fa-trash-can"></i>remove
+            </button>
+        </div>
+    </div>
+
+    <div class="requiredfield mb-4">
+        <label class="mandatory"> <sup style="color: red;">*</sup>Required Field</label>
+    </div>
+
+    <form [formGroup]="organizationForm" (ngSubmit)="addOrganization()">
+
+        <div id="contact-field" class="mb-3" *ngIf="loggedInUser.roleName=='GlobalAdmin'"></div>
+        <div class="form-group d-flex justify-content-between align-items-center form-control-mob">
+            <div class="form-control">
+
+                <p class="sub-formcontrol">Select Organization Type <span style="color: #f95029;">*</span></p>
+
+                <button class="btn dropdown-button" type="button" *ngIf="!isEditMode">
+                    <mat-select class="drop-down-txt" placeholder="--selectorgtype--" #singleSelect
+                        [(value)]="selectedOrganizationType" (selectionChange)="selectOrganizationType($event.value)"
+                        formControlName="orgTypeId">
+                        <mat-option>
+                            <ngx-mat-select-search [formControl]="orgtypefilterctrl" placeholderLabel="Search"
+                                noEntriesFoundLabel="No Org Type found"></ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let orgtype of filteredorgtypes | async" [value]="orgtype">
+                            {{ orgtype.organizationTypeName}}
+                        </mat-option>
+                    </mat-select>
+
+                </button>
+                <input type="text" [value]="OrganizationTypeName" [readOnly]="isEditMode" *ngIf="isEditMode"
+                    [ngStyle]="{'background-color': isEditMode ?'#EEEEEE':''}">
+
+            </div>
+
+            <div class="form-control">
+            </div>
+            <div class="form-control">
+            </div>
+            <div class="form-control">
+            </div>
+        </div>
+
+        <div id="upper-form" class="">
+            <div class="form-group mb-2 d-flex justify-content-between align-items-center form-control-mob">
+                <div
+                    [ngClass]="{'form-control': true, 'error': organizationForm.get('name')!.touched && !organizationForm.get('name')!.valid}">
+                    <p class="sub-formcontrol">Name <span style="color: #f95029;">*</span></p>
+                    <input type="text" formControlName="name" [readOnly]="isEditMode"
+                        [ngStyle]="{'background-color': isEditMode ?'#EEEEEE':''}">
+                    <mat-error
+                        *ngIf="organizationForm.get('name')!.hasError('required') && organizationForm.get('name')!.touched">
+                        Name is required
+                    </mat-error>
+                    <mat-error
+                        *ngIf="organizationForm.get('name')!.hasError('patternInvalid') && organizationForm.get('name')!.touched">
+                        Name can only contain alphabets
+                    </mat-error>
+                </div>
+                <div class="form-control"
+                    [ngClass]="organizationForm.get('tenantUrl')!.invalid && organizationForm.get('tenantUrl')!.touched ? 'error' : ''">
+                    <p class="sub-formcontrol">URL <span style="color: #f95029;">*</span></p>
+                    <input type="text" formControlName="tenantUrl" [readOnly]="isEditMode"
+                        [ngStyle]="{'background-color': isEditMode ?'#EEEEEE':''}">
+                    <mat-error
+                        *ngIf="organizationForm.get('tenantUrl')!.invalid && organizationForm.get('tenantUrl')!.touched && !organizationForm.get('tenantUrl')!.hasError('pattern')">
+                        Tenant URL is required
+                    </mat-error>
+                    <mat-error
+                        *ngIf="organizationForm.get('tenantUrl')!.invalid && organizationForm.get('tenantUrl')!.hasError('pattern')">
+                        Please Provide One valid URL
+                    </mat-error>
+                </div>
+                <div class="form-control"
+                    [ngClass]="organizationForm.get('email')!.invalid && organizationForm.get('email')!.touched ? 'error' : ''">
+                    <p class="sub-formcontrol">Email <span style="color: #f95029;">*</span></p>
+                    <input type="text" formControlName="email" [readOnly]="isEditMode"
+                        [ngStyle]="{'background-color': isEditMode ?'#EEEEEE':''}">
+                    <mat-error
+                        *ngIf="organizationForm.get('email')!.invalid && organizationForm.get('email')!.touched && !organizationForm.get('email')!.hasError('patternInvalid')">
+                        Email is required
+                    </mat-error>
+                    <mat-error
+                        *ngIf="organizationForm.get('email')!.invalid && organizationForm.get('email')!.hasError('patternInvalid')">
+                        Please provide valid Email
+                    </mat-error>
+                </div>
+            </div>
+            <div class="form-group mb-2 d-flex justify-content-between align-items-center form-control-mob">
+                <div class="form-control"
+                    [ngClass]="organizationForm.get('phoneNumber')!.invalid && organizationForm.get('phoneNumber')!.touched ? 'error' : ''">
+                    <p class="sub-formcontrol">Phone Number</p>
+                    <input type="text" formControlName="phoneNumber">
+                    <mat-error
+                        *ngIf="organizationForm.get('phoneNumber')!.invalid && organizationForm.get('phoneNumber')!.hasError('pattern')">
+                        Provide valid Number
+                    </mat-error>
+                </div>
+                <div class="form-control"
+                    [ngClass]="organizationForm.get('fax')!.invalid && organizationForm.get('fax')!.touched ? 'error' : ''">
+                    <p class="sub-formcontrol">Fax</p>
+                    <input type="text" formControlName="fax">
+                </div>
+                <div class="form-control"
+                    [ngClass]="organizationForm.get('address1')!.invalid && organizationForm.get('address1')!.touched ? 'error' : ''">
+                    <p class="sub-formcontrol">Address 1</p>
+                    <input type="text" formControlName="address1">
+                </div>
+            </div>
+            <div class="form-group mb-2 d-flex justify-content-between align-items-center form-control-mob">
+                <div class="form-control"
+                    [ngClass]="organizationForm.get('address2')!.invalid && organizationForm.get('address2')!.touched ? 'error' : ''">
+                    <p class="sub-formcontrol">Address 2</p>
+                    <input type="text" formControlName="address2">
+                </div>
+                <div class="form-control"
+                    [ngClass]="organizationForm.get('postalCode')!.invalid && organizationForm.get('postalCode')!.touched ? 'error' : ''">
+                    <p class="sub-formcontrol">Zip/Postal Code</p>
+                    <input type="text" formControlName="postalCode">
+                </div>
+                <div class="form-control"
+                    [ngClass]="organizationForm.get('city')!.invalid && organizationForm.get('city')!.touched ? 'error' : ''">
+                    <p class="sub-formcontrol">City</p>
+                    <input type="text" formControlName="city">
+                </div>
+            </div>
+            <div class="form-group mb-2 d-flex justify-content-between align-items-center form-control-mob">
+                <div class="form-control"
+                    [ngClass]="organizationForm.get('district')!.invalid && organizationForm.get('district')!.touched ? 'error' : ''">
+                    <p class="sub-formcontrol">District</p>
+                    <input type="text" formControlName="district">
+                </div>
+            </div>
+            <div class="form-group mb-2 d-flex justify-content-between align-items-center form-control-mob">
+                <div class="form-control"
+                    [ngClass]="organizationForm.get('state')!.invalid && organizationForm.get('state')!.touched ? 'error' : ''">
+                    <p class="sub-formcontrol">State</p>
+                    <input type="text" formControlName="state">
+                </div>
+                <div class="form-control"
+                    [ngClass]="organizationForm.get('country')!.invalid && organizationForm.get('country')!.touched ? 'error' : ''">
+                    <p class="sub-formcontrol">Country</p>
+                    <input type="text" formControlName="country">
+                </div>
+                <div class="form-control">
+
+                </div>
+            </div>
+        </div>
+        <div id="save-form" class="d-flex justify-content-end gap-2">
+            <button class="back-btn" (click)="back()">Cancel</button>
+            <button class="btn-connect" type="submit" [disabled]="!this.organizationForm.valid">Save</button>
+        </div>
+    </form>
+</div>
+
+<div *ngIf="isLoading" class="loader">
+
+</div>

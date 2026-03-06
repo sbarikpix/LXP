@@ -1,0 +1,384 @@
+<div class="container-fluid pt-2 whiteBackground" *ngIf="!loading">
+  <div class="d-flex back-btn" *ngIf="!isMobile">
+    <a (click)="back()" class="btn btn-light"><i class="fa-solid fa-arrow-left"></i> Back</a>
+  </div>
+  <div class="header-div">
+    <span class="heading">
+      <!-- <h3> Assessment</h3> -->
+      <h3 class="headings-mob">Assessment Metrics</h3>
+    </span>
+    <span>
+      <button *ngIf="!isEmulate && !isPre_assesment" (click)="startassessment()" class="btn-div">
+        Post-Assessment
+      </button>
+      <button *ngIf="!isEmulate && isPre_assesment" (click)="startassessment()" class="btn-div">
+        Pre-Assessment
+      </button>
+    </span>
+  </div>
+
+  <div class="main-div d-flex">
+    <div class="bar-div col-md-7 col-sm-7">
+      <div class="sub-bardiv mt-3">
+        <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="'bar'"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-tabDiv">
+    <div class="tabDiv">
+      <div class="sub-tabDiv">
+        <mat-tab-group (selectedTabChange)="tabChange($event)" color="warn">
+          <mat-tab label="Self-Assessment">
+            <div class="marginLeft15 marginRight15" *ngIf="!isMobile">
+              <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12 displayContents">
+                  <div class="col-md-3 col-sm-12 col-xs-12"></div>
+                  <div class="col-md-5 col-sm-12 col-xs-12 pullRight"></div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <p-table [value]="UserAssessmentMetrices" [paginator]="true" [rows]="5" sortField="examScheduleDate"
+                    [sortOrder]="-1">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <!-- <th style="width: 3rem;">
+                                                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                                    </th> -->
+                        <th>Assessment</th>
+                        <th>Assessment Take Date</th>
+                        <th>Score</th>
+                        <th>Result</th>
+                        <th>Action</th>
+                      </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-user>
+                      <tr [pSelectableRow]="user" *ngIf="UserAssessmentMetrices.length > 0">
+                        <!-- <td>
+                                                        <p-tableCheckbox [value]="user"></p-tableCheckbox>
+                                                    </td> -->
+                        <td>{{ user.assessmentName }}</td>
+                        <td>
+                          {{
+                          user.examScheduleDate | date : "yyyy-MM-dd HH:mm"
+                          }}
+                        </td>
+                        <td>{{ user.optainedMarks }}</td>
+                        <td>{{ user.result }}</td>
+                        <td>
+                          <button class="btn-div" (click)="preview(user.userAttemptId)">
+                            Preview
+                          </button>
+                          <button class="btn-div" (click)="exportToPDF(user.userAttemptId)">
+                            Export
+                          </button>
+                        </td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage" *ngIf="UserAssessmentMetrices.length === 0">
+                      <tr>
+                        <td colspan="5" class="text-center">
+                          No Records Found
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="isMobile">
+              <div *ngFor="let user of UserAssessmentMetrices">
+                <mat-card class="example-card mt-3" appearance="outlined">
+                  <mat-card-header class="d-flex justify-content-between align-items-center mb-3">
+                    <mat-card-title-group class="justify-content-between">
+                      <mat-card-title>{{user.assessmentName}}</mat-card-title>
+                      <span [matMenuTriggerFor]="menu" style="cursor: pointer;padding: 0px 10px;">
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                      </span>
+                    </mat-card-title-group>
+                    <mat-menu #menu="matMenu">
+                      <button mat-menu-item (click)="preview(user.userAttemptId)">Preview</button>
+                      <button mat-menu-item (click)="exportToPDF(user.userAttemptId)">Export</button>
+                    </mat-menu>
+                  </mat-card-header>
+                  <mat-card-content class="d-flex justify-content-between flex-column">
+                    <div>
+                      <div>Assessment Take Date :
+                        {{user.examScheduleDate | date : "yyyy-MM-dd HH:mm"}}</div>
+                      <div>Score : {{ user.optainedMarks }}</div>
+                      <div>Result : {{ user.result }}</div>
+                    </div>
+
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <div *ngIf="UserAssessmentMetrices.length == 0" class="d-flex justify-content-center align-items-center">
+                <p>No data available</p>
+              </div>
+            </div>
+          </mat-tab>
+
+          <mat-tab [label]="
+              loggedInUser.roleName === 'Learner'
+                ? 'Assigned-Assessments'
+                : 'Assign-Assessment'
+            ">
+            <div class="marginLeft15 marginRight15" *ngIf="loggedInUser.roleName !== 'Learner' && !isMobile">
+              <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12 displayContents">
+                  <div class="col-md-3 col-sm-12 col-xs-12"></div>
+                  <div class="col-md-5 col-sm-12 col-xs-12 pullRight"></div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <p-table [value]="ScheduledUsersList" [paginator]="true" [rows]="10">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <!-- <th style="width: 3rem;">
+        
+                                                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                                    </th> -->
+                        <th>User Name</th>
+                        <th>Full Name</th>
+                        <th>Status</th>
+                        <th>Score</th>
+                        <th>Action</th>
+                      </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-user>
+                      <tr [pSelectableRow]="user" *ngIf="ScheduledUsersList.length > 0">
+                        <!-- <td>
+        
+                                                        <p-tableCheckbox [value]="user"></p-tableCheckbox>
+                                                    </td> -->
+                        <td>{{ user.userName }}</td>
+                        <td>{{ user.fullName }}</td>
+                        <td>{{ user.status }}</td>
+                        <td>{{ user.score }}</td>
+                        <td>
+                          <button class="btn-div" (click)="onassign(user)">
+                            Assign
+                          </button>
+                        </td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                      <tr *ngIf="ScheduledUsersList.length === 0">
+                        <td colspan="5" class="text-center">
+                          No Records Found
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+            </div>
+            <div class="marginLeft15 marginRight15" *ngIf="loggedInUser.roleName === 'Learner' && !isMobile">
+              <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12 displayContents">
+                  <div class="col-md-3 col-sm-12 col-xs-12"></div>
+                  <div class="col-md-5 col-sm-12 col-xs-12 pullRight"></div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <p-table [value]="UserAssessmentMetrices" [paginator]="true" [rows]="5" sortField="examScheduleDate"
+                    [sortOrder]="-1">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <!-- <th style="width: 3rem;">
+                                                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                                                </th> -->
+                        <th>Assessment</th>
+                        <th>Assessment Take Date</th>
+                        <th>Score</th>
+                        <th>Result</th>
+                        <th>Action</th>
+                      </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-user>
+                      <tr [pSelectableRow]="user" *ngIf="UserAssessmentMetrices.length > 0">
+                        <!-- <td>
+                                                                    <p-tableCheckbox [value]="user"></p-tableCheckbox>
+                                                                </td> -->
+                        <td>{{ user.assessmentName }}</td>
+                        <td>
+                          {{
+                          user.examScheduleDate | date : "yyyy-MM-dd HH:mm"
+                          }}
+                        </td>
+                        <td>{{ user.optainedMarks }}</td>
+                        <td>{{ user.result }}</td>
+                        <td>
+                          <button class="btn-div" (click)="preview(user.userAttemptId)">
+                            Preview
+                          </button>
+                          <button class="btn-div" (click)="exportToPDF(user.userAttemptId)">
+                            Export
+                          </button>
+                        </td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage" *ngIf="UserAssessmentMetrices.length === 0">
+                      <tr>
+                        <td colspan="5" class="text-center">
+                          No Records Found
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="loggedInUser.roleName !== 'Learner' && isMobile">
+              <div *ngFor="let user of ScheduledUsersList">
+                <mat-card class="example-card mt-3" appearance="outlined">
+                  <mat-card-header class="d-flex justify-content-between align-items-center mb-3">
+                    <mat-card-title-group class="justify-content-between">
+                      <mat-card-title>{{user.userName}}</mat-card-title>
+                      <span [matMenuTriggerFor]="menu" style="cursor: pointer;padding: 0px 10px;">
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                      </span>
+                    </mat-card-title-group>
+                    <mat-menu #menu="matMenu">
+                      <button mat-menu-item (click)="onassign(user)">Assign</button>
+                    </mat-menu>
+                  </mat-card-header>
+                  <mat-card-content class="d-flex justify-content-between flex-column">
+                    <div>
+                      <div>Full Name : {{ user.fullName }}</div>
+                      <div>Status : {{ user.status }}</div>
+                      <div>Score : {{ user.score }}</div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <div *ngIf="ScheduledUsersList.length == 0" class="d-flex justify-content-center align-items-center mt-2">
+                <p>No data available</p>
+              </div>
+            </div>
+            <div *ngIf="loggedInUser.roleName === 'Learner' && isMobile">
+              <div *ngFor="let user of UserAssessmentMetrices">
+                <mat-card class="example-card mt-3" appearance="outlined">
+                  <mat-card-header class="d-flex justify-content-between align-items-center mb-3">
+                    <mat-card-title-group class="justify-content-between">
+                      <mat-card-title>{{user.assessmentName}}</mat-card-title>
+                      <span [matMenuTriggerFor]="menu" style="cursor: pointer;padding: 0px 10px;">
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                      </span>
+                    </mat-card-title-group>
+                    <mat-menu #menu="matMenu">
+                      <button mat-menu-item (click)="preview(user.userAttemptId)">Preview</button>
+                      <button mat-menu-item (click)="exportToPDF(user.userAttemptId)">Export</button>
+                    </mat-menu>
+                  </mat-card-header>
+                  <mat-card-content class="d-flex justify-content-between flex-column">
+                    <div>
+                      <div>Assessment Take Date :
+                        {{user.examScheduleDate | date : "yyyy-MM-dd HH:mm"}}</div>
+                      <div>Score : {{ user.optainedMarks }}</div>
+                      <div>Result : {{ user.result }}</div>
+                    </div>
+
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <div *ngIf="UserAssessmentMetrices.length == 0"
+                class="d-flex justify-content-center align-items-center mt-2">
+                <p>No data available</p>
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Implemented the Export the Assesment Quetion PDf -->
+<div #previews id="previews"
+  [ngStyle]="{ 'position': 'absolute', 'top': '-9999px', 'left': '-9999px','width':'1000px' }">
+  <div class="question-card" *ngIf="isPreviewVisible">
+    <form class="h-100">
+      <div class="header" style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 25px;
+          margin-bottom: 25px;
+        ">
+        <div style="flex: 1; text-align: left">
+          <strong>Date:</strong>
+          {{ selectedAssessmentDate | date : "yyyy-MM-dd" }}
+        </div>
+        <div style="flex: 2; text-align: center">
+          <strong>Assessment Name:</strong> {{ selectedAssessmentName }}
+        </div>
+        <div style="flex: 1; text-align: right">
+          <strong>Score:</strong> {{ selectedAssessmentscore }}
+        </div>
+      </div>
+
+      <div class="main-div overflow-y-auto h-100" *ngIf="
+          attemptQuestion?.skills && attemptQuestion.skills.length > 0;
+          else emptyData
+        ">
+        <div *ngFor="let skill of attemptQuestion.skills,let s=index">
+          <div class="skill-section" style="margin-bottom: 20px;">
+            <div class="skillsdetails" style="font-size: 25px; font-weight: bold ;margin-left: 20px;">
+              Skill: {{ skill.skillName }}
+              <span style="margin-left: 15px">Level: {{ skill.skillLevelName }}</span>
+            </div>
+
+            <div *ngFor="let sq of skill.examQuestions,let i = index">
+              <div class="question d-flex" style="margin-top: 10px;margin-left: 20px;">
+                <span><b>{{getGlobalIndex(s, i) + 1}}.</b></span>
+                <span style="font-size: 18px; font-weight: bold" [innerHtml]="sq.question">
+                  {{ sq.question }}</span>
+              </div>
+
+              <div class="options" style="padding-left: 20px; font-size: 18px;margin-left: 20px;">
+                <div *ngFor="
+                    let option of [
+                      sq.option1,
+                      sq.option2,
+                      sq.option3,
+                      sq.option4
+                    ];
+                    let optIndex = index
+                  ">
+                  <input style="margin-right: 5px" type="radio" *ngIf="option && sq.questionType!=='Multiselect Type'"
+                    [id]="'option' + optIndex + sq.questionId" [name]="sq.questionId" [value]="option"
+                    [checked]="stripHtml(option) === sq.userAnswer" disabled />
+
+                    <input style="margin-right: 5px" type="checkbox" *ngIf="option && sq.questionType==='Multiselect Type'"
+                    [id]="'option' + optIndex + sq.questionId" [name]="sq.questionId" [value]="option"
+                    [checked]="sq.userAnswer.includes(stripHtml(option).trim())" disabled />
+                  <label [for]="'option' + optIndex + sq.questionId" [innerHtml]="option">{{
+                    option
+                    }}</label>
+                </div>
+              </div>
+            </div>
+            <hr />
+          </div>
+        </div>
+      </div>
+
+      <ng-template #emptyData>
+        <div class="empty-data-container text-center text-danger">
+          No data available.
+        </div>
+      </ng-template>
+    </form>
+  </div>
+</div>
+<div class="loader" *ngIf="loading"></div>

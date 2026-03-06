@@ -1,0 +1,157 @@
+<div class="main-container" *ngIf="!isLoading">
+    <div class="left-section d-flex justify-content-center align-items-center flex-column">
+        <div class="logo-section">
+            <img src="https://chasmadevstore.blob.core.windows.net/public/novo_logo.png" alt="Alternate Text" />
+        </div>
+        <div class="img-section">
+            <img src="https://chasmadevstore.blob.core.windows.net/public/login-Image.png" alt="Alternate Text" />
+        </div>
+    </div>
+
+    <div id="" class="right-section-signup d-flex justify-content-center align-items-center">
+        <div id="form-div">
+            <form id="sign-up-form" [formGroup]="signupForm" (ngSubmit)="onSubmit()" novalidate [ngStyle]="{ 
+'gap': allFieldsHaveErrors() ? '5px' : '10px'
+}">
+                <div class="d-flex flex-row mb-2" style="width:100%">
+                    <div class="col-md-6 col-sm-6 d-flex flex-column fields-inp">
+                        <input formControlName="firstName" type="text" placeholder="First Name"
+                            class="form-control form-control-lg">
+                        <span class="text-danger validation-text"
+                            *ngIf="signupForm.get('firstName')?.errors && signupForm.get('firstName')?.touched">
+                            First Name is required
+                        </span>
+                    </div>
+                    <div class="col-md-6 col-sm-6 d-flex flex-column fields-inp">
+                        <input formControlName="lastName" type="text" placeholder="Last Name"
+                            class="form-control form-control-lg">
+                        <span class="text-danger validation-text"
+                            *ngIf="signupForm.get('lastName')?.errors && signupForm.get('lastName')?.touched">
+                            Last Name is required
+                        </span>
+                    </div>
+                </div>
+                <div class="d-flex flex-row mb-2" style="width:100%">
+                    <div class="col-12  d-flex flex-column fields-inp">
+                        <input formControlName="email" type="email" placeholder="Email"
+                            class="form-control form-control-lg">
+                        <span class="text-danger validation-text"
+                            *ngIf="signupForm.get('email')?.errors?.['required'] && signupForm.get('email')?.touched">
+                            Email is required
+                        </span>
+                        <span class="text-danger validation-text"
+                            *ngIf="signupForm.get('email')?.errors?.['email'] && signupForm.get('email')?.touched">
+                            Please enter a valid email
+                        </span>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-row mb-2" style="width:100%">
+                    <div class="col-md-6 col-sm-6 d-flex flex-column fields-inp">
+                        <input formControlName="address1" type="text" placeholder="Address Line"
+                            class="form-control form-control-lg">
+                        <span class="text-danger validation-text"
+                            *ngIf="signupForm.get('address1')?.errors && signupForm.get('address1')?.touched">
+                            Address Line 1 is required
+                        </span>
+                    </div>
+                    <div class="col-md-6 col-sm-6 d-flex flex-column fields-inp">
+                        <input formControlName="city" type="text" placeholder="City"
+                            class="form-control form-control-lg">
+                        <span class="text-danger validation-text"
+                            *ngIf="signupForm.get('city')?.errors && signupForm.get('city')?.touched">
+                            City is required
+                        </span>
+                    </div>
+                </div>
+                <div class="d-flex flex-row mb-2" style="width:100%">
+                    <div class="col-md-6 col-sm-6 d-flex flex-column fields-inp">
+                        <input formControlName="district" type="text" placeholder="District"
+                            class="form-control form-control-lg">
+                        <span class="text-danger validation-text"
+                            *ngIf="signupForm.get('district')?.errors && signupForm.get('district')?.touched">
+                            District is required
+                        </span>
+                    </div>
+                    <div class="col-md-6 col-sm-6 d-flex flex-column fields-inp">
+                        <input formControlName="state" type="text" placeholder="State"
+                            class="form-control form-control-lg">
+                        <span class="text-danger validation-text"
+                            *ngIf="signupForm.get('state')?.errors && signupForm.get('state')?.touched">
+                            State is required
+                        </span>
+                    </div>
+                </div>
+                <div class="d-flex flex-row mb-2" style="width:100%">
+                    <div class="col-md-6 col-sm-6 d-flex flex-column fields-inp">
+                        <input formControlName="country" type="text" placeholder="Country"
+                            class="form-control form-control-lg">
+                        <span class="text-danger validation-text"
+                            *ngIf="signupForm.get('country')?.errors && signupForm.get('country')?.touched">
+                            Country is required
+                        </span>
+                    </div>
+                    <div class="col-md-6 col-sm-6 d-flex flex-column fields-inp">
+                        <input formControlName="zip" type="text" placeholder="Zip Code"
+                            class="form-control form-control-lg">
+                        <span class="text-danger validation-text"
+                            *ngIf="signupForm.get('zip')?.errors?.['required'] && signupForm.get('zip')?.touched">
+                            Zip Code is required
+                        </span>
+                        <span class="text-danger validation-text"
+                            *ngIf="signupForm.get('zip')?.errors?.['pattern'] && signupForm.get('zip')?.touched">
+                            Zip Code must contain only numbers
+                        </span>
+                    </div>
+                </div>
+                <div class="d-flex flex-row mb-2" style="width:100%">
+                    <div class="col-md-6 col-sm-6 d-flex flex-column fields-inp">
+                        <div class="d-flex align-items-center position-relative">
+                            <input formControlName="password" [type]="showPassword ? 'text' : 'password'"
+                                placeholder="Password" class="form-control form-control-lg pe" />
+                            <span class="formEyeIcon">
+                                <img [src]="showPassword ? 'https://chasmadevstore.blob.core.windows.net/public/eyeslash.png' : 'https://chasmadevstore.blob.core.windows.net/public/eye.png'"
+                                    (click)="togglePasswordVisibility()"
+                                    class="show-pass password_toggle-password d-flex align-item-cernter" />
+                            </span>
+                        </div>
+
+                        <!-- Dynamic Error Message -->
+                        <span class="text-danger validation-text"
+                            *ngIf="signupForm.get('password')?.errors?.['message'] && signupForm.get('password')?.touched">
+                            {{ signupForm.get('password')?.errors?.['message'] }}
+                        </span>
+                    </div>
+                    <div class="col-md-6 col-sm-6 d-flex flex-column fields-inp">
+                        <div class="d-flex align-items-center position-relative">
+                            <input formControlName="confirmPassword" [type]="showConfirmPassword ? 'text' : 'password'"
+                                placeholder="Confirm Password" class="form-control form-control-lg pe">
+                            <span class="formEyeIcon">
+                                <img [src]="showConfirmPassword ? 'https://chasmadevstore.blob.core.windows.net/public/eyeslash.png' : 'https://chasmadevstore.blob.core.windows.net/public/eye.png'"
+                                    (click)="toggleConfirmPasswordVisibility()"
+                                    class="show-pass confirm_toggle-password d-flex align-item-cernter" />
+                            </span>
+                        </div>
+                        <span class="text-danger validation-text"
+                            *ngIf="signupForm.get('confirmPassword')?.errors?.['message'] && signupForm.get('confirmPassword')?.touched">
+                            {{ signupForm.get('confirmPassword')?.errors?.['message'] }}
+                        </span>
+
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <div class="btn-div d-flex justify-content-center align-items-center">
+                        <button type="submit" class="btn-custom">Sign up</button>
+                    </div>
+                </div>
+
+                <div class="mt-3 d-flex justify-content-center">
+                    <span class="login-span">Already have an account?</span>&nbsp;
+                    <a routerLink="/login" id="login-link">Login here!</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+<div *ngIf="isLoading" class="loader"></div>

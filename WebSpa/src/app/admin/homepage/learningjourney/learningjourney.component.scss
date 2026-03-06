@@ -1,0 +1,215 @@
+.card {
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px !important;
+  margin: 10px;
+  // height: 350px;
+  width: 300px;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-img-top {
+  width: 100%;
+  height: 152px;
+  object-fit: cover;
+  border-radius: 10px;
+  background-color: #efeff1;
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: bold;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.card-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.title-txt {
+  width: 0px;
+  left: 5%;
+  bottom: 25%;
+  font-size: 14px;
+  // font-weight: 500;
+  flex-grow: 1;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.back-btn a {
+  background-color: transparent;
+  border: none;
+  color: #000000;
+  padding: 0px;
+}
+.journey-head {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.crs-btn {
+  border-radius: 10px !important;
+}
+::ng-deep .p-carousel-indicators.p-reset,
+::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none !important;
+}
+
+.btn-unlock {
+  font-size: 15px;
+  color: #fff;
+  cursor: pointer;
+  background-color: #fc5723;
+  padding: 4px 20px;
+  border-radius: 8px;
+  border: 1px solid #fff;
+}
+
+.btn-assign {
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 4px 26px;
+  border-radius: 10px;
+  background-color: #474c60;
+}
+
+.card-action {
+  padding: 10px;
+}
+
+.spancount {
+  background: #fc5723;
+  color: #fff;
+  padding: 1px 3px 1px 3px;
+  border-radius: 10px;
+  margin-left: 3px;
+}
+
+.btn-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.edit-btn {
+  font-size: 14px;
+  color: #fc5723;
+  cursor: pointer;
+  background-color: #fff;
+  padding: 4px 20px;
+  border-radius: 8px;
+  border: 1px solid #fc5723;
+}
+.journey-mob {
+  padding: 0px 10px !important;
+}
+.all-journeys ::ng-deep .p-carousel-items-content {
+  margin-left: 0px !important;
+}
+::ng-deep .p-carousel-container {
+  width: 100% !important;
+  padding-left: 5px !important;
+}
+::ng-deep .p-carousel-item {
+  display: flex;
+  justify-content: center;
+}
+.myjourney-carousel ::ng-deep .p-carousel-item {
+  display: flex;
+  justify-content: start;
+  width: auto !important;
+  flex: none !important;
+}
+// .myjourney-carousel ::ng-deep .p-carousel-item {
+//   display: flex;
+//   justify-content: start;
+// }
+// .journey-carousel ::ng-deep .p-carousel-container {
+//   width: 100% !important;
+// }
+/* For screens between 768px and 992px (tablets) */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .journey-mob {
+    padding: 10px 20px !important;
+  }
+}
+
+/* For screens below 768px (mobile devices) */
+@media (max-width: 767.98px) {
+  .journey-mob {
+    padding: 10px !important;
+  }
+  .journey-title-mob {
+    flex-direction: column;
+    align-items: baseline !important;
+    padding-right: 10px !important;
+  }
+  .journey-head,
+  .my-journey-head {
+    margin-left: 5px !important;
+  }
+  .search-div {
+    width: 100%;
+  }
+  ::ng-deep .mat-mdc-text-field-wrapper {
+    padding: 0px !important;
+  }
+
+  ::ng-deep .mat-mdc-form-field-flex {
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px,
+      rgba(60, 64, 67, 0.15) 0px 2px 6px !important;
+    border-radius: 10px !important;
+  }
+  ::ng-deep .mat-mdc-notch-piece {
+    border: none !important;
+  }
+  ::ng-deep .mat-mdc-form-field-infix {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+    font-size: 1.2rem !important;
+  }
+
+  // .myjourney-carousel ::ng-deep .p-carousel-item {
+  //   display: flex;
+  //   justify-content: center;
+  // }
+}
+
+/* For extra small screens below 576px */
+@media (max-width: 575.98px) {
+  .mat-icon {
+    font-size: 1.5rem;
+  }
+
+  .course-header {
+    font-size: 0.8rem;
+  }
+}
+
+// .myjourney-carousel ::ng-deep #pn_id_1 ::ng-deep .p-carousel-item {
+//   flex: none !important;
+// }
+// .myjourney-carousel ::ng-deep #pn_id_2 ::ng-deep .p-carousel-item {
+//   flex: none !important;
+// }
+// .myjourney-carousel ::ng-deep #pn_id_3 ::ng-deep .p-carousel-item {
+//   flex: none !important;
+// }

@@ -1,0 +1,43 @@
+<div class="">
+    <div class="col-sm-12 col-md-12">
+
+        <!-- Header Section -->
+        <header class="header">
+            <div id="Logo-container" class="d-flex justify-content-between">
+                <img src="https://chasmadevstore.blob.core.windows.net/public/novo_logo.png" alt=""
+                    style="cursor: pointer;">
+            </div>
+            <div class="header-right">
+                <button mat-button class="create-account" (click)="SignIn()">Create Account</button>
+                <button class="signinbtn" (click)="SignIn()">Sign In</button>
+            </div>
+        </header>
+
+        <!-- User Profile Section -->
+        <div class="badge-wallet-container">
+            <div class="user-profile">
+                <div class="user-info">
+                    <h2>{{userName }}</h2>
+                </div>
+            </div>
+
+            <h3 class="section-title">Badge Wallet</h3>
+
+            <div class="badge-walletdiv">
+                <div class="badge-grid">
+                    <mat-card *ngFor="let badge of userBadgeData" class="badge-card">
+                        <img mat-card-image [src]="badge.badgeUrl" alt="{{ badge.name }}"
+                            style="padding: 18px;height: 300px;" />
+                        <mat-card-content class="mt-4">
+                            <h4>{{ badge.name }}</h4>
+                            <p>Organization: {{ badge.organizationName }}</p>
+                            <p>Issued Date: {{ badge.createdOn | date:'MM/dd/yyyy' }}</p>
+                            <p>Skill: {{ badge.skillName }}</p>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

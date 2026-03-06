@@ -1,0 +1,399 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
+
+#main-container {
+  position: fixed;
+  padding-top: 10px;
+  height: 100%;
+  box-shadow: 0px 0px 5px rgba(211, 211, 211, 0.66);
+  width: 16%;
+  background-color: #fff;
+  z-index: 100;
+}
+
+.fa-regular,
+.far {
+  font-weight: 400;
+  font-size: 20px;
+  margin-right: 9px;
+}
+
+.fa-solid,
+.fas {
+  font-weight: 900;
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+::ng-deep .mat-expansion-panel-body {
+  padding: 0 21px 0px !important;
+}
+
+.mat-expansion-panel p {
+  margin-top: 0;
+  padding: 5px 14px;
+  font-size: 15px;
+  margin-bottom: 1px !important;
+}
+
+.mat-accordion .mat-expansion-panel:first-of-type,
+.mat-accordion .mat-expansion-panel:last-of-type {
+  border-radius: 0px;
+  box-shadow: none;
+  background-color: #ffffff;
+}
+
+.no-hover:hover {
+  background-color: inherit !important;
+  color: inherit !important;
+}
+
+.no-hover {
+  cursor: default !important;
+}
+
+.mat-expansion-panel p:hover {
+  cursor: pointer;
+}
+
+.mat-expansion-panel-header {
+  // font-family: "Noto Sans", sans-serif;
+  font-size: 15px;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+  margin: 5px;
+  height: 45px;
+}
+
+#Logo-container {
+  height: 100px;
+  padding: 18px 0px 18px 10px;
+}
+
+#Logo-container img {
+  object-fit: contain;
+}
+
+.mat-mdc-card {
+  background-color: #fff;
+}
+
+.mdc-card {
+  display: flex;
+  border-radius: 0px;
+  flex-direction: row;
+  // font-family: "Noto Sans", sans-serif;
+  font-size: 15px;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+  padding: 1px 0px;
+  box-shadow: none;
+  align-items: center;
+  margin-top: 1px;
+}
+
+.materialCard {
+  padding: 5px 0px !important;
+}
+
+.mdc-card:hover {
+  cursor: pointer;
+}
+
+.mat-expansion-panel-spacing {
+  margin: 0 0;
+}
+
+.sidemenuicons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2% !important;
+  border-radius: 4px;
+  margin-left: 6px;
+}
+
+.active-link {
+  background-color: #ffffff;
+  color: rgb(14, 13, 13);
+  cursor: pointer;
+  transition: border-left 0.1s;
+}
+
+.active-links {
+  background-color: #e24613;
+  color: rgb(14, 13, 13);
+  cursor: pointer;
+  border-left: 2px solid #fc5723;
+  transition: border-left 0.1s;
+  box-shadow: 0px 0px 3px #979797;
+}
+
+.active-link {
+  cursor: pointer;
+  border-radius: 6px;
+  box-shadow: 0px 0px 5px #d3d3d3;
+}
+
+.Icons img {
+  width: 20px;
+  height: 20px;
+  object-fit: cover;
+}
+
+.Icons {
+  margin-left: 15px;
+  position: relative;
+  align-items: center;
+}
+
+.assessmentOption img {
+  width: 20px;
+  height: 20px;
+  object-fit: cover;
+  margin-left: 16px;
+}
+
+.adminIcon {
+  margin-top: 15px;
+}
+
+.helpIcon {
+  margin-top: 15px;
+}
+
+.logoutIcon {
+  margin-top: 17px;
+}
+
+.usersIcon {
+  margin-left: 19px;
+}
+
+.adminOption {
+  margin-left: -7px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.mat-content {
+  align-items: center !important;
+}
+
+.adminOption {
+  padding: 0px 15px 0px 0px;
+  cursor: pointer;
+  margin: 5px 16px;
+}
+
+.admin-Text {
+  padding-left: 17px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #333 !important;
+}
+
+.user-text {
+  margin-left: -3px !important;
+}
+
+.emulation-text {
+  padding: 13px 10px;
+}
+
+a {
+  text-decoration: none;
+}
+
+#profile a {
+  width: 88%;
+  color: #333;
+  // margin: auto;
+  padding: 10px 16px;
+  display: flex;
+  justify-content: flex-start;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.active-link.no-border {
+  border-left: none;
+}
+
+.active-links.no-border {
+  border-left: none;
+}
+
+.organizationText {
+  margin-left: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.menu-bar {
+  height: 26px !important;
+}
+
+.active-link-image {
+  background-color: #fc5723;
+  cursor: pointer;
+  border-radius: 2px;
+  box-shadow: 0px 0px 5px #6e6e6e;
+}
+
+.active-link .sidemenuicons {
+  background-color: #fc5723 !important;
+}
+
+.active-link .sidemenuicons img {
+  filter: invert(1);
+}
+
+.active-link-image .maticon img {
+  filter: invert(1);
+}
+
+.admin-nav {
+  position: relative;
+}
+
+.admin-hover-options {
+  display: none;
+  position: absolute;
+  bottom: -21px;
+  left: 62px;
+  background-color: #fff;
+  padding: 8px;
+  border-radius: 3px;
+  box-shadow: -6px 6px 7px #c7c7c7;
+  cursor: pointer;
+  z-index: 1000 !important;
+}
+
+.admin-hover-options p {
+  font-size: 17px;
+  padding: 6px 11px;
+  letter-spacing: 0.5px;
+}
+
+.admin-hover-options p:nth-child(1) {
+  border-bottom: 1px solid lightgray;
+}
+
+.admin-nav:hover .admin-hover-options {
+  display: block;
+}
+
+.log .help {
+  align-items: center !important;
+}
+
+.admin {
+  margin-left: 26px;
+}
+
+.countspan {
+  margin-left: 20px;
+  background-color: #fc5723;
+  color: #fff;
+  /* width: auto; */
+  width: 24px;
+  border-radius: 50%;
+  text-align-last: center;
+}
+
+// Footer Nav CSS
+.footer-nav-mob {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.footer-nav-items {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  align-items: center;
+  justify-content: center;
+}
+.footer-nav-icons {
+  height: 20px !important;
+}
+.Footer-nav-text {
+  font: 10px sans-serif;
+  color: #333;
+  font-weight: 500;
+}
+.custom-drop-up {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  bottom: 100%;
+  position: absolute;
+  right: 5px;
+  text-align: end;
+}
+
+// -------------------------------------------------------
+@media only screen and (min-width: 200px) and (max-width: 999px) {
+  #profile p {
+    font-size: 9px;
+  }
+
+  .admin-Text {
+    font-size: 15px;
+  }
+
+  .admin {
+    font-size: 9px;
+    margin-left: 26px;
+  }
+
+  .mat-expansion-indicator {
+    font-size: 9px;
+  }
+
+  .adminOptions {
+    font-size: 9px !important;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1105px) {
+  #main-container {
+    width: auto;
+    padding-top: 5px !important;
+  }
+}
+
+@media only screen and (max-width: 767.98px) {
+  #main-container {
+    width: auto;
+    padding-top: 10px;
+  }
+  #profile a {
+    padding: 5px 10px !important;
+  }
+
+  .log {
+    margin-bottom: 15% !important;
+  }
+  .admin-Text {
+    font-size: 12px !important;
+    padding-left: 10px;
+  }
+  .adminOption {
+    margin: 0px 16px;
+    height: 30px !important;
+  }
+  .sidemenuicons {
+    margin: 5px !important;
+  }
+  .active-link {
+    cursor: pointer;
+    border-radius: none;
+    box-shadow: none;
+  }
+}

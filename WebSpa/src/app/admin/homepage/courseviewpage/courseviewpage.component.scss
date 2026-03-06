@@ -1,0 +1,205 @@
+.card-box,
+.main-box {
+  border-radius: 20px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px;
+}
+
+.main-box {
+  max-height: 300px;
+}
+
+.box-img {
+  border-radius: 20px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px;
+}
+
+.title {
+  font-size: larger;
+  font-weight: 600;
+}
+
+.desc-title {
+  font-size: larger;
+  font-weight: 600;
+  color: #fc5722;
+}
+
+.desc {
+  scrollbar-width: none;
+}
+
+.crs-btn {
+  font-size: small;
+  background: #f5f7ff !important;
+  color: black !important;
+  border-radius: 17px;
+  height: 30px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px;
+}
+
+#course-main {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-bottom: 2rem;
+}
+
+.card {
+  border: none;
+  border-radius: 20px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px !important;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-body {
+  padding: 7%;
+}
+
+.card-img-top {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 20px;
+  padding: 10px;
+}
+
+.card-badge {
+  background: #ffffff;
+  color: #333;
+  font-size: 10px;
+  font-weight: 400;
+  border: 1px solid #fc5722;
+  border-radius: 10px;
+  text-align: center;
+  padding: 1% 5%;
+}
+
+.title-txt {
+  bottom: 25%;
+  font-size: 0.8rem;
+  font-weight: 600;
+  flex-grow: 1;
+}
+
+.progress-section {
+  display: flex;
+  align-items: center;
+  width: 50%;
+}
+
+.main-progress {
+  align-items: center;
+  //   width: 75%;
+  margin: 0;
+  padding: 0% 7% 8% 7%;
+}
+
+.bar-title {
+  font: normal normal normal 12px / 16px Roboto;
+}
+
+p-progressBar {
+  flex-grow: 1;
+  height: 0.3rem !important;
+  margin: 0;
+  border-radius: 5px;
+}
+
+.badge {
+  background: #ffd7c9;
+  color: #fc5722;
+  font-size: 12px;
+  border-radius: 8px;
+  padding: 1% 2%;
+}
+
+.back-btn a {
+  background-color: transparent;
+  border: none;
+  color: #000000;
+}
+
+#play {
+  color: #fff;
+  margin-right: 6px;
+}
+
+.btn-start {
+  font-size: 15px;
+  background: #fc5722;
+  color: #fff;
+  padding: 4px 20px;
+  display: flex;
+  border-radius: 8px;
+  align-items: center;
+  border: none;
+}
+
+::ng-deep .progress-bar-learning.p-progressbar.p-component.p-progressbar-determinate {
+  height: 0.25rem !important;
+  margin-top: 1%;
+}
+
+/* For screens 992px and above (desktops) */
+@media (min-width: 992px) {
+  #course-main {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+}
+
+/* For screens between 768px and 992px (tablets) */
+@media (min-width: 768px) and (max-width: 1120px) {
+  #course-main {
+    flex: 0 0 33.3333%;
+    max-width: 33.3333%;
+  }
+}
+
+/* For screens below 768px (mobile devices) */
+@media (max-width: 767.98px) {
+  #course-main {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+/* For extra small screens below 576px */
+@media (max-width: 575.98px) {
+  #course-main {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .main-box {
+    flex-direction: column;
+    align-items: center;
+    max-height: 700px;
+    padding: 1% !important;
+  }
+
+  .box-img {
+    width: 100%;
+    margin: 0 !important;
+  }
+
+  .col-8 {
+    width: 100%;
+    padding: 1% !important;
+  }
+
+  .desc {
+    overflow-y: auto;
+    max-height: 120px;
+    scrollbar-width: none;
+  }
+}

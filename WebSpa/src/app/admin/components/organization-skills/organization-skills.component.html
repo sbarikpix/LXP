@@ -1,0 +1,85 @@
+<div *ngIf="!isLoading">
+  <div id="add-interest" class="mb-3">
+    <form [formGroup]="skillForm">
+      <div class="d-flex justify-content-between">
+        <div class="mb-3"
+          [ngClass]="skillForm.get('name')!.touched && !skillForm.get('name')!.valid ? 'form-control error' : 'form-control'">
+          <p>Skill <span>*</span></p>
+          <input formControlName="name" type="text">
+          <div>
+            <mat-error *ngIf="skillForm.get('name')!.invalid && skillForm.get('name')!.touched">
+              Skill Name is required
+            </mat-error>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-between">
+        <div class="btn-group d-flex gap-3 actionButtons">
+          <button type="submit" mat-raised-button color="warn" id="addBtn" *ngIf="!isEdit"
+            (click)="addOrEditSkill()">Add</button>
+          <button type="submit" mat-raised-button color="warn" id="addBtn" *ngIf="isEdit"
+            (click)="addOrEditSkill()">Update</button>
+          <button mat-button (click)="back()" id="cancelBtn"
+            [disabled]="this.skillForm.get('name')!.value === ''">Cancel</button>
+        </div>
+        <div id="button-container" class="d-flex justify-content-end gap-3 mb-3">
+          <button class="btn d-flex align-items-center" (click)="openImportDialog()"
+            style="background-color: #fc5723; color: white;">
+            <i class="fa-solid fa-file-import me-2"></i>
+            Import
+          </button>
+          <button class="btn d-flex align-items-center" (click)="exportToExcel()"
+            style="background-color: #fc5723; color: white;">
+            <i class="fa-solid fa-file-export me-2"></i>
+            Export
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div id="table">
+    <!-- <div id="search" class="d-flex justify-content-end align-items-center pe-3 mb-3">
+      <input type="text"> <i class="fa-solid fa-magnifying-glass"></i>
+    </div> -->
+    <div class="search-skill">
+      <div class="input-container">
+        <input class="form-control" type="text" placeholder="search" [(ngModel)]="searchText" />
+        <span class="icon-search">
+          <i class="fas fa-search"></i>
+        </span>
+        <span class="icon-clear" *ngIf="searchText" (click)="clearSearch()">
+          <i class="fas fa-times"></i>
+        </span>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div id="table" class="mt-3">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Skills</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let skill of orgSkills">
+            <td>{{skill.name}}</td>
+            <td><i mat-button [matMenuTriggerFor]="menu" class="fa-solid fa-ellipsis-vertical"
+                style="cursor: pointer;padding: 0px 10px;font-size: 18px;"></i></td>
+            <mat-menu #menu="matMenu">
+              <!-- <button mat-menu-item [routerLink]="[skill.organizationSkillId, 'edit']">Edit</button> -->
+              <!-- <button mat-menu-item (click)="deleteSkill(skill.organizationSkillId)">Delete</button> -->
+            </mat-menu>
+          </tr>
+
+          <tr *ngIf="(orgSkills).length === 0">
+            <td colspan="2" class="text-center">No Data Found</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div *ngIf="isLoading" class="loader">
+
+</div>

@@ -1,0 +1,140 @@
+.stepper-div {
+  width: 80% !important;
+  background-color: #fdfefe;
+  border-radius: 8px;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  padding: 10px;
+  border: 1px solid #efeff1;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px !important;
+}
+
+.step1-card {
+  padding: 0px 20px;
+}
+
+.faded {
+  opacity: 0.5;
+}
+
+.back-btn {
+  font-size: 15px;
+  color: #000000;
+  border: 1px solid #474c60;
+  padding: 4px 20px;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.btn-connect {
+  font-size: 15px;
+  color: #fff;
+  cursor: pointer;
+  background-color: #fc5723;
+  padding: 4px 20px;
+  border-radius: 8px;
+  border: 1px solid #fff;
+}
+
+.remove-section {
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 4px 26px;
+  border-radius: 10px;
+  background-color: #474c60;
+}
+
+.cancelBtn {
+  font-size: 15px !important;
+  border: none !important;
+  color: #666;
+  background-color: transparent;
+}
+
+.cancelBtn:hover {
+  color: #ff1744;
+  background-color: transparent;
+}
+
+.gradient-divider {
+  height: 10px;
+  background: linear-gradient(to bottom, #c9c9c9, #f3f5f5, #c9c9c9);
+  margin: 10px 0;
+}
+
+::ng-deep .mdc-evolution-chip__text-label {
+  display: flex;
+}
+
+::ng-deep .mat-horizontal-stepper-header-container {
+  width: 80% !important;
+}
+
+::ng-deep .mat-horizontal-stepper-wrapper {
+  align-items: center !important;
+}
+
+::ng-deep .mat-step-header {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+::ng-deep .mat-step-text-label {
+  display: flex;
+  flex-direction: column;
+}
+
+::ng-deep .mat-horizontal-content-container {
+  width: 100% !important;
+  padding: 0px !important;
+}
+
+.dropdown-scroll {
+  height: 300px;
+  /* Adjust this as needed */
+  overflow-y: auto;
+  position: relative;
+}
+
+::ng-deep .mat-mdc-autocomplete-panel {
+  max-height: unset !important;
+  /* Remove any default max-height */
+  overflow: hidden !important;
+  /* Disable the default overflow behavior */
+}
+
+.mat-mdc-autocomplete-panel {
+  max-height: none !important;
+}
+
+@media (max-width: 767.98px) {
+  .stepper-div {
+    width: 100% !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  .remove-section,
+  .back-btn,
+  .btn-connect {
+    font-size: 10px;
+    padding: 4px 15px;
+  }
+  .section h3,
+  .sub-section h5 {
+    font-size: 15px;
+  }
+  ::ng-deep .mat-stepper-horizontal-line {
+    display: none;
+  }
+  ::ng-deep.mat-horizontal-stepper-header-container {
+    justify-content: center !important;
+  }
+}
+::ng-deep .hidden-label {
+  display: none !important;
+}

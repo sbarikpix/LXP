@@ -1,0 +1,102 @@
+<div *ngIf="!isEdit && !isAdd && !isLoading">
+    <div id="add-import-section" class="d-flex justify-content-end align-items-center mb-3">
+        <div class="add d-flex gap-3">
+            <button class="btn d-flex align-items-center" (click)="openAddTeamForm()"
+                style="background-color: #fc5723; color: white;">
+                <i class="fas fa-plus me-2"></i>
+                Add
+            </button>
+            <button class="btn d-flex align-items-center" (click)="openImportDialog()"
+                style="background-color: #fc5723; color: white;">
+                <i class="fas fa-file-import me-2"></i>
+                Import
+            </button>
+            <button class="btn d-flex align-items-center" (click)="exportToExcel()"
+                style="background-color: #fc5723; color: white;">
+                <i class="fas fa-file-export me-2"></i>
+                Export
+            </button>
+        </div>
+    </div>
+    <div class="search-Team">
+        <div class="input-container">
+            <input class="form-control" type="text" placeholder="search" [(ngModel)]="searchText" />
+            <span class="icon-search">
+                <i class="fas fa-search"></i>
+            </span>
+            <span class="icon-clear" *ngIf="searchText" (click)="clearSearch()">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div id="table" class="p-3">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Team Name</th>
+                    <th scope="col">Users</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let team of teamList">
+                    <td>{{team.name}}</td>
+                    <td>{{team.usersCount}}</td>
+                    <td><i [matMenuTriggerFor]="menu" class="fa-solid fa-ellipsis-vertical"
+                            style="cursor: pointer;padding: 0px 10px;font-size: 18px;"></i></td>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item [routerLink]="[team.organizationTeamId,'edit']">Edit</button>
+                        <button mat-menu-item (click)="deleteTeam(team.organizationTeamId)">Delete</button>
+                    </mat-menu>
+
+                </tr>
+
+                <tr *ngIf="(teamList ).length === 0">
+                    <td></td>
+                    <td colspan="2" class="text-start">No Data Found</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div *ngIf="isEdit || isAdd">
+    <div id="add-interest">
+        <form [formGroup]="teamForm">
+            <div class="d-flex flex-column">
+                <div class="form-control mb-3"
+                    [ngClass]="teamForm.get('name')!.touched && !teamForm.get('name')!.valid ? 'error' : ''">
+                    <p>Team <span>*</span></p>
+                    <input formControlName="name" type="text">
+                    <div>
+                        <mat-error *ngIf="teamForm.get('name')!.invalid && teamForm.get('name')!.touched">
+                            Team Name is required
+                        </mat-error>
+                    </div>
+                </div>
+                <div class="form-control mb-3" id="description-control"
+                    [ngClass]="teamForm.get('description')!.touched && !teamForm.get('description')!.valid ? 'error' : ''">
+                    <p>Description<span>*</span></p>
+                    <textarea formControlName="description" id="description" rows="5"></textarea>
+                    <div>
+                        <mat-error *ngIf="teamForm.get('description')!.invalid && teamForm.get('description')!.touched">
+                            Team Description is required
+                        </mat-error>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-group d-flex gap-3">
+                <button type="submit" mat-raised-button color="warn" *ngIf="!isEdit"
+                    (click)="addOrEditTeam()">Add</button>
+                <button type="submit" mat-raised-button color="warn" *ngIf="isEdit"
+                    (click)="addOrEditTeam()">Update</button>
+                <button mat-button (click)="back()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div *ngIf="isLoading" class="loader">
+
+</div>

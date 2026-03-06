@@ -1,0 +1,355 @@
+.report-container {
+  padding: 2rem;
+  background: #fff;
+  border-radius: 8px;
+
+  .section-title {
+    font-size: 24px;
+    margin-bottom: 1rem;
+  }
+
+  .report-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .report-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.5rem;
+    min-height: 250px;
+    background-color: #fff;
+    box-shadow: 0px 0px 3px #979797;
+    border-radius: 8px;
+
+    .report-icon {
+      // font-size: 36px;
+      margin-bottom: 0.5rem;
+      color: #fc5723;
+      font-size: 24px;
+    }
+
+    .report-title {
+      margin: 0.2rem 0;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .report-description {
+      font-size: 14px !important;
+      color: #555;
+      margin-bottom: 1rem;
+    }
+
+    mat-form-field {
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+
+    button {
+      align-self: flex-end;
+    }
+  }
+}
+
+.btn-toggle {
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 4px 26px;
+  border-radius: 10px;
+  background-color: #474c60;
+}
+
+.btn-ontoggle {
+  font-size: 15px;
+  font-weight: 500;
+  color: #474c60;
+  border: 1px solid #474c60;
+  padding: 4px 26px;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.btn-generate {
+  font-size: 15px;
+  color: #fff;
+  cursor: pointer;
+  background-color: #fc5723;
+  padding: 4px 20px;
+  border-radius: 8px;
+  border: 1px solid #fff;
+}
+
+.btns-div {
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  gap: 4px;
+}
+
+.p-button {
+  font-size: 15px !important;
+  color: #fff;
+  cursor: pointer;
+  background-color: #fc5723 !important;
+  padding: 4px 20px;
+  border-radius: 8px;
+  border: 1px solid #fff;
+}
+
+.btn-back {
+  font-size: 15px !important;
+  color: #fff;
+  cursor: pointer;
+  background-color: #fc5723 !important;
+  padding: 4px 20px;
+  border-radius: 8px;
+  border: 1px solid #fff;
+}
+
+/////////////////////////////////////////////////////////////////
+/// for Assessment report
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Cards */
+.card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.chart-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
+  // box-shadow: 0px 0px 3px #979797;
+  padding: 20px;
+  // height: 350px;
+  /* Fixed height for consistency */
+}
+
+.kpi-card {
+  background: white;
+  border-radius: 8px;
+  // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  // box-shadow: 0px 0px 3px #979797;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  text-align: center;
+}
+
+/* Typography */
+h3 {
+  color: #333;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+h4 {
+  color: #666;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.kpi-value {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.kpi-comparison {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .chart-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .kpi-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+//////////////////////////////////////////
+/// Learing journey report
+.completed {
+  color: #4caf50;
+  font-weight: 500;
+}
+
+.incomplete {
+  color: #ffa726;
+  font-weight: 500;
+}
+
+/* Chart container sizing */
+.chart-container {
+  position: relative;
+  height: 300px;
+  width: 100%;
+}
+
+/* KPI card enhancements */
+.learning-card {
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+///////////////////// Skill Report /////////////////
+/* Proficiency level badges */
+.proficiency-novice {
+  color: #ff6384;
+  font-weight: 500;
+}
+
+.proficiency-intermediate {
+  color: #ffce56;
+  font-weight: 500;
+}
+
+.proficiency-advanced {
+  color: #36a2eb;
+  font-weight: 500;
+}
+
+.proficiency-expert {
+  color: #4bc0c0;
+  font-weight: 500;
+}
+
+/* Heatmap cell styling */
+.chart-card canvas {
+  max-height: 350px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .chart-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+///////////////////////////// Manager users report ///////////////////////////
+
+.manager-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.user-badge {
+  display: inline-block;
+  background: #e0e0e0;
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin: 2px;
+  font-size: 0.8rem;
+}
+
+select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+select:focus {
+  outline: none;
+  border-color: #4285f4;
+  box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+}
+
+option {
+  padding: 8px;
+}
+
+option[disabled] {
+  color: #999;
+}
+.filters {
+  display: flex;
+  align-items: center;
+}
+.filter-btns {
+  display: flex;
+  gap: 10px;
+}
+
+@media (max-width: 767.98px) {
+  .manager-grid {
+    grid-template-columns: 1fr;
+  }
+  .chart-card {
+    padding: 0px !important;
+    width: 100% !important;
+  }
+  .chart-card h3 {
+    padding: 10px !important;
+  }
+  .chart-card canvas {
+    padding: 10px !important;
+  }
+  .graph-item-mob {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .filter-btns {
+    justify-content: space-between;
+  }
+  .filters {
+    width: 100% !important;
+  }
+  .btns-div {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+  }
+  .form-select-mob {
+    width: 100% !important;
+    margin-right: 0 !important;
+  }
+  .card {
+    box-shadow: none;
+    padding: 0px;
+    border: none;
+  }
+  .user-details p {
+    margin: 5px;
+  }
+  .btn-group {
+    justify-content: space-between;
+  }
+}

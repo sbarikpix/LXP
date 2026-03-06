@@ -1,0 +1,102 @@
+<div *ngIf="!isEdit && !isAdd && !isLoading">
+  <div id="add-import-section" class="d-flex justify-content-end align-items-center mb-3">
+    <div class="add d-flex gap-3">
+      <button class="btn d-flex align-items-center" (click)="openAddJobForm()"
+        style="background-color: #fc5723; color: white;">
+        <i class="fas fa-plus me-2"></i>
+        Add
+      </button>
+      <button class="btn d-flex align-items-center" (click)="openImportDialog()"
+        style="background-color: #fc5723; color: white;">
+        <i class="fas fa-file-import me-2"></i>
+        Import
+      </button>
+      <button class="btn d-flex align-items-center" (click)="exportToExcel()"
+        style="background-color: #fc5723; color: white;">
+        <i class="fas fa-file-export me-2"></i>
+        Export
+      </button>
+    </div>
+  </div>
+  <div class="search-Job">
+    <div class="input-container">
+      <input class="form-control" type="text" placeholder="search" [(ngModel)]="searchText" />
+      <span class="icon-search">
+        <i class="fas fa-search"></i>
+      </span>
+      <span class="icon-clear" *ngIf="searchText" (click)="clearSearch()">
+        <i class="fas fa-times"></i>
+      </span>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div id="table" class="p-3">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Job Titles</th>
+          <th scope="col">Description</th>
+          <th scope="col">Users</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let job of jobTitleList">
+          <td>{{job.name}}</td>
+          <td class="jb_desc" title={{job.description}}>{{job.description}}</td>
+          <td>{{job.usersCount}}</td>
+          <td><i [matMenuTriggerFor]="menu" class="fa-solid fa-ellipsis-vertical"
+              style="cursor: pointer;padding: 0px 10px;font-size: 18px;"></i></td>
+          <mat-menu #menu="matMenu">
+            <!-- <button mat-menu-item [routerLink]="[job.organizationJobTitleId,'edit']">Edit</button> -->
+            <!-- <button mat-menu-item (click)="deleteJobTitle(job.organizationJobTitleId)">Delete</button> -->
+          </mat-menu>
+        </tr>
+
+        <tr *ngIf="(jobTitleList).length === 0">
+          <td></td>
+          <td colspan="2" class="text-center">No Data Found</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div *ngIf="isEdit || isAdd">
+  <div id="add-interest">
+    <form [formGroup]="jobForm">
+      <div class="d-flex flex-column">
+        <div class="form-control mb-3"
+          [ngClass]="jobForm.get('name')!.touched && !jobForm.get('name')!.valid ? 'form-control error' : 'form-control'">
+          <p>Job Title <span>*</span></p>
+          <input formControlName="name" type="text" id="name">
+          <div>
+            <mat-error *ngIf="jobForm.get('name')!.invalid && jobForm.get('name')!.touched">
+              Job Title is required
+            </mat-error>
+          </div>
+        </div>
+        <div class="form-control mb-3" id="description-control"
+          [ngClass]="jobForm.get('description')!.touched && !jobForm.get('description')!.valid ? 'form-control error' : 'form-control'">
+          <p>Description <span>*</span></p>
+          <textarea formControlName="description" id="description" rows="5"></textarea>
+          <div>
+            <mat-error *ngIf="jobForm.get('description')!.invalid && jobForm.get('description')!.touched">
+              Job Description is required
+            </mat-error>
+          </div>
+        </div>
+      </div>
+      <div class="btn-group d-flex gap-3">
+        <button type="submit" mat-raised-button color="warn" *ngIf="!isEdit" (click)="addOrEditJob()">Add</button>
+        <button type="submit" mat-raised-button color="warn" *ngIf="isEdit" (click)="addOrEditJob()">Update</button>
+        <button mat-button (click)="back()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div *ngIf="isLoading" class="loader">
+
+</div>

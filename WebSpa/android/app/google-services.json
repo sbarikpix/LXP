@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "545376392408",
+    "project_id": "chasma-novo",
+    "storage_bucket": "chasma-novo.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:545376392408:android:17658e5176e18c233233ad",
+        "android_client_info": {
+          "package_name": "com.chasma.novo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4lTSX0LFV7DWO-XfJBCcPhWqh3lLvdBE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

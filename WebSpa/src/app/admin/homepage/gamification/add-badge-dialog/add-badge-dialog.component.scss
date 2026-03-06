@@ -1,0 +1,137 @@
+.add-img {
+  width: 200px;
+  height: 200px;
+  border: 1px solid rgb(87, 86, 86);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.img-import {
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  margin: 3% 5%;
+  display: flex;
+}
+#add-img-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.cancel-btn {
+  position: absolute;
+  right: 3%;
+}
+.dialog-field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2%;
+}
+.btn-connect {
+  font-size: 15px;
+  color: #fff;
+  cursor: pointer;
+  background-color: #fc5723;
+  padding: 4px 20px;
+  border-radius: 8px;
+  border: 1px solid #fff;
+}
+.desc {
+  min-height: 110px;
+  max-height: 250px;
+  scrollbar-width: none;
+}
+.preview-img {
+  border-radius: 49%;
+  height: 100%;
+  width: 100%;
+  padding: 7%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.cancel-img {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  cursor: pointer;
+}
+
+::ng-deep .cdk-overlay-pane {
+  max-width: none !important;
+  max-height: none !important;
+  width: auto !important;
+  height: auto !important;
+}
+
+::ng-deep .cdk-overlay-pane.mat-mdc-dialog-panel {
+  width: 58% !important;
+}
+
+.dropdown-scroll {
+  max-height: 200px;
+  height: auto; /* Adjust this as needed */
+  overflow-y: auto;
+  position: relative;
+  width: 100%;
+  scrollbar-width: thin;
+}
+
+::ng-deep.mat-autocomplete-panel {
+  max-height: 200px !important; /* or any height suitable for your list */
+  overflow-y: auto !important;
+}
+
+::ng-deep .mat-mdc-icon-button.mat-mdc-button-base {
+  --mdc-icon-button-state-layer-size: 24px;
+}
+
+::ng-deep.mat-mdc-form-field-error {
+  white-space: nowrap;
+}
+
+.disabled-btn {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+::ng-deep .mat-mdc-autocomplete-panel {
+  width: 300px !important;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+}
+
+@media (max-width: 767.98px) {
+  .placeholder-img {
+    height: 50%;
+  }
+  .dialog {
+    flex-direction: column;
+  }
+  .add-img {
+    width: 75px;
+    height: 75px;
+  }
+  .form-view-mob {
+    width: 100%;
+    overflow: scroll;
+  }
+  .dialog-field {
+    height: 200px;
+    width: 100%;
+  }
+  .badge-from {
+    width: 100% !important;
+  }
+  ::ng-deep .mat-mdc-text-field-wrapper {
+    height: 35px !important;
+  }
+  ::ng-deep .mdc-notched-outline__notch {
+    display: flex !important;
+  }
+  ::ng-deep .mat-mdc-form-field-infix {
+    padding: 10px 0px !important;
+  }
+}

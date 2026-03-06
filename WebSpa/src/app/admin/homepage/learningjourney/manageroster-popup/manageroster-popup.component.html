@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>Directory</h2>
+
+<mat-dialog-content class="roster-list-container">
+    <!-- Header row - stays at top -->
+    <div class="header-row sticky-header">
+        <span class="col">User Name</span>
+        <span class="col">Status</span>
+        <span class="col">Completed Date</span>
+    </div>
+
+    <!-- Scrollable user rows -->
+    <div class="user-row" *ngFor="let user of learningusers">
+        <span [matTooltip]="user.userId" class="col username">{{ user.userId }}</span>
+
+        <!-- Show Completed -->
+        <mat-chip *ngIf="user?.isCompleted" class="col" color="primary">
+            Completed
+        </mat-chip>
+
+        <!-- Show In-Progress -->
+        <mat-chip *ngIf="!user?.isCompleted" class="col" color="warn">
+            In-Progress
+        </mat-chip>
+
+        <!-- Show completed date only if NOT completed (i.e., In-Progress) -->
+        <span class="col text-center" *ngIf="user?.isCompleted">
+            {{ user.updatedOn | date: 'mediumDate' }} </span>
+        <span class="col text-center" *ngIf="!user?.isCompleted">
+            {{ '' }} </span>
+    </div>
+
+    <div class="text-end">
+        <button class="back-btn mt-2" (click)="onClose()">Close</button>
+    </div>
+</mat-dialog-content>

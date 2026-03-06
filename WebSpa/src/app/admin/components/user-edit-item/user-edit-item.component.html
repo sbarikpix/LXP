@@ -1,0 +1,443 @@
+<div class="edit-user-mob" *ngIf="!isLoading">
+  <div class="d-flex gap-5 align-items-center mb-3 avatar-container-mob">
+    <div class="d-flex flex-column justify-content-center">
+      <div class="avatar-container" (mouseenter)="hoverAvatar = true" (mouseleave)="hoverAvatar = false">
+        <ngx-avatars class="profile-avatar"
+          *ngIf="(selectedImage === undefined || selectedImage === '' || selectedImage === null) && isNameValid()"
+          [name]="getFullName()" size="100" bgColor="#FC5723"></ngx-avatars>
+        <ngx-avatars class="profile-avatar"
+          *ngIf="selectedImage !== undefined && selectedImage !== '' && selectedImage !== null" [src]="selectedImage"
+          size="100"></ngx-avatars>
+        <div class="avatar-icons d-flex" *ngIf="checkAvatarPresence() && isNameValid()">
+          <i class="fa-solid fa-pen-to-square" (click)="openUploadImageDialog()" matTooltip="upload"></i>
+        </div>
+      </div>
+
+      <button *ngIf="
+          selectedImage !== '' &&
+          selectedImage !== null &&
+          selectedImage !== undefined
+        " (click)="removeUploadedImage()" class="remove-btn d-flex justify-content-center align-items-center">
+        <i class="fa-solid fa-trash-can"></i>remove
+      </button>
+    </div>
+  </div>
+  <div class="requiredfield mb-4" *ngIf="loggedInUser.roleName == 'GlobalAdmin'">
+    <label class="mandatory">
+      <sup style="color: red">*</sup>Required Field</label>
+  </div>
+  <form [formGroup]="userForm">
+    <div id="contact-field" class="mb-3" *ngIf="loggedInUser.roleName == 'GlobalAdmin'">
+      <div class="header mb-3">
+        <div class="sub-header">Organization</div>
+      </div>
+      <div class="form-group d-flex justify-content-between align-items-center form-control-mob"
+        style="padding-left: 14px">
+        <div class="form-control">
+          <p class="sub-formcontrol">
+            Select Organization <span style="color: #f95029">*</span>
+          </p>
+
+          <button class="btn btn-secondary dropdown-button" type="button" aria-expanded="false"
+            *ngIf="!isOrgProspective">
+            <mat-select class="drop-down-txt" [(value)]="selectedOrganization" placeholder="--select org--"
+              #singleSelect (selectionChange)="selectOrganization($event.value)" [disabled]="isEditMode">
+              <mat-option>
+                <ngx-mat-select-search [formControl]="orgfilterctrl" placeholderLabel="Search"
+                  noEntriesFoundLabel="No Org found"></ngx-mat-select-search>
+              </mat-option>
+              <mat-option *ngFor="let org of filteredorgs | async" [value]="org">
+                {{ org.name }}
+              </mat-option>
+            </mat-select>
+          </button>
+          <input class="form-control-inp" *ngIf="isOrgProspective" type="text" [value]="selectedOrganization.name"
+            [disabled]="true" />
+        </div>
+
+        <div class="form-control">
+          <p class="sub-formcontrol">
+            Select Job Title <span style="color: #f95029">*</span>
+          </p>
+
+          <mat-select class="drop-down-txt dropdown-button btn btn-secondary" [(value)]="selectedJobTitle"
+            [placeholder]="selectedJobTitle ? selectedJobTitle.name : '--select job--'" #singleSelect
+            (selectionChange)="selectJobTitle($event.value)" [disabled]="isEditMode">
+
+            <!-- Search box -->
+            <mat-option>
+              <ngx-mat-select-search [formControl]="jobFilterCtrl" placeholderLabel="Search"
+                noEntriesFoundLabel="No Job found">
+              </ngx-mat-select-search>
+            </mat-option>
+
+            <!-- Scrollable jobs -->
+            <div infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="500"
+              (scrolled)="onDropdownScroll()" [scrollWindow]="false" class="dropdown-scroll">
+              <mat-option *ngFor="let job of filteredJobs | async" [value]="job">
+                {{ job.name }}
+              </mat-option>
+            </div>
+          </mat-select>
+        </div>
+
+        <!-- <div class="form-control">
+          <p class="sub-formcontrol">Select Team</p>
+          <button class="btn btn-secondary dropdown-button" type="button" aria-expanded="false">
+            <mat-select class="drop-down-txt" [(value)]="selectedTeam" placeholder="--select team--" #singleSelect
+              (selectionChange)="selectTeam($event.value)">
+              <mat-option>
+                <ngx-mat-select-search [formControl]="TeamFilterCtrl" placeholderLabel="Search"
+                  noEntriesFoundLabel="No Team found"></ngx-mat-select-search>
+              </mat-option>
+              <mat-option *ngFor="let team of filteredTeams | async" [value]="team">
+                {{ team.name }}
+              </mat-option>
+            </mat-select>
+          </button>
+        </div> -->
+        <div class="form-control"></div>
+      </div>
+    </div>
+    <div id="personal-field" class="mb-3">
+      <div class="header mb-3">
+        <div class="sub-header">Personal Details</div>
+      </div>
+      <div class="form-group d-flex justify-content-between align-items-center form-control-mob"
+        style="padding-left: 14px">
+        <div [ngClass]="{
+            'form-control': true,
+            error:
+              userForm.get('firstName')!.touched &&
+              !userForm.get('firstName')!.valid
+          }">
+          <p class="sub-formcontrol">
+            First Name <span style="color: #f95029">*</span>
+          </p>
+          <input class="form-control-inp" formControlName="firstName" type="text" autofocus />
+          <mat-error *ngIf="
+              userForm.get('firstName')!.hasError('required') &&
+              userForm.get('firstName')!.touched
+            ">
+            First Name is required
+          </mat-error>
+          <mat-error *ngIf="userForm.get('firstName')!.hasError('patternInvalid')">
+            Name can only contain alphabets
+          </mat-error>
+        </div>
+
+        <div [ngClass]="{
+            'form-control': true,
+            error: userForm.get('middleName')!.hasError('pattern')
+          }">
+          <p class="sub-formcontrol">Middle Name</p>
+          <input class="form-control-inp" formControlName="middleName" type="text" />
+          <mat-error *ngIf="
+              userForm.get('middleName')!.invalid &&
+              userForm.get('middleName')!.hasError('pattern')
+            ">
+            Name can only contain alphabets
+          </mat-error>
+        </div>
+
+        <div [ngClass]="{
+            'form-control': true,
+            error:
+              userForm.get('lastName')!.touched &&
+              !userForm.get('lastName')!.valid
+          }">
+          <p class="sub-formcontrol">
+            Last Name <span style="color: #f95029">*</span>
+          </p>
+          <input class="form-control-inp" formControlName="lastName" type="text" />
+          <mat-error *ngIf="
+              userForm.get('lastName')!.hasError('required') &&
+              userForm.get('lastName')!.touched
+            ">
+            Last Name is required
+          </mat-error>
+          <mat-error *ngIf="userForm.get('lastName')!.hasError('patternInvalid')">
+            Name can only contain alphabets
+          </mat-error>
+        </div>
+        <div [ngClass]="
+            userForm.get('email')!.touched && !userForm.get('email')!.valid
+              ? 'form-control error'
+              : 'form-control'
+          ">
+          <p class="sub-formcontrol">
+            Email <span style="color: #f95029">*</span>
+          </p>
+          <input class="form-control-inp" formControlName="email" type="text" [readonly]="isEditMode"
+            [ngStyle]="{ 'background-color': isEditMode ? '#EEEEEE' : '' }" />
+          <mat-error *ngIf="
+              userForm.get('email')!.invalid && userForm.get('email')!.touched
+            ">
+            Email is required
+          </mat-error>
+          <mat-error *ngIf="
+              userForm.get('email')!.invalid &&
+              userForm.get('email')!.hasError('patternInvalid')
+            ">
+            Please provide valid Email
+          </mat-error>
+        </div>
+      </div>
+      <div class="form-control-group d-flex justify-content-between align-items-center form-control-mob"
+        style="padding-left: 14px">
+        <div [ngClass]="
+            userForm.get('dateOfBirth')!.touched &&
+            !userForm.get('dateOfBirth')!.valid
+              ? 'form-control error'
+              : 'form-control'
+          ">
+          <p class="sub-formcontrol">DOB</p>
+          <input class="form-control-inp" formControlName="dateOfBirth" type="date" (change)="validateDOB()" />
+          <mat-error *ngIf="
+              userForm.get('dateOfBirth')!.touched &&
+              userForm.get('dateOfBirth')!.invalid &&
+              !userForm.get('dateOfBirth')!.hasError('required')
+            ">
+            Invalid DOB
+          </mat-error>
+        </div>
+        <div [ngClass]="
+            userForm.get('gender')!.touched && !userForm.get('gender')!.valid
+              ? 'form-control error'
+              : 'form-control'
+          ">
+          <p class="sub-formcontrol">Gender</p>
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <p class="drop-down-txt">
+              {{ selectedGender ? selectedGender : "--select gender--" }}
+            </p>
+          </button>
+          <mat-error *ngIf="userForm.get('gender')!.touched">
+            Gender is required
+          </mat-error>
+          <ul class="dropdown-menu">
+            <li>
+              <p class="dropdown-item" (click)="selectGender('Male')">Male</p>
+            </li>
+            <li>
+              <p class="dropdown-item" (click)="selectGender('Female')">
+                Female
+              </p>
+            </li>
+          </ul>
+        </div>
+        <div [ngClass]="
+            userForm.get('roleId')!.touched && !userForm.get('roleId')!.valid
+              ? 'form-control error'
+              : 'form-control'
+          ">
+          <div *ngIf="
+              loggedInUser.roleName !== 'Learner' ||
+              userToEdit?.roleName !== 'GlobalAdmin'
+            ">
+            <p class="sub-formcontrol">
+              Assign Role <span style="color: #f95029">*</span>
+            </p>
+            <input *ngIf="loggedInUser.roleName === 'Learner'" [readonly]="isEditMode" class="form-control"
+              [value]="selectedRole.name" />
+
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+              aria-expanded="false" *ngIf="loggedInUser.roleName !== 'Learner'">
+              <p class="drop-down-txt">
+                {{ selectedRole ? selectedRole.name : "--select role--" }}
+              </p>
+            </button>
+            <ul class="dropdown-menu">
+              <li *ngFor="let role of roles">
+                <p class="dropdown-item" (click)="selectRole(role)">
+                  {{ role.name }}
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div [ngClass]="
+            userForm.get('managerId')!.touched &&
+            !userForm.get('managerId')!.valid
+              ? 'form-control error'
+              : 'form-control'
+          ">
+          <div *ngIf="
+              selectedRole?.name == 'Learner' &&
+              loggedInUser.roleName !== 'Learner'
+            ">
+            <p class="sub-formcontrol">Assign Manager</p>
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <p class="drop-down-txt">
+                {{
+                assignedManager
+                ? assignedManager.firstName + " " + assignedManager.lastName
+                : "--assign manager--"
+                }}
+              </p>
+            </button>
+            <ul class="dropdown-menu">
+              <li *ngIf="managerList.length == 0">
+                <p class="dropdown-item">No Manager found</p>
+              </li>
+              <li *ngFor="let manager of managerList">
+                <p class="dropdown-item" (click)="assignManager(manager.applicationUserId)">
+                  {{ manager.firstName + " " + manager.lastName }}
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-control-group d-flex justify-content-between align-items-center form-control-mob"
+      style="padding-left: 14px">
+      <div class="form-control radio-group-container">
+        <p class="sub-formcontrol">Is Mentor</p>
+        <div class="radio-group">
+          <label class="radio-label" [class.active]="userForm.get('isMentor')?.value === true">
+            <input type="radio" [value]="true" formControlName="isMentor" class="d-none">
+            <span>Yes</span>
+          </label>
+          <label class="radio-label" [class.active]="userForm.get('isMentor')?.value === false">
+            <input type="radio" [value]="false" formControlName="isMentor" class="d-none">
+            <span>No</span>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div id="contact-field" class="mb-3">
+      <div class="header mb-3">
+        <div class="sub-header">Contact Details</div>
+      </div>
+      <div class="form-group d-flex justify-content-between align-items-center form-control-mob"
+        style="padding-left: 14px">
+        <div [ngClass]="
+            userForm.get('address1')!.touched &&
+            !userForm.get('address1')!.valid
+              ? 'form-control error'
+              : 'form-control'
+          ">
+          <p class="sub-formcontrol">Address 1</p>
+          <input class="form-control-inp" formControlName="address1" type="text" />
+        </div>
+        <div [ngClass]="
+            userForm.get('address2')!.touched &&
+            !userForm.get('address2')!.valid
+              ? 'form-control error'
+              : 'form-control'
+          ">
+          <p class="sub-formcontrol">Address 2</p>
+          <input class="form-control-inp" formControlName="address2" type="text" />
+        </div>
+        <div [ngClass]="
+            userForm.get('city')!.touched && !userForm.get('city')!.valid
+              ? 'form-control error'
+              : 'form-control'
+          ">
+          <p class="sub-formcontrol">City</p>
+          <input class="form-control-inp" formControlName="city" type="text" />
+        </div>
+        <div [ngClass]="
+            userForm.get('district')!.touched && !userForm.get('district')!.valid
+              ? 'form-control error'
+              : 'form-control'
+          ">
+          <p class="sub-formcontrol">District</p>
+          <input class="form-control-inp" formControlName="district" type="text" />
+        </div>
+        <div [ngClass]="
+            userForm.get('state')!.touched && !userForm.get('state')!.valid
+              ? 'form-control error'
+              : 'form-control'
+          ">
+          <p class="sub-formcontrol">State</p>
+          <input class="form-control-inp" formControlName="state" type="text" />
+        </div>
+      </div>
+      <div class="form-control-group d-flex justify-content-between align-items-center form-control-mob"
+        style="padding-left: 14px">
+        <div [ngClass]="
+            userForm.get('country')!.touched && !userForm.get('country')!.valid
+              ? 'form-control error'
+              : 'form-control'
+          ">
+          <p class="sub-formcontrol">Country</p>
+          <input class="form-control-inp" formControlName="country" type="text" />
+        </div>
+        <div [ngClass]="
+            userForm.get('zip')!.touched && !userForm.get('zip')!.valid
+              ? 'form-control error'
+              : 'form-control'
+          ">
+          <p class="sub-formcontrol">Zip/Postal Code</p>
+          <input class="form-control-inp" formControlName="zip" type="text" />
+        </div>
+        <div [ngClass]="
+            userForm.get('phoneNumber')!.touched &&
+            !userForm.get('phoneNumber')!.valid
+              ? 'form-control error'
+              : 'form-control'
+          ">
+          <p class="sub-formcontrol">Phone Number</p>
+          <input class="form-control-inp" formControlName="phoneNumber" type="text" />
+          <mat-error *ngIf="
+              userForm.get('phoneNumber')!.invalid &&
+              userForm.get('phoneNumber')!.hasError('pattern')
+            ">
+            Provide valid Number
+          </mat-error>
+        </div>
+        <div class="form-control"></div>
+      </div>
+      <div style="padding-left: 14px">
+        <button class="btn-connect" (click)="getGPSLocation()" [disabled]="!userForm.valid || isFetchingLocation">
+          {{ isFetchingLocation ? 'Locating...' : 'Get Location' }}
+        </button>
+      </div>
+
+      <!-- Map picker: user can click to drop a pin and set coordinates -->
+      <div class="map-picker" style="padding:14px; position: relative;">
+        <div #userMap id="userMap" class="user-map"></div>
+
+        <div class="d-flex align-items-center gap-3 mt-2">
+          <input type="text" class="form-control search-location" placeholder="Search Location"
+            [formControl]="locationSearchCtrl" (keyup.enter)="searchLocation()" />
+          <div class="ms-3 small text-muted lat-lng">
+            {{ selectedLat ?? '-' }} &nbsp; {{ selectedLng ?? '-' }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="Responsibility-field" class="mb-3">
+      <div class="header mb-3">
+        <div class="sub-header">Responsibilities</div>
+      </div>
+      <div class="form-group d-flex justify-content-between align-items-center form-control-mob"
+        style="padding-left: 14px">
+        <div [ngClass]="
+            userForm.get('responsibility')!.touched && !userForm.get('responsibility')!.valid
+              ? 'form-control error'
+              : 'form-control'
+          ">
+          <p class="sub-formcontrol">Responsibilities</p>
+          <textarea class="res-area form-control-inp" formControlName="responsibility"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="form-control"></div>
+
+    <div id="save-form" class="d-flex justify-content-end gap-2">
+      <span class="resetPassword" *ngIf="
+          isEditMode && loggedInUser?.email === userForm.get('email')?.value
+        "><a (click)="resetPassword(userToEdit.email)">Reset Password</a></span>
+      <button class="back-btn" (click)="back()">Cancel</button>
+      <button class="btn-connect" [disabled]="!this.userForm.valid" (click)="addUser()">
+        Save
+      </button>
+    </div>
+  </form>
+</div>
+<div *ngIf="isLoading" class="loader"></div>

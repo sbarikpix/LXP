@@ -1,0 +1,24 @@
+<header
+    class="h-14 bg-[var(--bg-panel)] border-b border-[var(--border-color)] flex items-center justify-between px-4 shrink-0 z-20 transition-colors duration-300 shadow-sm">
+    <div class="flex items-center gap-3">
+        <div class="w-8 h-8 bg-[#fc5723] rounded-lg flex items-center justify-center shadow-lg shadow-orange-500/20">
+            <div class="icon-globe text-white text-lg"></div>
+        </div>
+        <h1 class="text-xl font-bold tracking-tight text-[var(--text-main)]">Talent <span
+                class="text-[#fc5723] font-light">Map</span></h1>
+    </div>
+
+    <div class="flex items-center gap-2">
+        <span class="text-xs font-semibold text-[var(--text-muted)] mr-2 uppercase tracking-wide">VIEW MODE:</span>
+        <button (click)="setView('Map')"
+            class="px-4 py-1.5 rounded-md text-xs font-medium transition-all flex items-center gap-2"
+            [ngClass]="currentView() === 'Map' ? 'bg-[#fc5723] text-white shadow-sm' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'">
+            <div class="icon-map text-xs"></div> Map
+        </button>
+        <button (click)="setView('Analytics')"
+            class="px-4 py-1.5 rounded-md text-xs font-medium transition-all flex items-center gap-2"
+            [ngClass]="currentView() === 'Analytics' ? 'bg-[#fc5723] text-white shadow-sm' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'">
+            <div class="icon-chart-bar text-xs"></div> Analytics
+        </button>
+    </div>
+</header>

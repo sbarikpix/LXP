@@ -1,0 +1,181 @@
+.resume-container {
+  height: 100vh;
+}
+
+.background-image img {
+  width: 100%;
+  height: 25%;
+  object-fit: contain;
+}
+
+.template-container {
+  width: 90%;
+  position: absolute;
+  transform: translate(0%, -45%);
+  z-index: 2;
+}
+
+::ng-deep .sideNavExpanded {
+  padding: 10px 20px 0px 0px !important;
+}
+
+.personal-details {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  background-color: #fff;
+  padding: 20px;
+}
+
+.skill-details {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  background-color: #fff;
+}
+
+.headings {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.profile-avatar {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.info-section {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0px;
+}
+
+.user-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+#skills {
+  padding: 5px 20px;
+  background-color: #fbe3d7;
+  border-radius: 30px;
+  font-size: 10px;
+}
+
+.profile-icons {
+  height: 1.2rem;
+  padding-right: 0.5rem;
+}
+
+.section {
+  display: flex;
+}
+
+.card {
+  border-radius: 15px;
+  padding: 10px;
+  align-items: center;
+  flex: 0 0 auto;
+  width: 160px;
+  box-sizing: border-box;
+}
+
+.card-content {
+  border-radius: 15px;
+  width: 140px;
+  height: 120px;
+  padding: 5px 10px;
+  margin-right: 20px;
+}
+
+.my-card-body {
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: contents;
+  text-align: center;
+  overflow: hidden;
+  max-height: 6rem;
+}
+
+.my-badge-text {
+  font-size: 12px !important;
+  font-weight: 500;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-img-top {
+  width: 60px;
+  height: 60px;
+}
+
+.profile-image {
+  padding: 2px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+#level {
+  font-size: 0.9rem;
+}
+
+::ng-deep .resume-carousel .p-carousel-items-content {
+  margin-left: 20px;
+  width: 100% !important;
+}
+
+::ng-deep .resume-carousel .p-carousel-container {
+  width: auto !important;
+}
+
+::ng-deep .resume-carousel .p-carousel-item {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023.98px) {
+  .template-container {
+    transform: translate(0%, -25%);
+    padding: --safe-area-inset-top 0 var(--safe-area-inset-bottom, 20px) 0;
+  }
+
+  .user-name {
+    font-size: 1.5rem;
+  }
+
+  ::ng-deep .sideNavExpanded {
+    padding: 0px !important;
+  }
+
+  .personal-details {
+    width: 40% !important;
+  }
+
+  .skill-details {
+    width: 60% !important;
+  }
+}
+
+@media screen and (max-width: 767.98px) {
+  .template-container {
+    flex-direction: column;
+    transform: translate(0%, -7%);
+  }
+
+  .personal-details,
+  .skill-details {
+    width: 100% !important;
+  }
+
+  .skill-details {
+    margin: 0px !important;
+  }
+
+  ::ng-deep .sideNavExpanded {
+    padding: 0px !important;
+  }
+
+  ::ng-deep .p-carousel-items-content {
+    margin-left: 0px;
+  }
+}

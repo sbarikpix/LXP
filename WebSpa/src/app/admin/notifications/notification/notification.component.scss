@@ -1,0 +1,155 @@
+.notifications-container {
+  // max-width: 600px;
+  margin: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.notifications-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #f5f5f5;
+}
+
+.notifications-header h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+}
+
+.actions span {
+  margin-right: 16px;
+  font-size: 14px;
+  color: #6c757d;
+  cursor: pointer;
+}
+
+.mark-read-btn {
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #007bff;
+  cursor: pointer;
+}
+
+.notification-item {
+  background-color: #ffffff;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.notification-item.read {
+  background-color: #f0f0f0;
+  opacity: 0.7;
+}
+
+.notification-list {
+  padding: 16px;
+}
+
+.notification-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 12px;
+  border-bottom: 1px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+.notification-content {
+  display: flex;
+  align-items: flex-start;
+}
+
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+.details p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.details .timestamp,
+.timestamp {
+  font-size: 13px;
+  color: #6c757d;
+  margin-top: 4px;
+}
+
+.details {
+  margin-left: 10px;
+}
+
+.notification-actions {
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+}
+
+.approve-btn,
+.decline-btn {
+  padding: 4px 12px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+}
+
+.approve-btn {
+  background-color: #fc5723;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.decline-btn {
+  background-color: #fff;
+  color: #474c60;
+  border: 1px solid #6c757d;
+}
+
+.no-notifications {
+  text-align: center;
+  padding: 24px;
+  font-size: 16px;
+  color: #6c757d;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 955.98px) {
+  .notification-content {
+    display: inline;
+  }
+  .notifications-container {
+    margin: 10px;
+  }
+  .notification-item {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  ::ng-deep .profile-avatar .avatar-content {
+    font: 20px Helvetica, Arial, sans-serif !important;
+    height: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+}

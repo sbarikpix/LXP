@@ -1,0 +1,171 @@
+<div class="notifications-container">
+    <div class="notifications-header">
+        <h3>Notifications</h3>
+        <div *ngIf="contentnotifications.length !== 0 || learningusersnotifications.length !== 0" class="actions">
+            <!-- <span>All</span> -->
+            <button class="mark-read-btn" (click)="markAllAsRead()">Mark all as read</button>
+        </div>
+    </div>
+
+    <!--------------------Assessment Notifications-------------------------->
+    <div class="notification-list" *ngFor="let notification of notifications">
+        <div class="notification-item">
+            <div class="notification-content">
+                <div class="header-content">
+
+                    <ngx-avatars class="profile-avatar"
+                        *ngIf="(notification.managerImage === undefined || notification.managerImage === '' || notification.managerImage === null)"
+                        [name]="notification.managerName" size="45" bgColor="#FC5723"></ngx-avatars>
+                    <ngx-avatars class="profile-avatar"
+                        *ngIf="notification.managerImage !== undefined && notification.managerImage !== '' && notification.managerImage !== null"
+                        [src]="notification.managerImage" size="45"></ngx-avatars>
+
+                </div>
+                <div class="details">
+                    <p>
+                        Dear <strong>{{ notification.learnerName }}</strong>,
+                    </p>
+
+                    <p>
+                        Your manager/admin, <strong>{{ notification.managerName }}</strong>, has assigned a new
+                        assessment to you. Below are
+                        the details of the skills you are expected to demonstrate in the assessment:
+                    </p>
+
+                    <ul>
+                        <li *ngFor="let skill of notification.skillsData">
+                            <strong>{{ skill.skillName }}</strong> - Level: <strong>{{ skill.levelName
+                                }}</strong>
+                        </li>
+                    </ul>
+
+                    <p>
+                        Please review the skills and prepare accordingly. If you have any questions, feel free to reach
+                        out to your manager.
+                    </p>
+
+                    <p>
+                        Best regards,<br />
+                        The Assessment Team
+                    </p>
+
+                    <span class="timestamp">{{ formatAssignedDate(notification.assignedDate) }}</span>
+
+                </div>
+            </div>
+            <div class="notification-actions" *ngIf="!isEmulating">
+                <button *ngIf="!notification.isCompleted" (click)="startassessment(notification)"
+                    class="approve-btn">Start
+                    Assessment</button>
+                <button *ngIf="notification.isCompleted" class="decline-btn">Completed</button>
+                <span *ngIf="notification.isCompleted" class="timestamp">{{
+                    formatAssignedDate(notification.completedData) }}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-------------------------Content Notifications------------------>
+
+    <div class="notification-list" *ngFor="let notification of contentnotifications" (click)="markAsRead(notification)">
+        <div class="notification-item" [ngStyle]="{'background-color': notification.isRead ? '' : '#EEEEEE'}">
+            <div class="notification-content">
+                <ngx-avatars class="profile-avatar"
+                    *ngIf="(notification.assignedUserImage === undefined || notification.assignedUserImage === '' || notification.assignedUserImage === null)"
+                    [name]="notification.assignedUserName" size="45" bgColor="#FC5723"></ngx-avatars>
+                <ngx-avatars class="profile-avatar"
+                    *ngIf="notification.assignedUserImage !== undefined && notification.assignedUserImage !== '' && notification.assignedUserImage !== null"
+                    [src]="notification.assignedUserImage" size="45"></ngx-avatars>
+                <div class="details" style="margin-left: 10px;">
+                    <p>
+                        Dear <strong>{{ notification.assignedToUserName }}</strong>,
+                    </p>
+
+                    <p *ngIf="notification.contentTitle">
+                        Your manager/admin, <strong>{{ notification.assignedUserName }}</strong>, has assigned a new
+                        content to you. Below are
+                        the details of the skills you are expected to demonstrate in the content:
+                    </p>
+                    <p *ngIf="!notification.contentTitle">
+                        Your manager/admin, <strong>{{ notification.assignedUserName }}</strong>, has assigned a new
+                        skill to you. Below are
+                        the details of the skills you are expected to demonstrate in the skill:
+                    </p>
+
+                    <ul>
+                        <li>
+                            <strong>{{ notification.chasmaNOVOSkillName }}</strong> - Level: <strong>{{
+                                notification.levelName
+                                }}</strong>
+                        </li>
+                    </ul>
+
+                    <p>
+                        Please review the details. If you have any questions, feel free to reach
+                        out to your manager.
+                    </p>
+
+                    <p>
+                        Best regards,<br />
+                        The ChasmaNOVO Team
+                    </p>
+
+                    <span class="timestamp">{{ formatAssignedDate(notification.createdOn) }}</span>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-------------------------LearningJourney Notifications-------------------->
+
+    <div class="notification-list" *ngFor="let notification of learningusersnotifications"
+        (click)="markAsRead(notification)">
+        <div class="notification-item" [ngStyle]="{'background-color': notification.isRead ? '' : '#EEEEEE'}">
+            <div class="notification-content">
+                <ngx-avatars class="profile-avatar"
+                    *ngIf="(notification.assignedUserImage === undefined || notification.assignedUserImage === '' || notification.assignedUserImage === null)"
+                    [name]="notification.assignedUserName" size="45" bgColor="#FC5723"></ngx-avatars>
+                <ngx-avatars class="profile-avatar"
+                    *ngIf="notification.assignedUserImage !== undefined && notification.assignedUserImage !== '' && notification.assignedUserImage !== null"
+                    [src]="notification.assignedUserImage" size="45"></ngx-avatars>
+                <div class="details" style="margin-left: 10px;">
+                    <p>
+                        Dear <strong>{{ notification.assignedToUserName }}</strong>,
+                    </p>
+
+                    <p>
+                        Your manager/admin, <strong>{{ notification.assignedUserName }}</strong>, has assigned a new
+                        learningJourney to you. Below are
+                        the details of the JobCategory. you are expected to demonstrate in the
+                        learningJourney: <strong>{{notification.learningJourneyTitle}}</strong>
+                    </p>
+
+                    <ul>
+                        <li>
+                            <strong>{{ notification.chasmaNOVOJobTitleName }}</strong>
+                        </li>
+                    </ul>
+
+                    <p>
+                        Please review the details. If you have any questions, feel free to reach
+                        out to your manager.
+                    </p>
+
+                    <p>
+                        Best regards,<br />
+                        The ChasmaNOVO Team
+                    </p>
+
+                    <span class="timestamp">{{ formatAssignedDate(notification.createdOn) }}</span>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- If no notifications -->
+    <div class="no-notifications"
+        *ngIf="notifications.length === 0 && contentnotifications.length === 0 && learningusersnotifications.length === 0 ">
+        No updates are available.
+    </div>
+</div>

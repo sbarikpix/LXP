@@ -1,0 +1,187 @@
+<!-- Main content wrapper - only show when not loading -->
+<div *ngIf="isLoading">
+  <!-- Header - show only when not on login page -->
+  <div class="header-container" *ngIf="!isloginpage && isLoggedIn">
+    <div class="header-card">
+      <div class="nav-item nav-btn" (click)="toggleSideNav()" *ngIf="!getMainmenu && !isMobile">
+        <img src="https://chasmadevstore.blob.core.windows.net/public/novo_menubar.png" alt="Menu" class="menu-bar">
+      </div>
+      <div id="Logo-container" class="d-flex justify-content-between" (click)="navigateToHome()">
+        <img src="https://chasmadevstore.blob.core.windows.net/public/novo_logo.png" alt=""
+          style="cursor: pointer; max-width: 150px">
+      </div>
+
+      <div class="card-content">
+        <span class="page-title">{{ pageTitle }}</span>
+        <div class="user-info" *ngIf="loggedInUser && !isMobile && !getMainmenu">
+          <div id="org-name">
+            <span>{{ organizationName }}</span>
+          </div>
+          <div class="user-details">
+            <span class="user-name">{{loggedInUser.firstName + ' ' + loggedInUser.lastName}}</span>
+            <span class="user-email" style="color: #FC5723;">{{loggedInUser.email}}</span>
+          </div>
+          <div class="user-avatar">
+            <img *ngIf="loggedInUser.profileImagePath; else initials" [src]="loggedInUser.profileImagePath"
+              alt="User Profile" class="user-avatar-img" />
+            <ng-template #initials>
+              <div class="user-avatar-initials">
+                {{ userFullName }}
+              </div>
+            </ng-template>
+          </div>
+        </div>
+        <li class="nav-item dropdown-item" *ngIf="(loggedInUser && isMobile) || getMainmenu">
+          <div class="top-nav-mob">
+            <div class="notification-wrapper">
+              <img src="https://chasmadevstore.blob.core.windows.net/public/novo_notification__nav_icon_dark.png" alt=""
+                class="notification-icon" matTooltip="Notification"
+                [routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'users', loggedInUser.applicationUserId, 'notifications']"
+                *ngIf="!getMainmenu" />
+              <span class="notification-count" *ngIf="count > 0"> {{count}}</span>
+            </div>
+            <a class="nav-link" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <div class="user-info">
+                <div class="user-avatar">
+                  <img *ngIf="loggedInUser.profileImagePath; else initials" [src]="loggedInUser.profileImagePath"
+                    alt="User Profile" class="user-avatar-img" />
+                  <ng-template #initials>
+                    <div class="user-avatar-initials">
+                      {{ userFullName }}
+                    </div>
+                  </ng-template>
+                </div>
+              </div>
+            </a>
+
+            <ul class="dropdown-menu me-1" aria-labelledby="navbarDropdownMenuLink">
+              <li class="item-profile">
+                <div class="dropdown-item">
+                  <div class="profile d-flex ">
+                    <div class="user-info-mob">
+                      <div class="user-avatar">
+                        <img *ngIf="loggedInUser.profileImagePath; else initials" [src]="loggedInUser.profileImagePath"
+                          alt="User Profile" class="user-avatar-img" />
+                        <ng-template #initials>
+                          <div class="user-avatar-initials">
+                            {{ userFullName }}
+                          </div>
+                        </ng-template>
+                      </div>
+                      <div class="user-details-mob">
+                        <span class="user-name-mob">{{loggedInUser.firstName + ' ' + loggedInUser.lastName}}</span>
+                        <span class="user-email-mob" style="color: #FC5723;">{{loggedInUser.email}}</span>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </li>
+
+              <li *ngIf="!getMainmenu">
+                <a class="dropdown-item">
+                  <div class="profile d-flex Icons" [routerLinkActive]="['active-link']"
+                    [routerLinkActiveOptions]="{ exact: true }">
+                    <div class="sidemenuicons">
+                      <img style="object-fit: cover;"
+                        src="https://chasmadevstore.blob.core.windows.net/public/novo_my profile__nav_icon_dark.png"
+                        alt="" class="organisationIcon" matTooltip="My Profile"
+                        [routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'users', loggedInUser.organizationId, loggedInUser.applicationUserId, 'overview']" />
+                    </div>
+                    <div class="admin-Text"
+                      [routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'users', loggedInUser.organizationId, loggedInUser.applicationUserId, 'overview']">
+                      My Profile</div>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#">
+                  <div class="profile d-flex Icons" [routerLinkActive]="['active-link']"
+                    [routerLinkActiveOptions]="{ exact: true }">
+                    <div class="sidemenuicons">
+                      <img style="object-fit: cover;"
+                        src="https://chasmadevstore.blob.core.windows.net/public/novo_Help__nav_icon_dark.png" alt=""
+                        class="organisationIcon" matTooltip="Help"
+                        [routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'help']" />
+                    </div>
+                    <div class="admin-Text"
+                      [routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'help']">
+                      Help</div>
+                  </div>
+                </a>
+              </li>
+              <li class="item-logout">
+                <a class="dropdown-item" href="#">
+                  <div class=" profile d-flex Icons" [routerLinkActive]="['active-link']" *ngIf="!isEmulating">
+                    <div class="sidemenuicons">
+                      <img style="object-fit: cover;"
+                        src="https://chasmadevstore.blob.core.windows.net/public/novo_sidemenu_logout.png" alt=""
+                        class="organisationIcon" matTooltip="Logout" (click)="logout()" />
+                    </div>
+                    <div class="admin-Text" [routerLinkActive]="['active-link']" (click)="logout()">
+                      Logout
+                    </div>
+
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+        </li>
+      </div>
+    </div>
+    <div *ngIf="isEmulating" class="emulation-banner">
+      <p class="m-0">{{emulationMessage}}</p>
+      <a class="text-dark exit-btn" *ngIf="isMobile" (click)="stopEmulation()"><img
+          src="https://chasmadevstore.blob.core.windows.net/public/gamification/badges/close.png" alt=""
+          style="height: 20px" /></a>
+      <button class="btn btn-sm btn-outline-dark exit-btn " *ngIf="!isMobile" (click)="stopEmulation()">Stop
+        Emulation</button>
+    </div>
+  </div>
+
+  <!-- Main layout - show only when logged in and not on login page -->
+  <div class="row main-wrapper" [ngStyle]="isMobile ? {'padding-bottom': 'calc(62px + env(safe-area-inset-bottom, 0px))'} 
+                         : {'padding-bottom': '0'}" *ngIf="!getMainmenu && !isloginpage && isLoggedIn"
+    [ngClass]="{'emulation-banner-height' : isEmulating}">
+    <!-- Side navigation -->
+    <div class="col-md-2" *ngIf="isSideNavCollapsed" #sideNav
+      [ngClass]="{'col-md-2 sideNavCollapsed': !isSideNavCollapsed, 'sideNavCustom': isSideNavCollapsed}"
+      [ngStyle]="{'width': isSideNavCollapsed ? '17%' : 'auto'}">
+      <app-side-nav></app-side-nav>
+    </div>
+
+    <!-- Main content area -->
+    <div class="col-md-10 p-3 sideNavExpanded main-area" [ngStyle]="{'width': isSideNavCollapsed ? '83%' : '100%'}"
+      [ngClass]="{'emulation-banner-bottom' : isEmulating}">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  <div class="bottom-nav-mob"
+    *ngIf="!isloginpage && isLoggedIn && isMobile && loggedInUser.roleName !== 'Learner'  && !getMainmenu">
+    <app-side-nav></app-side-nav>
+
+  </div>
+
+  <!-- Home component - show when main menu is active and user is logged in -->
+  <div class="col-md-10 sideNavExpanded" [ngClass]="{'main-wrapper' : isMobile}"
+    *ngIf="getMainmenu && !isloginpage && isLoggedIn">
+    <app-home (getMainmenu)="getMainMenuData($event)"></app-home>
+  </div>
+
+  <!-- Auth components section - modified to handle all auth pages -->
+  <div *ngIf="isAuthPage && !isLoggedIn" [ngClass]="{'main-wrapper' : isMobile}" class="auth-component-wrapper">
+    <app-login *ngIf="currentAuthPage === 'login'"></app-login>
+    <app-signup *ngIf="currentAuthPage === 'signup'"></app-signup>
+    <app-forgotpassword *ngIf="currentAuthPage === 'forgotpassword'"></app-forgotpassword>
+    <app-resetpassword *ngIf="currentAuthPage === 'resetpassword'"></app-resetpassword>
+    <app-resume-template *ngIf="currentAuthPage === 'resume'"></app-resume-template>
+    <app-view-badge *ngIf="currentAuthPage === 'view-badge'"></app-view-badge>
+  </div>
+
+</div>
+
+<!-- Loader - show when app is initializing -->
+<app-loader *ngIf="!isLoading"></app-loader>

@@ -1,0 +1,95 @@
+<div id="talent-map-root" class="h-full">
+    <div class="h-full flex flex-col overflow-hidden bg-[var(--bg-app)] transition-colors duration-300 talent-map-font">
+        <app-map-header></app-map-header>
+
+        <div class="flex-1 flex overflow-hidden relative">
+
+            <!-- Left Sidebar - Filters & Metrics -->
+            <div class="transition-all duration-300 ease-in-out border-r border-[var(--border-color)] bg-[var(--bg-panel)] z-10"
+                [class.w-[300px]]="showLeftPanel()" [class.translate-x-0]="showLeftPanel()"
+                [class.w-0]="!showLeftPanel()" [class.-translate-x-full]="!showLeftPanel()"
+                [class.opacity-0]="!showLeftPanel()">
+                <app-map-sidebar></app-map-sidebar>
+            </div>
+
+            <!-- Left Panel Toggle Button -->
+            <button (click)="toggleLeftPanel()"
+                class="absolute top-40 z-20 bg-white border border-slate-200 p-1.5 rounded-r-md shadow-sm text-slate-500 hover:text-[#fc5723] transition-all duration-300"
+                [style.left]="showLeftPanel() ? '300px' : '0'"
+                [title]="showLeftPanel() ? 'Hide Filters' : 'Show Filters'">
+                <div [ngClass]="showLeftPanel() ? 'icon-chevron-left' : 'icon-chevron-right'" class="text-xs"></div>
+            </button>
+
+            <!-- Center Content -->
+            <div class="flex-1 flex flex-col min-w-0 relative bg-slate-50">
+
+                <!-- Main Visualization Area -->
+                <ng-container *ngIf="mainView() === 'Map'">
+                    <app-map-section></app-map-section>
+                </ng-container>
+
+                <ng-container *ngIf="mainView() === 'Analytics'">
+                    <app-map-analyticsection></app-map-analyticsection>
+                </ng-container>
+
+                <!-- Bottom Layout: Table + Chatbot -->
+                <div class="absolute left-0 right-0 bottom-0 flex shrink-0 border-t border-[var(--border-color)] transition-all duration-300 ease-in-out overflow-hidden z-[30]"
+                    [ngClass]="{
+                  'h-[320px] translate-y-0 opacity-100': showBottomPanel(),
+                  'h-0 translate-y-full opacity-0': !showBottomPanel()
+                }">
+                    <!-- Table Panel -->
+                    <div class="flex-1 min-w-0 border-r border-[var(--border-color)] overflow-hidden">
+                        <app-map-bottompanel></app-map-bottompanel>
+                    </div>
+
+                    <!-- Chatbot Panel (Right of Bottom) -->
+                    <div
+                        class="w-[320px] bg-white flex flex-col border-l border-[var(--border-color)] h-full overflow-hidden min-h-0 shrink-0">
+                        <app-map-ai-chatbot class="h-full flex flex-col min-h-0" [selectedSkill]="chatSelectedSkill()"
+                            (close)="closeChatSkill()" (action)="handleAIAction($event)"></app-map-ai-chatbot>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Panel Toggle Button -->
+            <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-[40]">
+                <button (click)="toggleBottomPanel()"
+                    class="bg-white border border-slate-200 border-b-0 rounded-t-md px-3 py-1 shadow-sm text-slate-500 hover:text-[#fc5723] transition-all flex items-center gap-1 text-xs font-medium"
+                    [style.marginBottom]="showBottomPanel() ? '320px' : '0'">
+                    <div [class]="showBottomPanel() ? 'icon-chevron-down' : 'icon-chevron-up'"></div>
+                    {{ showBottomPanel() ? 'Hide Panel' : 'Show Data' }}
+                </button>
+            </div>
+
+        </div>
+
+        <!-- <div *ngIf="selectedCandidate()"
+        class="w-[320px] transition-all duration-300 ease-in-out border-l border-[var(--border-color)] bg-[var(--bg-panel)] z-20 shadow-xl">
+        <app-map-sidebar-right [selectedCandidate]="selectedCandidate()" (close)="closeSidebarRight()">
+        </app-map-sidebar-right>
+    </div> -->
+
+    </div>
+
+    <!-- Loading Overlay -->
+    <div *ngIf="loading()"
+        class="absolute inset-0 bg-white/60 backdrop-blur-[2px] z-[100] flex flex-col items-center justify-center transition-all duration-300">
+        <div class="flex flex-col items-center gap-4">
+            <div class="relative w-16 h-16">
+                <!-- Main spinner -->
+                <div class="absolute inset-0 border-4 border-slate-100 rounded-full"></div>
+                <div class="absolute inset-0 border-4 border-[#fc5723] rounded-full border-t-transparent animate-spin">
+                </div>
+                <!-- Inner logo/icon placeholder -->
+                <div class="absolute inset-4 bg-slate-50 rounded-full flex items-center justify-center shadow-inner">
+                    <div class="w-4 h-4 bg-[#fc5723] rounded-sm animate-pulse"></div>
+                </div>
+            </div>
+            <div class="flex flex-col items-center">
+                <span class="text-slate-800 font-semibold tracking-wide">Syncing Talent Data</span>
+                <span class="text-slate-400 text-xs mt-1">Fetching latest organizational insights...</span>
+            </div>
+        </div>
+    </div>
+</div>

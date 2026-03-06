@@ -1,0 +1,313 @@
+<div id="main-container" *ngIf="!isLoading">
+
+    <div class="d-flex back-btn"
+        *ngIf="(loggedInUser.roleName == 'Admin' ||loggedInUser.roleName == 'GlobalAdmin') && !isMobile">
+        <a (click)="back()" class="btn btn-light"><i class="fa-solid fa-arrow-left"></i> Back</a>
+    </div>
+    <div *ngIf="!isMobile">
+        <div id="org-status" class="d-flex justify-content-between align-items-center p-3">
+            <div id="status-section" class="d-flex gap-5">
+                <div class="status total p-2" (click)="activeTab('total')">
+                    <div class="status-number d-flex justify-content-center">
+                        <h2>{{ totalusers }}</h2>
+                    </div>
+                    <div class="status-text d-flex align-items-center justify-content-center gap-2">
+                        <i class="fa-solid fa-file-lines"></i>
+                        <p>Total</p>
+                    </div>
+                </div>
+                <div class="status active p-2" (click)="activeTab('active')">
+                    <div class="status-number d-flex justify-content-center">
+                        <h2>{{ activerecords }}</h2>
+                    </div>
+                    <div class="status-text d-flex align-items-center justify-content-center gap-2">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <p>Active</p>
+                    </div>
+                </div>
+                <div class="status inactive p-2" (click)="activeTab('inactive')">
+                    <div class="status-number d-flex justify-content-center">
+                        <h2>{{ Inactiveusers }}</h2>
+                    </div>
+                    <div class="status-text d-flex align-items-center justify-content-center gap-2">
+                        <i class="fa-solid fa-circle-xmark"></i>
+                        <p>Inactive</p>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex flex-column justify-content-between">
+                <div id="add-import-section" class="d-flex align-items-end">
+                    <div class="d-flex gap-4">
+                        <div class="add-import-btn d-flex gap-2 align-items-center"
+                            (click)="modifySelectedUsers('activate')"
+                            [ngClass]="{ disabled: selectedUsers.length === 0 }">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <p>Active</p>
+                        </div>
+                        <div class="add-import-btn d-flex gap-2 align-items-center"
+                            (click)="modifySelectedUsers('inactivate')"
+                            [ngClass]="{ disabled: selectedUsers.length === 0 }">
+                            <i class="fa-solid fa-circle-xmark"></i>
+                            <p>Inactive</p>
+                        </div>
+                        <!-- <div class="add-import-btn d-flex gap-2 align-items-center"
+                            (click)="modifySelectedUsers('delete')"
+                            [ngClass]="{ disabled: selectedUsers.length === 0 }">
+                            <i class="fa-solid fa-trash-can"></i>
+                            <p>Delete</p>
+                        </div> -->
+                        <div class="add-import-btn d-flex gap-2 align-items-center"
+                            *ngIf="loggedInUser.roleName == 'Admin' ||loggedInUser.roleName == 'GlobalAdmin'"
+                            (click)="navigateToAddUser()">
+                            <i class="fa-solid fa-plus"></i>
+                            <p>Add</p>
+                        </div>
+                        <div class="add-import-btn d-flex gap-2 align-items-center" *ngIf="
+              loggedInUser.roleName == 'Admin' ||
+              loggedInUser.roleName == 'GlobalAdmin'
+            " (click)="openImportDialog()">
+                            <i class="fa-solid fa-file-import"></i>
+                            <p>Import</p>
+                        </div>
+                        <div class="add-import-btn d-flex gap-2 align-items-center" *ngIf="
+              loggedInUser.roleName == 'Admin' ||
+              loggedInUser.roleName == 'GlobalAdmin'
+            " (click)="exportToExcel()">
+                            <i class="fa-solid fa-file-export"></i>
+                            <p>Export</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <mat-divider></mat-divider>
+        <div id="table" class="pt-3">
+            <p-table #dt [value]="dataSource" [lazy]="true" (onLazyLoad)="loadUsers($event)" [paginator]="true"
+                [rows]="5" [totalRecords]="totalRecords" [loading]="loading" [responsiveLayout]="'scroll'">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>
+                            <input type="checkbox" (change)="selectAll($event)" [checked]="allSelected" />
+                        </th>
+                        <th>
+
+                        </th>
+                        <th pSortableColumn="firstName">
+                            Name <p-sortIcon field="firstName"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="email">
+                            Email<p-sortIcon field="email"></p-sortIcon>
+                        </th>
+                        <th>
+                            Role
+                            <!-- pSortableColumn="roleId" <p-sortIcon field="roleId"></p-sortIcon> -->
+                        </th>
+                        <th pSortableColumn="managerId">
+                            Manager <p-sortIcon field="managerId"></p-sortIcon>
+                        </th>
+                        <th>
+                            Organization
+                        </th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+
+
+                        <th>
+                            <input pInputText type="text" class="searchfield" (input)="
+                dt.filter($any($event.target).value, 'firstName', 'contains')
+              " placeholder="search using name" />
+                        </th>
+                        <th>
+                            <input pInputText type="text" class="searchfield" (input)="
+                dt.filter($any($event.target).value, 'email', 'contains')
+              " placeholder="search using email" />
+                        </th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-user>
+                    <tr>
+                        <td scope="col">
+                            <input type="checkbox" (change)="selectUser(user, $event)" [checked]="isSelected(user)"
+                                name="" id="" />
+                        </td>
+                        <td>
+                            <div id="profile-avatar" class="d-flex gap-3 align-items-center">
+
+                                <ngx-avatars *ngIf="!user?.profileImagePath"
+                                    [name]="getInitials(user?.firstName, user?.lastName)" size="45" borderColor="#fff"
+                                    bgColor="#474C60"></ngx-avatars>
+
+                                <ngx-avatars *ngIf="user?.profileImagePath" [src]="user?.profileImagePath"
+                                    [name]="getInitials(user?.firstName, user?.lastName)" size="45"
+                                    borderColor="#fff"></ngx-avatars>
+
+                            </div>
+                        </td>
+                        <td>
+                            {{ user.firstName }}
+                            {{ user.middleName ? user.middleName + " " : ""
+                            }}{{ user.lastName }}
+                        </td>
+                        <td>{{ user.email }}</td>
+                        <td>{{user.roleName}}</td>
+                        <td>{{ getManagerName(user.managerId) }}</td>
+                        <td>{{user.organizationName}}</td>
+                        <td>{{ user.isActive == true ? "Active" : "Inactive" }}</td>
+                        <td>
+                            <span [matMenuTriggerFor]="menu" style="cursor: pointer;padding: 0px 10px;">
+                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                            </span>
+                        </td>
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item (click)="navigateToUserView(user.applicationUserId)">View</button>
+                            <button mat-menu-item (click)="navigateToUserEdit(user.applicationUserId)"
+                                *ngIf="canEditUser(user)">Edit</button>
+                            <button mat-menu-item (click)="changeActiveStatusForUser(user)">{{user.isActive == true ?
+                                'Inactive' : 'Active'}}</button>
+                            <button mat-menu-item *ngIf="canEmulate(user)" (click)="emulateUser(user)">Emulate</button>
+                        </mat-menu>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="9" class="text-center">No users found</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+
+    <div *ngIf="isMobile">
+        <div id="org-status" class="d-flex flex-wrap justify-content-center align-items-center p-2 gap-1">
+
+            <div id="status-section" class="d-flex gap-4">
+                <div class="status total p-2" (click)="activeTab('total')">
+                    <div class="status-number d-flex justify-content-center">
+                        <h2>{{ totalusers }}</h2>
+                    </div>
+                    <div class="status-text d-flex align-items-center justify-content-center gap-2">
+                        <i class="fa-solid fa-file-lines"></i>
+                        <p>Total</p>
+                    </div>
+                </div>
+                <div class="status active p-2" (click)="activeTab('active')">
+                    <div class="status-number d-flex justify-content-center">
+                        <h2>{{ activerecords }}</h2>
+                    </div>
+                    <div class="status-text d-flex align-items-center justify-content-center gap-2">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <p>Active</p>
+                    </div>
+                </div>
+                <div class="status inactive p-2" (click)="activeTab('inactive')">
+                    <div class="status-number d-flex justify-content-center">
+                        <h2>{{ Inactiveusers }}</h2>
+                    </div>
+                    <div class="status-text d-flex align-items-center justify-content-center gap-2">
+                        <i class="fa-solid fa-circle-xmark"></i>
+                        <p>Inactive</p>
+                    </div>
+                </div>
+            </div>
+
+            <!--******************-->
+            <div class="d-flex gap-4">
+                <div class="status2 p-2" (click)="navigateToAddUser()">
+                    <div class="status-number d-flex justify-content-center">
+                        <i class="fa-solid fa-plus"></i>
+                    </div>
+                    <div class="status-text d-flex align-items-center justify-content-center gap-2">
+                        <p>Add</p>
+                    </div>
+                </div>
+                <div class="status2 p-2" (click)="openImportDialog()">
+                    <div class="status-number d-flex justify-content-center">
+                        <i class="fa-solid fa-file-import"></i>
+                    </div>
+                    <div class="status-text d-flex align-items-center justify-content-center gap-2">
+                        <p>Import</p>
+                    </div>
+                </div>
+                <div class="status2 p-2" (click)="exportToExcel()">
+                    <div class="status-number d-flex justify-content-center">
+                        <i class="fa-solid fa-file-export"></i>
+                    </div>
+                    <div class="status-text d-flex align-items-center justify-content-center gap-2">
+                        <p>Export</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-mob" *ngIf="!loading">
+            <mat-form-field appearance="outline" class="mt-2 w-100 ">
+                <div class="d-flex align-items-center gap-2 w-100">
+                    <i class="fa-solid fa-search"></i>
+                    <input matInput placeholder="Type to search" class="w-100" (keyup)="userFilter($event)">
+                </div>
+            </mat-form-field>
+            <div class="user-scroll-container" infiniteScroll [infiniteScrollDistance]="2"
+                [infiniteScrollThrottle]="500" [scrollWindow]="false" (scrolled)="loadUsers()">
+                <mat-card class="example-card mb-3" appearance="outlined" *ngFor="let user of filteredUsers">
+                    <mat-card-header>
+                        <mat-card-title-group class="justify-content-start">
+                            <div>
+                                <ngx-avatars *ngIf="!user?.profileImagePath"
+                                    [name]="getInitials(user?.firstName, user?.lastName)" size="45" borderColor="#fff"
+                                    bgColor="#474C60"></ngx-avatars>
+
+                                <ngx-avatars *ngIf="user?.profileImagePath" [src]="user?.profileImagePath"
+                                    [name]="getInitials(user?.firstName, user?.lastName)" size="45"
+                                    borderColor="#fff"></ngx-avatars>
+                            </div>
+                            <div class="ms-3 mb-3">
+                                <mat-card-title class="user-title">{{ user.firstName }}
+                                    {{ user.middleName ? user.middleName + " " : ""
+                                    }}{{ user.lastName }}
+                                </mat-card-title>
+                                <mat-card-subtitle>{{user.email}}</mat-card-subtitle>
+                            </div>
+
+                        </mat-card-title-group>
+                        <span style="cursor: pointer;padding: 0px 10px;">
+                            <i [matMenuTriggerFor]="menu" class="fa-solid fa-ellipsis-vertical"></i>
+                        </span>
+                        <mat-menu #menu="matMenu" hasBackdrop="true">
+                            <button mat-menu-item (click)="navigateToUserView(user.applicationUserId)">View</button>
+                            <button mat-menu-item (click)="navigateToUserEdit(user.applicationUserId)"
+                                *ngIf="canEditUser(user)">Edit</button>
+                            <button mat-menu-item (click)="changeActiveStatusForUser(user)">{{user.isActive == true ?
+                                'Inactive' : 'Active'}}</button>
+                            <button mat-menu-item *ngIf="canEmulate(user)" (click)="emulateUser(user)">Emulate</button>
+                        </mat-menu>
+                    </mat-card-header>
+                    <mat-card-content class="d-flex justify-content-between align-items-end">
+                        <div>
+                            <p>Role : {{user.roleName}}</p>
+                            <p *ngIf="user.roleName === 'Learner'">Manager : {{ getManagerName(user.managerId) ||
+                                'Manager Not Available' }}</p>
+                            <p>Organization : {{user.organizationName}}</p>
+                        </div>
+                        <div>
+                            <p>{{user.isActive ? 'Active':'Inactive'}}</p>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            <div *ngIf="filteredUsers.length == 0 && !loading" class="d-flex justify-content-center align-items-center">
+                <p>Users not available</p>
+            </div>
+        </div>
+        <div class="loader" *ngIf="loading"></div>
+    </div>
+</div>
+<div *ngIf="isLoading" class="loader"></div>

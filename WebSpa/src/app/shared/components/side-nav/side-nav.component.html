@@ -1,0 +1,292 @@
+<div id="main-container" *ngIf="!isMobile">
+	<mat-accordion #accordion>
+		<div class="d-flex flex-column h-100">
+			<div class="nav-items-mob">
+				<!------Home Card ----->
+				<mat-card id="profile" class="d-flex Icons" [routerLinkActive]="['active-link']"
+					[routerLinkActiveOptions]="{ exact: true }">
+					<div class="sidemenuicons">
+						<img style="object-fit: cover;"
+							src="https://chasmadevstore.blob.core.windows.net/public/novo_Home_nav_icon_dark.png" alt=""
+							class="organisationIcon" matTooltip="Home">
+					</div>
+					<a (click)="closeAccordion()" class="admin-Text"
+						[routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'home']">
+						Home</a>
+				</mat-card>
+
+				<!------Organizations Card ----->
+				<mat-card id="profile" class="d-flex Icons" [routerLinkActive]="['active-link']"
+					[routerLinkActiveOptions]="{ exact: true }" *ngIf="loggedInUser.roleName === 'GlobalAdmin'">
+					<div class="sidemenuicons">
+						<img style="object-fit: cover;"
+							src="https://chasmadevstore.blob.core.windows.net/public/novo_Organization_nav_icon_dark.png"
+							alt="" class="organisationIcon" matTooltip="Organizations"
+							[routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'tenant']" />
+					</div>
+					<a class="admin-Text"
+						[routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'tenant']">
+						Tenants
+					</a>
+				</mat-card>
+
+				<!------Admin Card ----->
+				<mat-expansion-panel
+					*ngIf="loggedInUser.roleName === 'GlobalAdmin' ||loggedInUser.roleName === 'Admin'||loggedInUser.roleName === 'Manager' "
+					(opened)="panelOpenState = true" (closed)="panelOpenState = false">
+
+					<mat-expansion-panel-header class="d-flex Icons adminOption no-hover" style="height: 45px;"
+						[routerLinkActive]="['active-link']"
+						[routerLink]="[loggedInUser.organizationName, loggedInUser.roleName === 'Admin']"
+						(click)="goToOverview()">
+						<span class="mat-content">
+							<div class="sidemenuicons">
+								<img src="https://chasmadevstore.blob.core.windows.net/public/novo_admin_nav_icon_dark.png"
+									alt="" class="organisationIcon" matTooltip="Admin"
+									[routerLink]="[loggedInUser.organizationName, loggedInUser.roleName === 'Admin']" />
+							</div>
+							<div class="admin-Text"
+								*ngIf="loggedInUser.roleName === 'GlobalAdmin' || loggedInUser.roleName === 'Admin'">
+								Admin</div>
+							<div class="admin-Text" *ngIf="loggedInUser.roleName === 'Manager'">
+								Manager</div>
+						</span>
+
+					</mat-expansion-panel-header>
+					<p [routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'tenant', loggedInUser.organizationId]"
+						[routerLinkActive]="['active-link']" [routerLinkActiveOptions]="{ exact: true }" class="admin">
+						Overview
+					</p>
+					<p [routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'users']"
+						[routerLinkActive]="['active-link']" [routerLinkActiveOptions]="{ exact: true }" class="admin">
+						Users
+					</p>
+					<p [routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'skillbase']"
+						[routerLinkActive]="['active-link']" [routerLinkActiveOptions]="{ exact: true }" class="admin">
+						Skill Taxonomy
+					</p>
+					<p [routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'questionnaire']"
+						[routerLinkActive]="['active-link']" [routerLinkActiveOptions]="{ exact: true }" class="admin">
+						Assessment Hub
+					</p>
+					<p [routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'users', loggedInUser.applicationUserId, 'report']"
+						[routerLinkActive]="['active-link']" [routerLinkActiveOptions]="{ exact: true }" class="admin">
+						Talent Analytics
+					</p>
+					<p [routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'users', loggedInUser.applicationUserId, 'groups']"
+						[routerLinkActive]="['active-link']" [routerLinkActiveOptions]="{ exact: true }" class="admin">
+						Communities
+					</p>
+					<p [routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'skillscape-atlas']"
+						[routerLinkActive]="['active-link']" [routerLinkActiveOptions]="{ exact: true }" class="admin">
+						Talent Map
+					</p>
+				</mat-expansion-panel>
+
+				<!------Integrations Card ----->
+				<mat-card id="profile"
+					*ngIf="loggedInUser.roleName == 'GlobalAdmin' || loggedInUser.roleName == 'Admin'"
+					class="d-flex Icons" [routerLinkActive]="['active-link']"
+					[routerLinkActiveOptions]="{ exact: true }">
+					<div class="sidemenuicons">
+						<img style="object-fit: cover;"
+							src="https://chasmadevstore.blob.core.windows.net/public/novo_Integration__nav_icon_dark.png"
+							alt="" class="organisationIcon" matTooltip="Integrations"
+							[routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'users', loggedInUser.applicationUserId, 'integration']" />
+					</div>
+					<a (click)="closeAccordion()" class="admin-Text"
+						[routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'users', loggedInUser.applicationUserId, 'integration']">
+						Content Integrators</a>
+				</mat-card>
+
+				<!------UserContent Card ----->
+				<mat-card id="profile" class="d-flex Icons" [routerLinkActive]="['active-link']"
+					[routerLinkActiveOptions]="{ exact: true }"
+					*ngIf="loggedInUser.roleName === 'GlobalAdmin' ||loggedInUser.roleName === 'Admin'||loggedInUser.roleName === 'Manager' ">
+					<div class="sidemenuicons">
+						<img style="object-fit: cover;"
+							src="https://chasmadevstore.blob.core.windows.net/public/novo_usercontent__nav_icon_dark.png"
+							alt="" class="organisationIcon" matTooltip="Content Manager"
+							[routerLink]="[loggedInUser.organizationName, loggedInUser.roleName,'usercontent']" />
+					</div>
+					<a (click)="closeAccordion()" class="admin-Text"
+						[routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'usercontent']">
+						Learning Hub</a>
+
+				</mat-card>
+
+				<!------Notification Card ----->
+				<mat-card id="profile" class="d-flex Icons" [routerLinkActive]="['active-link']"
+					[routerLinkActiveOptions]="{ exact: true }">
+					<div class="sidemenuicons">
+						<img style="object-fit: cover;"
+							src="https://chasmadevstore.blob.core.windows.net/public/novo_notification__nav_icon_dark.png"
+							alt="" class="organisationIcon" matTooltip="Notification"
+							[routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'users', loggedInUser.applicationUserId, 'notifications']" />
+					</div>
+					<a (click)="closeAccordion()" class="admin-Text"
+						[routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'users', loggedInUser.applicationUserId, 'notifications']">
+						Notifications <span class="countspan" *ngIf="count > 0"> {{count}}</span></a>
+
+				</mat-card>
+
+				<!------My Profile Card ----->
+				<mat-card id="profile" class="d-flex Icons" [routerLinkActive]="['active-link']"
+					[routerLinkActiveOptions]="{ exact: true }">
+					<div class="sidemenuicons">
+						<img style="object-fit: cover;"
+							src="https://chasmadevstore.blob.core.windows.net/public/novo_my profile__nav_icon_dark.png"
+							alt="" class="organisationIcon" matTooltip="My Profile"
+							[routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'users', loggedInUser.organizationId, loggedInUser.applicationUserId, 'overview']" />
+					</div>
+					<a (click)="closeAccordion()" class="admin-Text"
+						[routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'users', loggedInUser.organizationId, loggedInUser.applicationUserId, 'overview']">
+						My Profile</a>
+				</mat-card>
+
+				<!------Help Card ----->
+				<mat-card id="profile" class="d-flex Icons" [routerLinkActive]="['active-link']"
+					[routerLinkActiveOptions]="{ exact: true }">
+					<div class="sidemenuicons">
+						<img style="object-fit: cover; width: 22px;"
+							src="https://chasmadevstore.blob.core.windows.net/public/novo_Help__nav_icon_dark.png"
+							alt="" class="organisationIcon" matTooltip="Help"
+							[routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'help']" />
+					</div>
+					<a (click)="closeAccordion()" class="admin-Text"
+						[routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'help']">
+						Help</a>
+				</mat-card>
+			</div>
+
+			<!------Logout Card ----->
+			<div class="position-absolute" style="bottom: 10%;" *ngIf="!isEmulating">
+				<div class="d-flex Icons log" [routerLinkActive]="['active-link']">
+					<div class="sidemenuicons">
+						<img style="object-fit: cover;"
+							src="https://chasmadevstore.blob.core.windows.net/public/novo_sidemenu_logout.png" alt=""
+							class="organisationIcon" matTooltip="Logout" (click)="logout()" />
+					</div>
+					<mat-card [routerLinkActive]="['active-link']" (click)="logout()">
+						<a class="admin-Text">Logout</a>
+					</mat-card>
+
+				</div>
+			</div>
+
+		</div>
+	</mat-accordion>
+</div>
+
+<div *ngIf="isMobile">
+
+	<div class="footer-nav-mob">
+		<!------Organizations Card ----->
+		<mat-card class="d-flex footer-nav-items" [routerLinkActive]="['active-link']"
+			[routerLinkActiveOptions]="{ exact: true }" *ngIf="loggedInUser.roleName === 'GlobalAdmin'">
+			<div class="sidemenuicons">
+				<img style="object-fit: cover;"
+					src="https://chasmadevstore.blob.core.windows.net/public/novo_Organization_nav_icon_dark.png" alt=""
+					class=" footer-nav-icons" matTooltip="Organizations"
+					[routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'tenant']" />
+			</div>
+			<a class="Footer-nav-text" [routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'tenant']">
+				Organizations
+			</a>
+		</mat-card>
+		<mat-card class="d-flex footer-nav-items" [routerLinkActive]="['active-link']"
+			[routerLinkActiveOptions]="{ exact: true }"
+			*ngIf="loggedInUser.roleName === 'Manager' || loggedInUser.roleName === 'Admin'">
+			<div class="sidemenuicons">
+				<img style="object-fit: cover;"
+					src="https://chasmadevstore.blob.core.windows.net/public/novo_Organization_nav_icon_dark.png" alt=""
+					class=" footer-nav-icons" matTooltip="Organizations"
+					[routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'users', loggedInUser.applicationUserId, 'report']" />
+			</div>
+			<a class="Footer-nav-text"
+				[routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'users', loggedInUser.applicationUserId, 'report']">
+				Reports
+			</a>
+		</mat-card>
+		<mat-card class="d-flex footer-nav-items" [routerLinkActive]="['active-link']"
+			[routerLinkActiveOptions]="{ exact: true }" *ngIf="loggedInUser.roleName === 'Manager'">
+			<div class="sidemenuicons">
+				<img style="object-fit: cover;"
+					src="https://chasmadevstore.blob.core.windows.net/public/novo_Organization_nav_icon_dark.png" alt=""
+					class=" footer-nav-icons" matTooltip="Organizations"
+					[routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'users', loggedInUser.applicationUserId, 'groups']" />
+			</div>
+			<a class="Footer-nav-text"
+				[routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'users', loggedInUser.applicationUserId, 'groups']">
+				Groups
+			</a>
+		</mat-card>
+
+		<!------Integrations Card ----->
+		<mat-card *ngIf="loggedInUser.roleName == 'GlobalAdmin' || loggedInUser.roleName == 'Admin'"
+			class="d-flex footer-nav-items" [routerLinkActive]="['active-link']"
+			[routerLinkActiveOptions]="{ exact: true }">
+			<div class="sidemenuicons">
+				<img style="object-fit: cover;"
+					src="https://chasmadevstore.blob.core.windows.net/public/novo_Integration__nav_icon_dark.png" alt=""
+					class=" footer-nav-icons" matTooltip="Integrations"
+					[routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'users', loggedInUser.applicationUserId, 'integration']" />
+			</div>
+			<a (click)="closeAccordion()" class="Footer-nav-text"
+				[routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'users', loggedInUser.applicationUserId, 'integration']">
+				Integrations</a>
+		</mat-card>
+
+		<!------UserContent Card ----->
+		<mat-card class="d-flex footer-nav-items" [routerLinkActive]="['active-link']"
+			[routerLinkActiveOptions]="{ exact: true }"
+			*ngIf="loggedInUser.roleName === 'GlobalAdmin' ||loggedInUser.roleName === 'Admin'||loggedInUser.roleName === 'Manager' ">
+			<div class="sidemenuicons">
+				<img style="object-fit: cover;"
+					src="https://chasmadevstore.blob.core.windows.net/public/novo_usercontent__nav_icon_dark.png" alt=""
+					class=" footer-nav-icons" matTooltip="Content Manager"
+					[routerLink]="[loggedInUser.organizationName, loggedInUser.roleName,'usercontent']" />
+			</div>
+			<a (click)="closeAccordion()" class="Footer-nav-text"
+				[routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'usercontent']">
+				Content Manager</a>
+
+		</mat-card>
+
+		<mat-card class="d-flex footer-nav-items" [routerLinkActive]="['active-link']"
+			[routerLinkActiveOptions]="{ exact: true }"
+			*ngIf="loggedInUser.roleName === 'GlobalAdmin' ||loggedInUser.roleName === 'Admin'||loggedInUser.roleName === 'Manager' "
+			(click)="togglePanel($event)">
+			<div class="sidemenuicons">
+				<a>
+					<img src="https://chasmadevstore.blob.core.windows.net/public/novo_admin_nav_icon_dark.png"
+						alt="Settings" width="24" height="24">
+				</a>
+			</div>
+			<a (click)="closeAccordion()" class="Footer-nav-text">
+				{{ loggedInUser.roleName }}</a>
+			<div class="dropdown-menu show custom-drop-up mt-0 mb-2" *ngIf="panelOpen">
+				<a class="dropdown-item"
+					[routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'tenant', loggedInUser.organizationId]">
+					Overview
+				</a>
+				<a class="dropdown-item"
+					[routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'skillbase']">
+					Skill Base
+				</a>
+				<a class="dropdown-item"
+					[routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'users', loggedInUser.applicationUserId, 'report']"
+					*ngIf="loggedInUser.roleName !== 'Manager' && loggedInUser.roleName !== 'Admin'">
+					Reports
+				</a>
+				<a class="dropdown-item" *ngIf="loggedInUser.roleName !== 'Manager'"
+					[routerLink]="[loggedInUser.organizationName, loggedInUser.roleName, 'users', loggedInUser.applicationUserId, 'groups']">
+					Groups
+				</a>
+			</div>
+
+
+		</mat-card>
+
+	</div>
+</div>

@@ -1,0 +1,169 @@
+<div *ngIf="!isLoading">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="assessment-container">
+            <mat-card class="card" *ngIf="!scheduleduserskills">
+                <h4 class="header-col">Add Assessment</h4>
+                <mat-form-field appearance="outline">
+                    <!-- <mat-label>Assessment Name</mat-label> -->
+                    <input matInput [(ngModel)]="assessmentName" (input)="onAssessmentNameChange()"
+                        placeholder="Enter Assessment Name" />
+                </mat-form-field>
+                <!-- Skills Section -->
+                <h4 class="header-col mt-3">Select your skills</h4>
+                <div class="your-skill">
+                    <div class="skills-header">
+                        <mat-slide-toggle class="small-toggle" [(ngModel)]="selectAll" (change)="toggleAllSkills()">
+                        </mat-slide-toggle>
+                        <span [ngStyle]="{ color: selectAll ? '#fc5722' : 'black' }">Select all
+                            skills</span>
+                    </div>
+
+                    <div class="skills-list">
+                        <div *ngFor="let skill of SkillsList" class="skill-item row">
+                            <mat-slide-toggle class="small-toggle col-md-2" [(ngModel)]="skill.gradient"
+                                (change)="onSkillToggle(skill)">
+                            </mat-slide-toggle>
+                            <span class="skill-name col-md-6" title='{{ skill.skillName }}'>{{ skill.skillName
+                                }}</span>
+                            <span class="proficiency-level col-md-3 text-end">{{ skill.proficiencyValue.levelValue
+                                }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="m-4 me-0 d-flex justify-content-end">
+                    <button class="btn-cancel me-2" (click)="oncancel()">Cancel</button>
+                    <button class="btn-start" [disabled]="selectedSkills.selectedskills.length === 0"
+                        (click)="onstartexam()">Start</button>
+                </div>
+            </mat-card>
+            <mat-card class="card" *ngIf="scheduleduserskills">
+                <h4 class="header-col">Add Assessment</h4>
+                <mat-form-field appearance="outline">
+                    <!-- <mat-label>Assessment Name</mat-label> -->
+                    <input matInput [(ngModel)]="assessmentName" (input)="onAssessmentNameChange()"
+                        placeholder="Enter Assessment Name" />
+                </mat-form-field>
+                <!-- Skills Section -->
+
+                <!-- Skill Selection Step -->
+                <div *ngIf="isSkillSelectionStep">
+                    <h4 class="header-col mt-3">Select your skills</h4>
+                    <div class="your-skill">
+                        <div class="skills-header">
+                            <mat-slide-toggle class="small-toggle" [(ngModel)]="selectAll" (change)="toggleAllSkills()">
+                            </mat-slide-toggle>
+                            <span [ngStyle]="{ color: selectAll ? '#fc5722' : 'black' }">Select all skills</span>
+                        </div>
+
+                        <div class="skills-list">
+                            <div *ngFor="let skill of scheduledskillsList" class="skill-item row">
+                                <mat-slide-toggle class="small-toggle col-md-2" [(ngModel)]="skill.gradient"
+                                    (change)="onSkillToggle(skill)">
+                                </mat-slide-toggle>
+                                <span class="skill-name col-md-6" title='{{ skill.skillName }}'>{{ skill.skillName
+                                    }}</span>
+                                <span class="proficiency-level col-md-3 text-end">{{ skill.proficiencyValue }}</span>
+                            </div>
+                            <div class="skills-list text-center p-2" *ngIf="scheduledskillsList.length == 0">
+                                No skills found
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question Selection Step -->
+                <!-- <div *ngIf="!isSkillSelectionStep">
+                    <span class="btn-span">
+                        <h4 class="header-col">Select Questions Banks</h4>
+                        <button class="default-btn" (click)="usedefault()">Use default</button>
+                    </span>
+                    <div class="your-skill">
+                        <div class="skills-header">
+                            <mat-checkbox class="small-toggle" [(ngModel)]="selectAllQuestions"
+                                (change)="toggleAllQuestions()">
+
+                            </mat-checkbox>
+                            <span [ngStyle]="{ color: selectAll ? '#fc5722' : 'black' }">Select all questions</span>
+                        </div>
+                        <div class="skills-list">
+                            <div *ngFor="let question of questionList" class="skill-item row">
+                                <mat-checkbox class="small-toggle col-md-2" [(ngModel)]="question.selected"
+                                    (change)="onQuestionToggle(question)">
+                                </mat-checkbox>
+                                <span class="question-text col-md-10 p-0" [innerHTML]="renderMatchType(question.question)"></span>
+                            </div>
+                            <div class="text-center p-2" *ngIf="questionList.length == 0">
+                                No questions found
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <div *ngIf="!isSkillSelectionStep">
+                    <span class="btn-span">
+                      <h4 class="header-col">Select Question Banks</h4>
+                      <!-- <button class="default-btn" (click)="usedefault()">Use default</button> -->
+                      <mat-form-field appearance="outline" class="number-dropdown">
+                        <mat-label>Select Number</mat-label>
+                        <mat-select [(ngModel)]="selectedNumber" (selectionChange)="onNumberChange()">
+                          <mat-option *ngFor="let num of numberOptions" [value]="num">
+                            {{ num }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </span>
+                  
+                    <div class="your-skill">
+                      <div class="skills-header">
+                        <mat-checkbox
+                          class="small-toggle"
+                          [(ngModel)]="selectedAllQuestionBank"
+                          (change)="toggleAllQuestionBanks()"
+                        >
+                        </mat-checkbox>
+                        <span [ngStyle]="{ color: selectedAllQuestionBank ? '#fc5722' : 'black' }">
+                          Select all Question Banks
+                        </span>
+                      </div>
+                  
+                      <div class="skills-list">
+                        <div *ngFor="let bank of questionBankList" class="skill-item row">
+                          <mat-checkbox
+                            class="small-toggle col-md-2"
+                            [(ngModel)]="bank.selected"
+                            (change)="onQuestionBankToggle(bank)"
+                          >
+                          </mat-checkbox>
+                  
+                          <div class="col-md-10 p-0">
+                            <h5>{{ bank.title }}</h5>
+                            <p class="text-muted mb-0">
+                              {{ bank.skillName }} - {{ bank.levelName }}
+                            </p>
+                            <small>Total Questions: {{ bank.totalQuestions }}</small>
+                          </div>
+                        </div>
+                  
+                        <div class="text-center p-2" *ngIf="questionBankList.length === 0">
+                          No Question Banks found
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+
+                <!-- Footer with Buttons -->
+                <div class="m-4 me-0 d-flex justify-content-end">
+                    <button *ngIf="isSkillSelectionStep" class="btn-cancel me-2" (click)="oncancel()">Cancel</button>
+                    <button *ngIf="isSkillSelectionStep" [disabled]="selectedSkills.selectedskills.length === 0"
+                        class="btn-next" (click)="goToNextStep()">Next</button>
+                    <button *ngIf="!isSkillSelectionStep" class="btn-cancel me-2" (click)="goBack()">Back</button>
+                    <button *ngIf="!isSkillSelectionStep" class="btn-start" (click)="assignAssessment()">Assign</button>
+                </div>
+            </mat-card>
+        </div>
+    </div>
+</div>
+
+<div class="loader" *ngIf="isLoading">
+
+</div>

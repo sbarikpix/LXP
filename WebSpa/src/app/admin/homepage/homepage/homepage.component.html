@@ -1,0 +1,181 @@
+<div class="dashboard" *ngIf="!isLoading && !isPre_assesment">
+    <!-- User Statistics Cards -->
+    <div class="global-admin-card p-2" *ngIf="loggedInUser.roleName === 'GlobalAdmin'">
+        <div class="admin-card">
+            <div class="global-view-cards g-card-one">
+                <div class="g-icon"> <img src="https://chasmadevstore.blob.core.windows.net/public/Platform-Orgs.png"
+                        class="g-icon-img">
+                </div>
+                <div class="g-card-details">
+                    <div class="count">{{platformOrgs}}</div>
+                    <div>Organizations in the Platform</div>
+                </div>
+            </div>
+            <div class="global-view-cards g-card-two">
+                <div class="g-icon">
+                    <img src="https://chasmadevstore.blob.core.windows.net/public/Platform-Users.png"
+                        class="g-icon-img">
+                </div>
+                <div class="g-card-details">
+                    <div class="count">{{platformUsers}}</div>
+                    <div>Users in the Platform</div>
+                </div>
+            </div>
+            <div class="global-view-cards g-card-three">
+                <div class="g-icon">
+                    <img src="https://chasmadevstore.blob.core.windows.net/public/Platform-Learning_Journeys.png"
+                        class="g-icon-img">
+                </div>
+                <div class="g-card-details">
+                    <div class="count">{{platformLearningJourneys}}</div>
+                    <div>Learning Journeys in the Platform</div>
+                </div>
+            </div>
+            <!-- <div class="global-view-cards g-card-four"></div> -->
+        </div>
+    </div>
+    <div class="row" style="align-items: stretch;">
+        <div class="col-md-6 col-sm-12 d-flex justify-content-center stat-cards">
+            <div class="row w-100">
+                <div class="col-md-6 col-sm-12 card-one" style="padding: 10px;">
+                    <div *ngIf="loggedInUser.roleName === 'GlobalAdmin' ||loggedInUser.roleName === 'Admin'||loggedInUser.roleName === 'Manager'"
+                        class="col-md-12 col-sm-12 col-xs-12 card purple">
+                        <div class="col-md-3 col-sm-3 col-xs-3 icon-mob">
+                            <img src="https://chasmadevstore.blob.core.windows.net/public/novo_allusersicon.png"
+                                class="card-img-top">
+                        </div>
+                        <div class="countdiv  d-grid col-md-6 col-sm-6">
+                            <p class="count ">{{totalusers}}</p>
+                            <p class="text-center m-0">All users</p>
+                        </div>
+                        <div class="btn-div col-md-3 col-sm-3 col-xs-3">
+                            <button class="btnclass" (click)="allusers()">View<span style="padding-left: 8px;"><i
+                                        class="fa-solid fa-arrow-right-long"></i></span></button>
+                        </div>
+                    </div>
+                    <div *ngIf="loggedInUser.roleName === 'Learner'" class="col-md-12 col-sm-12 col-xs-12 card purple">
+                        <div class="col-md-3 col-sm-3 col-xs-3 icon-mob">
+                            <img src="https://chasmadevstore.blob.core.windows.net/public/novo_Learner_Gamificationicon.png"
+                                class="card-img-top">
+                        </div>
+                        <div class="countdiv col-md-6 col-sm-6">
+                            <p class="m-0">Gamification</p>
+                        </div>
+                        <div class="btn-div col-md-3 col-sm-3 col-xs-3">
+                            <button class="btnclass" [routerLink]="['gamification']">View<span
+                                    style="padding-left: 8px;"><i
+                                        class="fa-solid fa-arrow-right-long"></i></span></button>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12 card blue mt-2">
+                        <div class="col-md-3 col-sm-3 col-xs-3 icon-mob">
+                            <img src="https://chasmadevstore.blob.core.windows.net/public/novo_learningPathicon.png"
+                                class="card-img-top">
+                        </div>
+                        <div class="countdiv col-md-6 col-sm-6 col-xs-6">
+                            <p class="m-0">Learning Journey</p>
+                        </div>
+                        <div class="btn-div col-md-3 col-sm-3 col-xs-3">
+                            <button class="btnclass" [routerLink]="['learningjourney']">View<span
+                                    style="padding-left: 8px;"><i
+                                        class="fa-solid fa-arrow-right-long"></i></span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 card-two" style="padding: 10px;">
+                    <div *ngIf="loggedInUser.roleName === 'GlobalAdmin' ||loggedInUser.roleName === 'Admin'||loggedInUser.roleName === 'Manager'"
+                        class="col-md-12 col-sm-12 col-xs-12 card orange">
+                        <div class="col-md-3 col-sm-3 col-xs-3 icon-mob">
+                            <img src="https://chasmadevstore.blob.core.windows.net/public/novo_Admin_Gamificationicon.png"
+                                class="card-img-top">
+                        </div>
+                        <div class="countdiv d-grid  col-md-6 col-sm-6">
+                            <p class="text-center m-0">Gamification</p>
+                        </div>
+                        <div class="btn-div col-md-3 col-sm-3 col-xs-3">
+                            <button class="btnclass" [routerLink]="['gamification']">View<span
+                                    style="padding-left: 8px;"><i
+                                        class="fa-solid fa-arrow-right-long"></i></span></button>
+                        </div>
+                    </div>
+                    <div *ngIf="loggedInUser.roleName === 'Learner'" class="col-md-12 col-sm-12 col-xs-12 card orange">
+                        <div class="col-md-3 col-sm-3 col-xs-3 icon-mob">
+                            <img src="https://chasmadevstore.blob.core.windows.net/public/novo_skillsicon.png"
+                                class="card-img-top">
+                        </div>
+                        <div class="countdiv col-md-6 col-sm-6">
+                            <p class="m-0">Skills</p>
+                        </div>
+                        <div class="btn-div col-md-3 col-sm-3 col-xs-3">
+                            <button class="btnclass" [routerLink]="['skills']">View<span style="padding-left: 8px;"><i
+                                        class="fa-solid fa-arrow-right-long"></i></span></button>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12 card dark mt-2">
+                        <div class="col-md-3 col-sm-3 col-xs-3 icon-mob">
+                            <img src="https://chasmadevstore.blob.core.windows.net/public/novo_assessmenticon.png"
+                                class="card-img-top">
+                        </div>
+                        <div class="countdiv col-md-6 col-sm-6 col-xs-6">
+                            <p class="m-0">Assessments</p>
+                        </div>
+                        <div class="btn-div col-md-3 col-sm-3 col-xs-3">
+                            <button class="btnclass" [routerLink]="['assessment']">View<span
+                                    style="padding-left: 8px;"><i
+                                        class="fa-solid fa-arrow-right-long"></i></span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Organization Interests Progress Bars -->
+        <div class="col-md-6 col-sm-12 org-inst">
+            <div class="col-md-12 col-sm-12 col-xs-12 h-100" style="padding: 10px;">
+                <div class="progress-container h-100">
+                    <h4>Top Organization Interests</h4>
+                    <div *ngIf="Interests && Interests.length > 0; else noInterests">
+                        <div class="row progress-item" *ngFor="let interest of Interests; let i = index">
+                            <div class="interestName">{{ interest.name }}</div>
+                            <div class="d-flex align-items-center">
+                                <p-progressBar [value]="interest.interestCount" [showValue]="false"
+                                    [style]="{ 'background': backgroundcolors[i % backgroundcolors.length] }"
+                                    [styleClass]="'progress-bar-' + i"></p-progressBar>
+                                <span class="progress-value">{{ interest.interestCount }}%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <ng-template #noInterests>
+                        <div class="d-flex justify-content-center align-items-center h-100">
+                            <p>No Interests Available</p>
+                        </div>
+                    </ng-template>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Organization Skills Bar Chart -->
+    <div class="row">
+        <div class="col-md-6 col-sm-12 p-4 ">
+            <div class="org-skills col-md-12 col-sm-12 col-xs-12">
+                <h4>Assessment Metrics</h4>
+                <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [legend]="lineChartLegend"
+                    [type]="'line'">
+                </canvas>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12 p-4 ">
+            <div class="org-skills col-md-12 col-sm-12 col-xs-12">
+                <h4>Top Organization Skills</h4>
+                <canvas baseChart [data]="barChartData" [options]="barChartOptions" [plugins]="barChartPlugins"
+                    style="height: 400px;" [legend]="barChartLegend" [type]="'bar'">
+                </canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="isLoading" class="loader">
+
+</div>

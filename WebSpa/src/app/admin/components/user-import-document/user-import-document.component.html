@@ -1,0 +1,47 @@
+<div class="container p-3 d-flex flex-column gap-3">
+    <div class="header d-flex justify-content-between">
+        <div class="header-txt">
+            <h4>Upload File</h4>
+        </div>
+        <div class="cancel-btn" style="cursor: pointer;">
+            <a class="text-dark" (click)="onClose()"><i class="fa-solid fa-xmark"></i></a>
+        </div>
+    </div>
+    <div class="upload-container d-flex flex-column justify-content-center align-items-center" (drop)="onDrop($event)"
+        (dragover)="onDragOver($event)">
+        <p><img src="https://chasmadevstore.blob.core.windows.net/public/novo_importfile_file.png"
+                class="image-preview" /></p>
+        <p>Drag & Drop an File here</p>
+        <p>or</p>
+        <div class="d-flex dataButtons">
+            <a (click)="fileInput.click()" class="upload-btn">Select an Excel File</a>
+            <input type="file" #fileInput style="display: none" (change)="onFileSelected($event)">
+
+            <button class="upload-btn" (click)="sampleExcel()" [disabled]="isLoading">
+                {{ isLoading ? 'Loading...' : 'Download Sample Excel' }}
+            </button>
+        </div>
+        <p *ngIf="errMessage !== ''" class="text-danger error-msg">{{errMessage}}</p>
+    </div>
+    <div class="selected-file d-flex justify-content-between" *ngIf="selectedFile">
+        <div class="d-flex gap-3">
+            <div style="font-size: 28px;color: #FC5723;">
+                <i class="fa-solid fa-file"></i>
+            </div>
+            <div>
+                <p>{{ selectedFile.name }}</p>
+                <p style="font-size: 10px;color: #FC5723;">{{ formatBytes(selectedFile.size) }}</p>
+            </div>
+        </div>
+        <div>
+            <a class="text-dark" (click)="cancelFileSelection()"><i class="fa-solid fa-xmark"></i></a>
+        </div>
+    </div>
+    <div class="log-btn d-flex justify-content-end gap-3">
+        <button (click)="onClose()" class="back-btn">Cancel</button>
+        <button color="warn" [disabled]="!selectedFile" (click)="uploadFile()" class="btn-connect ">Upload</button>
+    </div>
+</div>
+<div *ngIf="isLoading" class="loader">
+
+</div>

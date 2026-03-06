@@ -1,0 +1,139 @@
+<div class="resume-container">
+    <div class="background-image">
+        <img src="https://chasmadevstore.blob.core.windows.net/chasmanovo/resumes/resume_bgimage.png"
+            alt="Background" />
+    </div>
+    <div class="d-flex justify-content-center position-relative">
+        <div class="template-container d-flex justify-content-center">
+            <div class="personal-details col-3 text-center">
+                <div class="profile-avatar">
+                    <ngx-avatars *ngIf="!resumeDetails?.profileImage" [name]="resumeDetails.userFullName" size="120"
+                        borderColor="#fff" bgColor="#474C60"></ngx-avatars>
+                    <ngx-avatars class="profile-image" *ngIf="resumeDetails?.profileImage"
+                        [src]="resumeDetails.profileImage" size="120" borderColor="#fff"></ngx-avatars>
+                    <div class="user-name mt-2">{{resumeDetails.userFullName}}</div>
+                    <div class="jobtitle">{{resumeDetails.jobTitle}}</div>
+                </div>
+
+                <div class="info-section">
+                    <ng-container>
+                        <hr class="w-100" />
+                        <div class="text-start d-flex flex-column ">
+                            <div class="headings">Email</div>
+                            <div class="d-flex align-items-center">
+                                <img class="profile-icons"
+                                    src="https://chasmadevstore.blob.core.windows.net/chasmanovo/resumes/resume_emailicon.png"
+                                    alt="" />
+                                <div class="details">{{ resumeDetails.email }}</div>
+                            </div>
+                        </div>
+
+                        <hr class="w-100" />
+                        <div class="text-start d-flex flex-column">
+                            <div class="headings">Mobile Number</div>
+                            <div class="d-flex align-items-center">
+                                <img class="profile-icons"
+                                    src="https://chasmadevstore.blob.core.windows.net/chasmanovo/resumes/resume_mobileicon.png"
+                                    alt="" />
+                                <div class="details">{{ resumeDetails.mobile }}</div>
+                            </div>
+                        </div>
+
+                        <hr class="w-100" />
+                        <div class="text-start d-flex flex-column">
+                            <div class="headings">Location</div>
+                            <div class="d-flex align-items-center">
+                                <img class="profile-icons"
+                                    src="https://chasmadevstore.blob.core.windows.net/chasmanovo/resumes/resume_locationicon.png"
+                                    alt="" />
+                                <div class="details">{{
+                                    resumeDetails.city+', '+resumeDetails.state+', '+resumeDetails.country
+                                    }}</div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+
+            <div class="skill-details col-9 ms-4">
+                <div class="p-4">
+                    <div class="section">
+                        <div class="d-flex">
+                            <img class="profile-icons"
+                                src="https://chasmadevstore.blob.core.windows.net/chasmanovo/resumes/resume_graduationicon.png"
+                                alt="" />
+                        </div>
+                        <div>
+                            <div class="headings">Education Details</div>
+                            <div class="details">//Need to add the details</div>
+                        </div>
+                    </div>
+
+                    <hr class="w-100" />
+                    <div class="section">
+                        <div class="d-flex">
+                            <img class="profile-icons"
+                                src="https://chasmadevstore.blob.core.windows.net/chasmanovo/resumes/resume_skillicon.png"
+                                alt="" />
+                        </div>
+                        <div>
+                            <div class="headings">Skills & Competencies</div>
+                            <div class="skills-div d-flex flex-wrap">
+                                <div *ngFor="let skill of userSkills" class="me-3 mt-2" id="skills">
+                                    {{skill.skillName }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="w-100" />
+                    <div class="">
+                        <div class="d-flex">
+                            <img class="profile-icons"
+                                src="https://chasmadevstore.blob.core.windows.net/chasmanovo/resumes/resume_badgeicon.png"
+                                alt="" />
+                            <div class="headings mb-1">Badges</div>
+                        </div>
+                        <div>
+                            <div *ngIf=" badges.length !== 0">
+                                <p-carousel [value]=" badges" [numVisible]="5" [numScroll]="3"
+                                    [showNavigators]=" showNavigator && !isMobile" [showIndicators]="false"
+                                    [responsiveOptions]="responsiveOptions" class="resume-carousel">
+                                    <ng-template pTemplate="item" let-badge>
+                                        <div
+                                            class="card card-content text-center align-content-center align-items-center">
+                                            <img [src]="badge.badgeURL" class="card-img-top pt-1" alt="Badge Image" />
+                                            <div class="my-card-body p-1">
+                                                <div class="my-badge-text mt-2">Skill: {{badge.badgeSkillName}}</div>
+                                                <p class="card-text  m-0 truncated-text" id="level"
+                                                    data-bs-toggle="tooltip" [attr.title]="badge.levelName">
+                                                    {{ badge.levelName }}
+                                                </p>
+
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </p-carousel>
+                            </div>
+
+                            <div class="badge-skills d-flex align-items-center justify-content-center no-skill"
+                                *ngIf=" badges.length === 0">
+                                No Badges available
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="w-100" />
+                    <div class="section">
+                        <div class="d-flex">
+                            <img class="profile-icons"
+                                src="https://chasmadevstore.blob.core.windows.net/chasmanovo/resumes/resume_certiicon.png"
+                                alt="" />
+                        </div>
+                        <div class="headings">Certifications</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

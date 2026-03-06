@@ -1,0 +1,87 @@
+<div class="main-container" *ngIf="!isLogin()">
+    <!-- Loader -->
+    <div class="Loader" *ngIf="isLoading"></div>
+
+    <div class="left-section d-flex justify-content-center align-items-center flex-column">
+        <div class="logo-section">
+            <img src="https://chasmadevstore.blob.core.windows.net/public/novo_logo.png" alt="NOVO Logo">
+        </div>
+        <div class="img-section">
+            <img src="https://chasmadevstore.blob.core.windows.net/public/login-Image.png" alt="Login Image">
+        </div>
+    </div>
+
+    <div class="right-section-login d-flex flex-column align-items-center">
+        <div class="text-div">
+            <p>Hey, Enter your details to get signed in to your account</p>
+        </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form gap-2">
+            <div class="alert alert-danger" *ngIf="errorMessage">
+                {{ errorMessage }}
+            </div>
+
+            <div class="form-group">
+                <input type="text" formControlName="username" placeholder="Username">
+                <span class="text-danger"
+                    *ngIf="loginForm.get('username')?.errors?.['required'] && loginForm.get('username')?.touched">
+                    Username is required
+                </span>
+                <span class="text-danger"
+                    *ngIf="loginForm.get('username')?.errors?.['email'] && loginForm.get('username')?.touched">
+                    Invalid email format
+                </span>
+            </div>
+
+            <div class="form-group">
+                <div class="password-container">
+                    <input [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                        placeholder="Password">
+                    <span class="eye-icon" (click)="togglePasswordVisibility()">
+                        <img [src]="showPassword ? 'https://chasmadevstore.blob.core.windows.net/public/eyeslash.png' : 'https://chasmadevstore.blob.core.windows.net/public/eye.png'"
+                            alt="Toggle password">
+                    </span>
+                </div>
+                <span class="text-danger"
+                    *ngIf="loginForm.get('password')?.errors?.['required'] && loginForm.get('password')?.touched">
+                    Password is required
+                </span>
+                <span class="text-danger"
+                    *ngIf="loginForm.get('password')?.errors?.['minlength'] && loginForm.get('password')?.touched">
+                    Password must be at least 8 characters
+                </span>
+            </div>
+
+            <!-- <div class="remember-login">
+                <input type="checkbox" formControlName="rememberMe">
+                <label>
+                    <span>Remember My Login</span>
+                </label>
+            </div> -->
+
+            <button type="submit" class="login-btn" [disabled]="!loginForm.valid || isLoading">
+                <span>Login</span>
+            </button>
+
+            <div>
+                <a class="forgot-password" routerLink="/forgotpassword">Forgot password?</a>
+            </div>
+
+            <div>
+                <span>Don't have an account? </span>
+                <a class="signup-link" routerLink="/signup">Sign up here!</a>
+            </div>
+
+            <!-- <div class="external-login-options" *ngIf="externalProviders.length > 0">
+                <p class="or-divider">- or login with -</p>
+                <div class="external-providers">
+                    <button *ngFor="let provider of externalProviders" class="external-provider-btn"
+                        (click)="loginWithExternalProvider(provider.provider)">
+                        <img [src]="provider.providerlogo" [alt]="provider" height="30" width="30">
+                        <span>Login With {{ provider.provider | titlecase }}</span>
+                    </button>
+                </div>
+            </div> -->
+        </form>
+    </div>
+</div>

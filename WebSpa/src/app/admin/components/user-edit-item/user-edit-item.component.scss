@@ -1,0 +1,381 @@
+p {
+  margin: 0px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+}
+
+#required-field {
+  padding: 0px 11px;
+}
+
+.form-control {
+  border: none;
+  height: 110px;
+}
+
+.form-control input,
+textarea,
+.dropdown-toggle,
+.dropdown-button {
+  width: 100%;
+  height: 49px;
+  border: 0.5px;
+  border-radius: 3px;
+  box-shadow: 0px 0px 2px;
+  font-size: 15px;
+}
+.form-control textarea {
+  min-height: 100px !important;
+}
+
+.error input {
+  border: 0.5px solid #fc5723;
+}
+
+.form-control input:focus,
+textarea:focus {
+  outline: none;
+}
+
+.form-control p {
+  font-size: 14px;
+}
+
+.header {
+  padding-left: 10px;
+}
+
+.sub-header {
+  font-size: 16px;
+  background-color: #f7f7f7;
+  font-weight: bold;
+  color: #fc5723;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  padding-left: 14px;
+}
+
+#start-date .form-control {
+  width: 25%;
+}
+
+.dropdown-toggle,
+.dropdown-button {
+  white-space: nowrap;
+  width: 100%;
+  height: 49px;
+  background-color: #fff;
+  color: black;
+  border-radius: 3px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px;
+}
+
+.dropdown-toggle:active,
+.dropdown-button:active {
+  background-color: #fff;
+  color: #000;
+}
+
+.dropdown-item {
+  padding: 8px 10px;
+  font-weight: 500 !important;
+}
+
+.dropdown-menu.show {
+  width: 18%;
+}
+
+.mat-mdc-form-field-error {
+  color: #ff3d00;
+  font-family: "Montserrat", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.text-bg-success {
+  padding: 7px 13px;
+  font-weight: 400;
+  font-family: "Open Sans";
+  font-size: 13px;
+}
+
+.drop-down-txt {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+}
+
+.remove-btn {
+  border: none;
+  margin: 4px;
+  background-color: white;
+  color: #f95029;
+  font-family: "Open Sans";
+  font-weight: 500;
+  font-size: 18px;
+  gap: 4px;
+}
+
+.remove-btn i {
+  font-size: 12px;
+}
+
+.avatar-container {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.avatar-container:hover .avatar-icons {
+  opacity: 1;
+}
+
+.avatar-container:hover ngx-avatars {
+  filter: blur(5px);
+}
+
+ngx-avatars {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  transition: filter 0.3s ease;
+}
+
+.avatar-icons {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.avatar-icons i {
+  font-size: 22px;
+  padding: 8px;
+  margin: 4px;
+  cursor: pointer;
+  color: #fff;
+}
+
+img {
+  object-fit: cover !important;
+}
+
+.mandatory {
+  font-size: 14px;
+  font-weight: 600;
+  color: #474c60;
+}
+
+.requiredfield {
+  padding-left: 22px;
+}
+
+.sub-formcontrol {
+  padding-bottom: 3px;
+}
+
+.back-btn {
+  font-size: 15px;
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 4px 26px;
+  border-radius: 8px;
+  background-color: #474c60;
+  cursor: pointer;
+}
+
+.btn-connect {
+  font-size: 15px;
+  color: #fff;
+  cursor: pointer;
+  background-color: #fc5723;
+  padding: 4px 20px;
+  border-radius: 8px;
+  border: 1px solid #fff;
+}
+
+.resetPassword {
+  color: #ff3d00;
+  text-decoration: underline;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.dropdown-scroll {
+  max-height: 200px;
+  /* Adjust as per your UI */
+  overflow-y: auto;
+}
+
+.btn-connect:disabled {
+  opacity: 0.5;
+  /* Makes the button appear "blurred" or faded */
+  cursor: not-allowed;
+  /* Changes the cursor to indicate it's not clickable */
+  background-color: #d6d6d6;
+  /* Optional: Change the background color */
+  color: #888888;
+  /* Optional: Adjust text color */
+}
+.res-text {
+  min-height: 100px !important;
+  max-height: 200px !important;
+  scrollbar-width: none;
+}
+.res-area {
+  max-height: 185px;
+}
+.form-control-inp {
+  padding-left: 10px;
+}
+
+.radio-group-container {
+  height: auto !important;
+  margin-bottom: 25px;
+}
+
+.radio-group {
+  display: flex;
+  gap: 12px;
+  background: #f8f9fa;
+  padding: 6px;
+  border-radius: 10px;
+  width: fit-content;
+  border: 1px solid #e9ecef;
+}
+
+.radio-label {
+  padding: 10px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 14px;
+  font-weight: 600;
+  color: #6c757d;
+  margin-bottom: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background: #e9ecef;
+    color: #495057;
+  }
+
+  &.active {
+    background: #fc5723;
+    color: white;
+    box-shadow: 0 4px 12px rgba(252, 87, 35, 0.25);
+    transform: translateY(-1px);
+  }
+
+  span {
+    user-select: none;
+  }
+}
+
+::ng-deep .mat-select.dropdown-button {
+  border: 1px solid #6c757d;
+  border-radius: 4px;
+  padding: 6px 12px;
+  background-color: #6c757d;
+  color: white;
+  min-width: 200px;
+}
+
+::ng-deep .mat-select.dropdown-button.mat-select-disabled {
+  background-color: #e9ecef;
+  color: #6c757d;
+}
+
+.user-map {
+  width: 35%;
+  height: 320px;
+  border-radius: 8px;
+  border: 1px solid #e6e7eb;
+  overflow: hidden;
+}
+
+/* Fix for Leaflet marker square box */
+::ng-deep .leaflet-marker-icon {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+::ng-deep .leaflet-marker-shadow {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.search-location {
+  position: absolute;
+  left: 70px;
+  top: 25px;
+  z-index: 999999;
+  height: 25px;
+  width: 15%;
+}
+.lat-lng {
+  position: absolute;
+  left: 20px;
+  bottom: 35px;
+  z-index: 999999;
+}
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .form-control-mob {
+    padding: 0px !important;
+  }
+  .edit-user-mob {
+    padding: 20px !important;
+  }
+  .requiredfield {
+    padding: 0px !important;
+    margin-bottom: 5px !important;
+  }
+  .header {
+    padding: 0px;
+  }
+}
+@media (max-width: 767.98px) {
+  .form-control-mob {
+    flex-direction: column;
+    padding: 0px !important;
+  }
+  .form-control {
+    height: auto;
+  }
+  .header {
+    padding: 0px;
+  }
+  .avatar-container-mob {
+    justify-content: center;
+  }
+  .res-area {
+    max-height: 200px;
+  }
+  .edit-user-mob {
+    padding: 10px !important;
+  }
+  .requiredfield {
+    padding: 0px !important;
+    margin-bottom: 5px !important;
+  }
+  ::ng-deep .profile-avatar .avatar-content {
+    height: 100% !important;
+    font: 33px Helvetica, Arial, sans-serif !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+}

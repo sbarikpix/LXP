@@ -1,0 +1,194 @@
+.martop15 {
+  margin-top: 15px;
+}
+
+.mar10 {
+  margin: 10px;
+}
+
+.marright15 {
+  margin-right: 15px;
+}
+
+.displayContents {
+  display: flex !important;
+  margin-top: 10px;
+}
+
+.btnstyles {
+  background-color: #fc5723 !important;
+  color: white !important;
+  border-radius: 15px !important;
+  outline: none !important;
+  // width: auto !important;
+  // height: 33px;
+  // min-width: 85px !important;
+  // margin-top: 10px !important;
+}
+
+.selectdiv {
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.dropdown-button:active {
+  background-color: #fff;
+  color: #000;
+}
+
+.dropdown-button {
+  white-space: nowrap;
+  width: 100%;
+  height: 49px;
+  background-color: #fff;
+  color: black;
+  border-radius: 3px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px;
+}
+
+.drop-down-txt {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+}
+
+.wrap-text {
+  white-space: normal;
+  word-wrap: break-word;
+  // max-width: 150px;
+  /* Adjust this as necessary */
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  font-weight: 500;
+  color: #fc5723;
+}
+
+.header-div {
+  display: flex;
+  padding: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-div .heading {
+  color: #000000;
+}
+
+.btn-div {
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+  background-color: #fc5723;
+  padding: 4px 20px;
+  border-radius: 8px;
+  border: 1px solid #fff;
+}
+
+.tabDiv,
+.bar-div {
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.tabDiv {
+  box-shadow: 0px 0px 3px #979797;
+  margin-top: 10px;
+}
+
+.back-btn a {
+  background-color: transparent;
+  border: none;
+  color: #000000;
+}
+
+// ::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+//   color: #717171 !important;
+// }
+
+::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+  text-transform: uppercase !important;
+  // font-family: "Open Sans", sans-serif;
+  /*font-weight: bold !important;*/
+  color: #fc5723 !important;
+  /*font-size: 14px !important;*/
+}
+
+.main-div {
+  // padding: 10px;
+  box-shadow: 0px 0px 3px #979797;
+  border-radius: 8px;
+  background: #f9f9f9;
+  justify-content: center;
+}
+
+.sub-bardiv,
+.sub-tabDiv {
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #fff;
+}
+.pdf-container {
+  display: none;
+}
+
+/* Show PDF content when exporting */
+.k-pdf-export .pdf-container {
+  display: block !important;
+}
+.mat-mdc-card-title {
+  font-size: 15px !important;
+  font-family: "Roboto", sans-serif !important;
+  font-weight: 500 !important;
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .example-card {
+    background: #fff;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px,
+      rgba(60, 64, 67, 0.15) 0px 2px 6px !important;
+  }
+}
+
+@media (max-width: 767.98px) {
+  h3.headings-mob {
+    font-size: 18px !important;
+    margin: 0px !important;
+  }
+  .btn-div {
+    padding: 5px 10px;
+    font-size: 14px;
+  }
+  .header-div {
+    padding: 0px 0px 10px;
+  }
+  .sub-bardiv {
+    padding: 0px !important;
+    margin: 0px !important;
+  }
+
+  .bar-div {
+    padding: 0px !important;
+    margin: 10px 0px;
+  }
+  .tabDiv {
+    box-shadow: none;
+    padding: 0px;
+  }
+  .sub-tabDiv {
+    padding: 0px !important;
+  }
+  .whiteBackground {
+    padding: 10px !important;
+  }
+  .example-card {
+    background: #fff;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px,
+      rgba(60, 64, 67, 0.15) 0px 2px 6px !important;
+  }
+}

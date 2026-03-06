@@ -1,0 +1,286 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 30px;
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+
+    .header-right {
+        display: flex;
+        gap: 10px;
+
+        .create-account {
+            border: 1px solid #1976d2;
+            color: #1976d2;
+            padding: 5px 12px;
+            border-radius: 4px;
+            background: transparent;
+            cursor: pointer;
+            transition: 0.3s;
+
+            &:hover {
+                background: #1976d2;
+                color: white;
+            }
+        }
+
+        .signinbtn {
+            border: 1px solid #f95029;
+            color: #fff;
+            padding: 5px 20px;
+            border-radius: 4px;
+            background: #f95029;
+            cursor: pointer;
+            transition: 0.3s;
+
+            &:hover {
+                color: #f95029;
+                background: transparent;
+            }
+        }
+    }
+}
+
+#Logo-container {
+    height: 100px;
+}
+
+/* Badge Wallet Styles */
+.badge-wallet-container {
+    // max-width: 900px;
+    // margin: auto;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+
+    .profile-image {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        margin-right: 15px;
+    }
+
+    .user-info {
+        text-align: left;
+    }
+}
+
+.section-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.badge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.badge-walletdiv {
+
+    background-color: #f5f5f5;
+    padding: 30px;
+    border-radius: 8px;
+    text-align-last: center;
+}
+
+.badge-card {
+    background-color: #ffff;
+    text-align: center;
+    padding: 15px;
+    border-radius: 10px;
+    transition: 0.3s;
+
+    mat-card-image {
+        height: 120px;
+        object-fit: contain;
+    }
+
+    &:hover {
+        transform: scale(1.05);
+    }
+}
+
+.resume-container {
+    height: 100vh;
+}
+
+.background-image img {
+    width: 100%;
+    height: 25%;
+    object-fit: contain;
+}
+
+.template-container {
+    width: 90%;
+    position: absolute;
+    transform: translate(0%, -45%);
+    z-index: 2;
+}
+
+::ng-deep .sideNavExpanded {
+    padding: 10px 20px 0px 0px !important;
+}
+
+.personal-details {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: #fff;
+    padding: 20px;
+}
+
+.skill-details {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: #fff;
+}
+
+.headings {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.profile-avatar {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.info-section {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0px;
+}
+
+.user-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+#skills {
+    padding: 5px 20px;
+    background-color: #fbe3d7;
+    border-radius: 30px;
+}
+
+.profile-icons {
+    height: 1.2rem;
+    padding-right: 0.5rem;
+}
+
+.section {
+    display: flex;
+}
+
+.card {
+    border-radius: 15px;
+    padding: 10px;
+    align-items: center;
+    flex: 0 0 auto;
+    width: 160px;
+    box-sizing: border-box;
+}
+
+.card-content {
+    border-radius: 15px;
+    width: 120px;
+    height: 120px;
+    padding: 5px 10px;
+    margin-right: 20px;
+}
+
+.my-card-body {
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: contents;
+    text-align: center;
+    overflow: hidden;
+    max-height: 6rem;
+}
+
+.my-badge-text {
+    font-size: 12px !important;
+    font-weight: 500;
+    text-align: center;
+}
+
+.card-img-top {
+    width: 60px;
+    height: 60px;
+}
+
+.profile-image {
+    padding: 2px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+#level {
+    font-size: 0.9rem;
+}
+
+::ng-deep .p-carousel-items-content {
+    margin-left: 20px;
+    width: auto !important;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023.98px) {
+    .template-container {
+        transform: translate(0%, -25%);
+    }
+
+    .user-name {
+        font-size: 1.5rem;
+    }
+
+    ::ng-deep .sideNavExpanded {
+        padding: 0px !important;
+    }
+
+    ::ng-deep .p-carousel-container {
+        width: 43vh !important;
+    }
+
+    .personal-details {
+        width: 40% !important;
+    }
+
+    .skill-details {
+        width: 60% !important;
+    }
+}
+
+@media screen and (max-width: 767.98px) {
+    .template-container {
+        flex-direction: column;
+        transform: translate(0%, -7%);
+    }
+
+    .personal-details,
+    .skill-details {
+        width: 100% !important;
+    }
+
+    .skill-details {
+        margin: 0px !important;
+    }
+
+    ::ng-deep .sideNavExpanded {
+        padding: 0px !important;
+    }
+
+    ::ng-deep .p-carousel-container {
+        width: 50vh !important;
+    }
+
+    ::ng-deep .p-carousel-items-content {
+        margin-left: 0px;
+    }
+}

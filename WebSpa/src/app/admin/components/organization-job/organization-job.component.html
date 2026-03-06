@@ -1,0 +1,22 @@
+<mat-tab-group [(selectedIndex)]="activatedTab" (selectedTabChange)="onTabChange($event)" class="p-4" color="warn">
+    <mat-tab label="interests" class="tab">
+        <div class="py-4">
+            <app-organization-interests></app-organization-interests>
+        </div>
+    </mat-tab>
+    <mat-tab label="skills" class="tab">
+        <div class="py-4">
+            <app-organization-skills></app-organization-skills>
+        </div>
+    </mat-tab>
+    <mat-tab label="job-titles" class="tab">
+        <div class="py-4">
+            <app-organization-job-titles></app-organization-job-titles>
+        </div>
+    </mat-tab>
+    <mat-tab label="teams" class="tab">
+        <div class="py-4">
+            <app-organization-teams></app-organization-teams>
+        </div>
+    </mat-tab>
+</mat-tab-group>

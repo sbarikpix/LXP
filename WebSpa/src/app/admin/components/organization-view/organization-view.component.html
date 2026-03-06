@@ -1,0 +1,84 @@
+<div id="main-container" *ngIf="!isLoading">
+    <div id="profile-details" class="mb-1">
+        <div class="d-flex back-btn" [ngClass]="{'invisible': loggedInUser.roleName !== 'GlobalAdmin'}"
+            *ngIf="!isMobile">
+            <a (click)="back()" class="btn btn-light"><i class="fa-solid fa-arrow-left"></i> Back</a>
+        </div>
+        <div class="d-flex justify-content-between profile-container">
+            <div id="profile-avatar" class="d-flex gap-3 align-items-center">
+                <ngx-avatars *ngIf="!organization?.imagePath" name={{organization?.name}} size="100" borderColor="#fff"
+                    bgColor="#2C3E51"></ngx-avatars>
+                <ngx-avatars *ngIf="organization?.imagePath" [src]="organization?.imagePath" size="100"
+                    borderColor="#fff"></ngx-avatars>
+                <div>
+                    <p>{{organization?.name}}</p>
+                    <p style="font-size: 14px; font-weight: 400;">{{organization?.email}}</p>
+                </div>
+            </div>
+            <div id="prfile-edit" class="d-flex align-items-center" style="cursor: pointer;">
+                <i class="fa-solid fa-pen-to-square" matTooltip="edit"
+                    *ngIf="loggedInUser.roleName === 'Admin' || loggedInUser.roleName === 'GlobalAdmin'"
+                    [routerLink]="['organization','Edit']" [routerLinkActive]="['active-link']"
+                    [routerLinkActiveOptions]="{ exact: true }"></i>
+            </div>
+        </div>
+    </div>
+    <div id="tenant-details" class="d-flex flex-column gap-3 p-4">
+        <div class="header">
+            <div class="sub-header">Tenant Details</div>
+        </div>
+        <div class="details">
+            <div class="sub-details">
+                <div class="details-header">
+                    <p>Address</p>
+                </div>
+                <div class="description">
+                    <p>{{organization?.address1}}</p>
+                </div>
+            </div>
+            <div class="sub-details">
+                <div class="details-header">
+                    <p>City</p>
+                </div>
+                <div class="description">
+                    <p>{{organization?.city}}</p>
+                </div>
+            </div>
+            <div class="sub-details">
+                <div class="details-header">
+                    <p>State</p>
+                </div>
+                <div class="description">
+                    <p>{{organization?.state}}</p>
+                </div>
+            </div>
+            <div class="sub-details">
+                <div class="details-header">
+                    <p>Country</p>
+                </div>
+                <div class="description">
+                    <p>{{organization?.country}}</p>
+                </div>
+            </div>
+            <div class="sub-details">
+                <div class="details-header">
+                    <p>Zip/Postal Code</p>
+                </div>
+                <div class="description">
+                    <p>{{organization?.zip}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="details">
+            <div class="sub-details">
+            </div>
+            <div class="sub-details">
+            </div>
+            <div class="sub-details">
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="isLoading" class="loader">
+
+</div>

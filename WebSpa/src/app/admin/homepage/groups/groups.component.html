@@ -1,0 +1,126 @@
+<!-- <div class="d-flex align-items-center mb-3" *ngIf="!isMobile">
+  <a class="btn" (click)="back()">
+    <i class="fa-solid fa-arrow-left"></i> Back
+  </a>
+</div> -->
+
+<div class="main-container" *ngIf="!isLoading">
+  <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
+    <div class="group-head m-0">
+      <h5>All Communities</h5>
+    </div>
+    <div *ngIf="loggedInUser.roleName === 'GlobalAdmin' || loggedInUser.roleName === 'Admin'">
+      <button id="add-skill-btn" (click)="openAddGroupDialog()">
+        <i class="bi bi-plus-circle"></i>
+        Create Group
+      </button>
+    </div>
+  </div>
+  <div class="d-flex  flex-column flex-md-row gap-3 mb-3">
+    <mat-form-field class="underline-search-bar" *ngIf="!isMobile">
+      <mat-label>Search Groups</mat-label>
+      <input matInput placeholder="Type to search" (keyup)="filterGroup($any($event.target).value)">
+      <button mat-icon-button matSuffix>
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="mt-2 w-100" *ngIf="isMobile">
+      <div class="d-flex align-items-center gap-2 w-100">
+        <i class="fa-solid fa-search"></i>
+        <input matInput placeholder="Type to search" class="w-100" (keyup)="filterGroup($any($event.target).value)">
+      </div>
+    </mat-form-field>
+    <div class="d-flex justify-content-end"
+      *ngIf="loggedInUser.roleName === 'GlobalAdmin' || loggedInUser.roleName === 'Admin' || loggedInUser.roleName === 'Manager'">
+      <button type="button" class="filter-btn" [ngStyle]="statusFilter === 'all' ?
+    {'color': '#fc5623','background-color':'#f7f7f7',border:'1px solid #fc5623'} :
+    {'background-color': '#f7f7f7', 'color': '#484d61', 'border': '1px solid #f7f7f7'}" (click)="filterByStatus('all')"
+        [style.height.px]="40" [style.width.px]="150">
+        All Groups
+      </button>
+
+      <button type="button" class="filter-btn" [ngStyle]="statusFilter === 'active' ?
+      {'color': '#fc5623','background-color':'#f7f7f7',border:'1px solid #fc5623'} :
+      {'background-color': '#f7f7f7', 'color': '#484d61', 'border': '1px solid #f7f7f7'}"
+        (click)="filterByStatus('active')" [style.height.px]="40" [style.width.px]="150">
+        Active Groups
+      </button>
+
+      <button type="button" class="filter-btn" [ngStyle]="statusFilter === 'inactive' ?
+      {'color': '#fc5623','background-color':'#f7f7f7',border:'1px solid #fc5623'} :
+      {'background-color': '#f7f7f7', 'color': '#484d61', 'border': '1px solid #f7f7f7'}"
+        (click)="filterByStatus('inactive')" [style.height.px]="40" [style.width.px]="150">
+        Inactive Groups
+      </button>
+    </div>
+  </div>
+
+  <div class="row mt-2">
+    <div class="col-12 textellipsis">
+      <div class="row mt-3" *ngIf="groupList.length > 0">
+        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 mb-4" *ngFor="let group of groupList">
+          <mat-card class="p-3 position-relative group-card" style="border-top-width: 7px"
+            [ngStyle]="{'border-top-color': getStripColor(group.groupId)}">
+            <div [ngClass]="{ 'inactive': !group.isActive }">
+              <span class="rounded-circle group-avatar"><i class="bi bi-people-fill"></i></span>
+            </div>
+            <div class="dropdown position-absolute" style="right: 2%; top: 13%;; z-index: 10;"
+              *ngIf="loggedInUser.roleName !== 'Manager'">
+              <button class="btn p-0 border-0 bg-transparent cursor-pointer" type="button" id="dropdownMenuButton"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-three-dots-vertical fs-5"></i>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li *ngIf="loggedInUser.roleName !== 'Manager'">
+                  <a class="dropdown-item cursor-pointer" (click)="onEdit(group)" style="cursor: pointer;">
+                    <i class="bi bi-pencil me-2"></i>Edit Group
+                  </a>
+                </li>
+                <li *ngIf="!group.isActive && loggedInUser.roleName !== 'Manager'">
+                  <a class="dropdown-item cursor-pointer" (click)="changeGroupStatus(group)" style="cursor: pointer;">
+                    <i class="bi bi-toggle-off me-2"></i>Deactivate
+                  </a>
+                </li>
+                <li *ngIf="group.isActive && loggedInUser.roleName !== 'Manager'">
+                  <a class="dropdown-item cursor-pointer" (click)="changeGroupStatus(group)" style="cursor: pointer;">
+                    <i class="bi bi-toggle-on me-2"></i>Activate
+                  </a>
+                </li>
+                <li *ngIf="loggedInUser.roleName !== 'Manager'">
+                  <a class="dropdown-item cursor-pointer" (click)="refreshGroup(group.groupId)"
+                    style="cursor: pointer;">
+                    <i class="bi bi-arrow-clockwise"></i> Refresh Group
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="group-content mt-2">
+              <a class="group-text fw-bold cursor-pointer" style="cursor: pointer;text-decoration:none"
+                (click)="onView(group.groupId)" [title]="group.groupName">
+                {{ group.groupName.length > 20 ? (group.groupName | slice:0:20) + '...' : group.groupName }}
+              </a>
+              <div class="text-muted small mb-3">User Count: {{group.totalUsers}}</div>
+              <div>
+                <div class="description-label mb-1 groupd-text">Description</div>
+                <div class="description-scroll " [title]="group.description" style="cursor: position;">
+                  {{ group.description }}
+                </div>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+
+      <!-- No Groups Message -->
+      <div *ngIf="groupList.length === 0 && !isLoading" class="text-center mt-5">
+        <i class="bi bi-people" style="color: rgb(252,93,35); font-size: 40px;"></i>
+        <p>No groups found</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="loader" *ngIf="isLoading">
+
+</div>

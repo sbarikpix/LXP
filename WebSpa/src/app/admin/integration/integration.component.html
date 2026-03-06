@@ -1,0 +1,165 @@
+<div class="main-container" *ngIf="!loading">
+    <div *ngIf="isEnabled" class=" ms-4 mt-4 w-75 integration-form">
+        <form [formGroup]="apiFromGroup" class="justify-content-center">
+            <div class="d-flex flex-column justify-content-center gap-3">
+
+                <!-- Integration Name-->
+                <mat-form-field appearance="outline" class="detailsField">
+                    <mat-label>Integration Name</mat-label>
+                    <input matInput formControlName="integrationName" maxlength="250" placeholder="Integration Name"
+                        required autocomplete="off" [readonly]="isEdit"
+                        [ngStyle]="{'background-color': isEdit ?'#EEEEEE':''}" />
+                    <mat-error *ngIf="apiFromGroup.get('integrationName')?.hasError('required')">
+                        Integration Name is required
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Base Url-->
+                <mat-form-field appearance="outline" class="detailsField">
+                    <mat-label>Base URL</mat-label>
+                    <input matInput formControlName="baseUrl" maxlength="250" placeholder="Base URL" required
+                        autocomplete="off" />
+                    <mat-error *ngIf="apiFromGroup.get('baseUrl')?.hasError('required')">
+                        Base Url is required
+                    </mat-error>
+                    <mat-error *ngIf="apiFromGroup.get('baseUrl')?.hasError('pattern')">
+                        Please enter a valid URL
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Client Id-->
+                <mat-form-field appearance="outline" class="detailsField">
+                    <mat-label>Client Id</mat-label>
+                    <input matInput formControlName="clientId" maxlength="250" placeholder="Client Id" required
+                        autocomplete="off" />
+                    <mat-error *ngIf="apiFromGroup.get('clientId')?.hasError('required')">
+                        Client Id is required
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Client Secret-->
+                <mat-form-field appearance="outline" class="detailsField">
+                    <mat-label>Client Secret</mat-label>
+                    <input matInput formControlName="clientSecret" maxlength="250" placeholder="Client Secret" required
+                        autocomplete="off" />
+                    <mat-error *ngIf="apiFromGroup.get('clientSecret')?.hasError('required')">
+                        Client Secret is required
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Scopes-->
+                <mat-form-field appearance="outline" class="detailsField">
+                    <mat-label>Scopes</mat-label>
+                    <input matInput formControlName="scopes" maxlength="250" placeholder="Scopes" required
+                        autocomplete="off" />
+                    <mat-error *ngIf="apiFromGroup.get('scopes')?.hasError('required')">
+                        Scopes is required
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Grant Tpye-->
+                <mat-form-field appearance="outline" class="detailsField">
+                    <mat-label>Grant Type</mat-label>
+                    <input matInput formControlName="grantType" maxlength="250" placeholder="Grant Type" required
+                        autocomplete="off" />
+                    <mat-error *ngIf="apiFromGroup.get('grantType')?.hasError('required')">
+                        Grant Type is required
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Description-->
+                <mat-form-field appearance="outline" class="detailsField">
+                    <mat-label>Description</mat-label>
+                    <input matInput formControlName="description" maxlength="250" placeholder="Description"
+                        autocomplete="off" />
+                </mat-form-field>
+                <div class="detailsField w-25">
+                    <mat-label>Upload Thumbnail</mat-label>
+                    <input (change)='onImageSelected($event)' class="form-control" type="file"
+                        accept="png, jpg, jpeg, svg" />
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button class="back-btn me-2" (click)="closeDialog()">Cancel</button>
+                <button *ngIf="!isEdit" class="btn-connect" (click)="saveApi()">Save</button>
+                <button *ngIf="isEdit" class="btn-connect" (click)="updateIntegration()">Update</button>
+
+            </div>
+        </form>
+    </div>
+
+    <div *ngIf="!isEnabled">
+        <div class="ms-4 add-integration-mob">
+            <button (click)="addintegration()" class="back-btn">Add Integration</button>
+        </div>
+        <div class="row col-md-12 justify-content-center d-flex gap-5 mt-2">
+            <!-- <ng-container *ngIf="integrations.length > 0; else noData" class="grid-container mt-2">
+                <mat-card *ngFor="let integration of integrations" class="integration-card">
+                    <div class="card-header">
+                        <h4 class="text-center">{{ integration.integrationName }}</h4>
+                        <span class="editintegration"
+                            (click)="editintegration(integration)"><mat-icon>edit</mat-icon>Edit</span>
+                    </div>
+                    <mat-card-content>
+                        <span>{{integration.description}}</span>
+                    </mat-card-content>
+                    <mat-card-actions>
+                        <button style="display: flex;align-items: center;" class="btn-connect"
+                            (click)="refresh(integration)"><mat-icon>refresh</mat-icon>Refresh</button>
+                    </mat-card-actions>
+                </mat-card>
+            </ng-container>
+            <ng-template #noData>
+                <div class="no-data">
+                    <p>No Integration Found</p>
+                </div>
+            </ng-template> -->
+
+
+            <div class="testimonial-card position-relative" *ngFor="let integration of integrations">
+
+
+
+                <!-- Ribbon -->
+                <div class="ribbon">
+                    HIGHER ED
+                </div>
+
+                <!-- Quote Icon -->
+                <!-- <div class="quote-icon">“</div> -->
+
+                <!-- Quote Box: single image (logo determined in TS) -->
+                <div class="quote-box">
+                    <img [src]="integration.iconPath" [alt]="integration.integrationName || 'Integration Logo'"
+                        class="author-logo" />
+                </div>
+
+                <!-- Author Section -->
+                <div class="author">
+                    <!-- <div class="logo-wrapper">
+                        <img src="https://chasmadevstore.blob.core.windows.net/public/novo_logo.png"
+                            alt="University Logo" class="author-logo" />
+                    </div> -->
+
+                    <div class="author-info">
+                        <div class="author-name">{{ integration.integrationName }}</div>
+                        <div class="author-role">{{integration.description}}</div>
+                    </div>
+                </div>
+                <!-- Action Buttons -->
+                <div class="card-actions">
+                    <button class="icon-btn" (click)="refresh(integration)">
+                        <mat-icon>refresh</mat-icon>
+                    </button>
+                    <button class="icon-btn" (click)="editintegration(integration)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<div class="loader" *ngIf="loading"></div>

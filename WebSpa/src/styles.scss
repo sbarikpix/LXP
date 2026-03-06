@@ -1,0 +1,314 @@
+@use "@angular/material" as mat;
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the theme object.
+$WebSpa-theme: mat.define-theme(
+  (
+    color: (
+      theme-type: light,
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    density: (
+      scale: 0,
+    ),
+  )
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+:root {
+  @include mat.all-component-themes($WebSpa-theme);
+}
+
+// Comment out the line below if you want to use the pre-defined typography utility classes.
+// For more information: https://material.angular.io/guide/typography#using-typography-styles-in-your-application.
+// @include mat.typography-hierarchy($WebSpa-theme);
+
+// Comment out the line below if you want to use the deprecated `color` inputs.
+// @include mat.color-variants-backwards-compatibility($WebSpa-theme);
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+// @use '@angular/material' as mat;
+// Plus imports for other components in your app.
+//Added this because of adding the primeNg.
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css";
+@import "leaflet/dist/leaflet.css";
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$WebSpa-primary: mat.m2-define-palette(mat.$m2-indigo-palette);
+$WebSpa-accent: mat.m2-define-palette(mat.$m2-pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$WebSpa-warn: mat.m2-define-palette(mat.$m2-red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$WebSpa-theme: mat.m2-define-light-theme(
+  (
+    color: (
+      primary: $WebSpa-primary,
+      accent: $WebSpa-accent,
+      warn: $WebSpa-warn,
+    ),
+    typography: mat.m2-define-typography-config(),
+    density: 0,
+  )
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($WebSpa-theme);
+
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100dvh;
+  scrollbar-width: none;
+}
+
+body {
+  margin: 0;
+  font-family: "Roboto", sans-serif !important;
+  overflow: hidden;
+  overscroll-behavior: none;
+  overscroll-behavior-y: none;
+}
+
+.loader {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: +1061;
+  background: url("./assets/Images/ChasmaNovoLoader.gif") 50% 50% no-repeat
+    rgba(68, 64, 64, 0.08);
+  background-size: 10% 20% !important;
+  background-attachment: fixed;
+  background-color: rgba(122, 114, 114, 0.329);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.mat-mdc-select-value-text {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+}
+
+.mat-mdc-select-placeholder {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  color: #000000 !important;
+}
+
+.mat-mdc-select-value {
+  text-align: start !important;
+}
+
+.mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked {
+  background-color: #f95029 !important;
+}
+
+.mat-mdc-tab-body-content {
+  overflow: hidden !important;
+}
+
+html,
+body {
+  height: 100dvh;
+}
+
+body {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+.mat-mdc-dialog-surface {
+  overflow-y: hidden !important;
+}
+
+.p-progressbar {
+  height: 0.5rem;
+}
+
+.journey-progress {
+  height: 10px !important;
+  border-radius: 8px;
+  font-size: 10px;
+  background-color: rgb(252, 224, 198);
+}
+
+.module-progress {
+  height: 10px !important;
+  border-radius: 8px;
+  font-size: 10px;
+  background-color: rgb(210, 198, 224);
+}
+
+.module-progress .p-progressbar-value {
+  background-color: #5f318e !important;
+}
+
+.journey-progress .p-progressbar-value {
+  background-color: #f58e33 !important;
+}
+
+.progress-bar-0 .p-progressbar-value {
+  background-color: #5f318e !important;
+}
+
+.progress-bar-1 .p-progressbar-value {
+  background-color: #f58e33 !important;
+}
+
+.progress-bar-2 .p-progressbar-value {
+  background-color: #56c6d3 !important;
+}
+
+.progress-bar-3 .p-progressbar-value {
+  background-color: #fc5722 !important;
+}
+
+.progress-bar-4 .p-progressbar-value {
+  background-color: #0c0c10 !important;
+}
+
+// .mdc-switch__track::after {
+//   background-color: #FBE3D7;
+// }
+
+// .mdc-switch__icons {
+//   background-color: #FC5722;
+// }
+
+// Learning path page
+.progress-bar-learning .p-progressbar-value {
+  background: #fc5722 !important;
+}
+
+.mat-mdc-form-field-has-icon-suffix .mat-mdc-text-field-wrapper {
+  background: white !important;
+  height: 45px !important;
+}
+
+.p-datatable {
+  font-size: 15px !important;
+  font-family: "Roboto", sans-serif !important;
+}
+
+angular-editor-toolbar button i {
+  font-family: FontAwesome !important;
+  color: black !important;
+}
+
+.mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background {
+  background-color: #fc5723 !important;
+  border-color: #fc5723 !important;
+}
+
+.mat-horizontal-stepper-header .mat-step-icon {
+  background-color: #fc5722 !important;
+}
+
+.p-togglebutton.p-button.p-highlight {
+  background-color: #fc5723 !important;
+  border: 1px solid #fff;
+  border-radius: 8px;
+  font-size: 15px !important;
+  font-family: "Roboto", sans-serif !important;
+}
+
+.p-togglebutton.p-button {
+  border-radius: 8px;
+  font-size: 15px !important;
+  font-family: "Roboto", sans-serif !important;
+}
+
+.p-calendar .p-inputtext {
+  font-size: 15px !important;
+  font-family: "Roboto", sans-serif !important;
+}
+
+.p-calendar:not(.p-calendar-disabled).p-focus > .p-inputtext {
+  box-shadow: none !important;
+  border-color: none !important;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023.98px) {
+  .loader {
+    background-size: 100px 100px !important;
+    background-color: rgba(255, 255, 255, 0.7);
+    background-position: center 40%;
+  }
+  html,
+  body {
+    overflow-x: hidden !important;
+  }
+}
+
+@media screen and (max-width: 767.98px) {
+  .loader {
+    background-size: 60px 60px !important;
+    background-color: rgba(255, 255, 255, 0.7);
+    background-position: center 40%;
+  }
+  html,
+  body {
+    overflow-x: hidden !important;
+  }
+}
+
+/* Tailwind Scoped Reset & Talent Map Root Styles */
+#talent-map-root {
+  /* Minimal scoped reset for Tailwind utilities to work without preflight */
+  *, ::before, ::after {
+    box-sizing: border-box;
+    border-width: 0;
+    border-style: solid;
+    border-color: currentColor;
+  }
+}
+
+/* Talent Map Specific Global Styles */
+.talent-map-font {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Custom Scrollbar for Talent Map containers */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f8fafc;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

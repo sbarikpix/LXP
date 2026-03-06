@@ -1,0 +1,398 @@
+<div *ngIf="!isLoading" class="container-fluid pt-2 whiteBackground">
+    <div class="d-flex justify-content-between">
+        <!-- <div *ngIf="!edit" class="page-title align-self-center header">
+            Add Question
+        </div> -->
+        <div *ngIf="edit" class="page-title align-self-center header">
+            Edit Question
+        </div>
+    </div>
+
+    <div>
+
+        <form class="example-form" class="martopbot10" autocomplete="off">
+            <div class="row">
+                <div class="row col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-md-4 col-sm-12 col-xs-12 selectdiv">
+                        <button class="btn btn-secondary dropdown-button" type="button" aria-expanded="false">
+                            <mat-select class="drop-down-txt" [(value)]="selectedQuestiontype"
+                                placeholder="--Question Type--" #singleSelect
+                                (selectionChange)="onQuestionTypeValueChanged($event.value)">
+                                <mat-option>
+                                    <ngx-mat-select-search [formControl]="questiontypefilter" placeholderLabel="Search"
+                                        noEntriesFoundLabel="No type found"></ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let type of filterquestionTypes | async" [value]="type">
+                                    {{ type.questionType }}
+                                </mat-option>
+                            </mat-select>
+                        </button>
+                    </div>
+
+                    <div class="col-md-4 col-sm-12 col-xs-12 selectdiv">
+                        <button class="btn btn-secondary dropdown-button" type="button" aria-expanded="false">
+                            <mat-select class="drop-down-txt" [(value)]="selectedSkillLevel"
+                                placeholder="--Skill Level--" #singleSelect
+                                (selectionChange)="onLevelValueChanged($event.value)">
+                                <mat-option>
+                                    <ngx-mat-select-search [formControl]="skillLevelfilter" placeholderLabel="Search"
+                                        noEntriesFoundLabel="No levels found"></ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let level of filterskillLevels | async" [value]="level">
+                                    {{ level.levelValue }}
+                                </mat-option>
+                            </mat-select>
+                        </button>
+                    </div>
+
+                    <div class="col-md-4 col-sm-12 col-xs-12 selectdiv">
+                        <div class="col-md-4 col-sm-12 col-xs-12 selectdiv btn btn-secondary dropdown-button">
+                            <mat-select class="drop-down-txt" [(value)]="selectedSkill" placeholder="--Skill--"
+                                #singleSelect (selectionChange)="onSkillValueChanged($event.value)"
+                                (openedChange)="onDropdownOpen($event)" [panelClass]="'custom-select-panel'">
+                                <mat-option>
+                                    <ngx-mat-select-search [formControl]="SkillFilter" placeholderLabel="Search"
+                                        noEntriesFoundLabel="No skills found"></ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let skill of filterskills | async" [value]="skill">
+                                    {{ skill.name }}
+                                </mat-option>
+                                <mat-option *ngIf="isFetchingMore" disabled>
+                                    <mat-spinner diameter="20"></mat-spinner> Loading more...
+                                </mat-option>
+                            </mat-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div *ngIf="!IsBooleanQuestion || isMatchType">
+            <div *ngIf="!IsBooleanQuestion && isMatchType==false" class="col-md-12 col-sm-12 col-xs-12">
+                <div class="row marginTop15">
+                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                        <p class="bottomMarginNull">Question :</p>
+                        <div class="borderdiv height">
+                            <div class="NgxEditor__Wrapper">
+                                <ngx-editor-menu [editor]="editorQuestion" [toolbar]="toolbar"
+                                    [customMenuRef]="menuQuestion">
+                                    <ng-template #menuQuestion>
+                                        <button type="button" (click)="fileInputQuestion.click()"
+                                            style="border: none; background: none;"><i class="bi bi-image"></i></button>
+                                        <input type="file" #fileInputQuestion accept="image/*" style="display:none"
+                                            (change)="onFileSelected(editorQuestion,$event)">
+                                    </ng-template>
+                                </ngx-editor-menu>
+                                <ngx-editor [editor]="editorQuestion" [(ngModel)]="editorModel.question"
+                                    [placeholder]="'Type here...'" (ngModelChange)="onChange('question')">
+                                </ngx-editor>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="isMatchType" class="col-md-12 col-sm-12 col-xs-12 marginTop15">
+                <div class="col-md-12 col-sm-12 col-xs-12 ">
+                    <p class="bottomMarginNull">Question :</p>
+                    <div class="borderdiv height">
+                        <div class="NgxEditor__Wrapper">
+                            <ngx-editor-menu [editor]="editorQuestion" [toolbar]="toolbar"
+                                [customMenuRef]="menuQuestion">
+                                <ng-template #menuQuestion>
+                                    <button type="button" (click)="fileInputQuestion.click()"
+                                        style="border: none; background: none;"><i class="bi bi-image"></i></button>
+                                    <input type="file" #fileInputQuestion accept="image/*" style="display:none"
+                                        (change)="onFileSelected(editorQuestion,$event)">
+                                </ng-template>
+                            </ngx-editor-menu>
+                            <ngx-editor [editor]="editorQuestion" [(ngModel)]="editorModel.question"
+                                [placeholder]="'Type here...'" (ngmodelchange)="onChange('question')">
+                            </ngx-editor>
+                        </div>
+
+                    </div>
+                </div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="justify-content-between">
+                            <th>Column A</th>
+                            <th>Column B</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of matchPairs; let i = index">
+                            <td style="width: 45%;">
+                                <div>
+                                    <div class="NgxEditor__Wrapper" style="max-width: 90%;">
+                                        <ngx-editor-menu [editor]="row.leftEditor" [toolbar]="toolbar"
+                                            [customMenuRef]="matchrightQuestion"></ngx-editor-menu>
+                                        <ng-template #matchrightQuestion>
+                                            <button type="button" (click)="fileInputQuestion.click()"
+                                                style="border: none; background: none;"><i
+                                                    class="bi bi-image"></i></button>
+                                            <input type="file" #fileInputQuestion accept="image/*" style="display:none"
+                                                (change)="onFileSelected(row.leftEditor,$event)">
+                                        </ng-template>
+                                        <ngx-editor [editor]="row.leftEditor" [(ngModel)]="row.left"
+                                            placeholder="Enter left item...">
+                                        </ngx-editor>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td style="width: 45%;">
+                                <div>
+                                    <div class="NgxEditor__Wrapper " style="max-width: 90%;">
+                                        <ngx-editor-menu [editor]="row.rightEditor" [toolbar]="toolbar"
+                                            [customMenuRef]="matchleftQuestion"></ngx-editor-menu>
+                                        <ng-template #matchleftQuestion>
+                                            <button type="button" (click)="fileInputQuestion.click()"
+                                                style="border: none; background: none;"><i
+                                                    class="bi bi-image"></i></button>
+                                            <input type="file" #fileInputQuestion accept="image/*" style="display:none"
+                                                (change)="onFileSelected(row.rightEditor,$event)">
+                                        </ng-template>
+                                        <ngx-editor [editor]="row.rightEditor" [(ngModel)]="row.right"
+                                            placeholder="Enter right item...">
+                                        </ngx-editor>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                <button type="button" class="btn btn-danger btn-sm" (click)="removePair(i)">
+                                    Remove
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <button type="button" class="btn btn-primary btn-sm" (click)="addPair()">
+                    + Add Row
+                </button>
+            </div>
+
+            <div class="row marginTop15">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <p class="bottomMarginNull">Option A :</p>
+                    <div class="borderdiv">
+                        <div class="NgxEditor__Wrapper">
+                            <ngx-editor-menu [editor]="editorOption1" [toolbar]="toolbar" [customMenuRef]="menuOption1">
+                                <ng-template #menuOption1>
+                                    <button type="button" (click)="fileInputOption1.click()"
+                                        style="border: none; background: none;"><i class="bi bi-image"></i></button>
+                                    <input type="file" #fileInputOption1 accept="image/*" style="display:none"
+                                        (change)="onFileSelected(editorOption1,$event)">
+                                </ng-template>
+                            </ngx-editor-menu>
+                            <ngx-editor [editor]="editorOption1" [(ngModel)]="editorModel.option1" [disabled]="false"
+                                (ngModelChange)="onChange('option1')" [placeholder]="'Type here...'"></ngx-editor>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row marginTop15">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <p class="bottomMarginNull">Option B :</p>
+                    <div class="borderdiv">
+                        <div class="NgxEditor__Wrapper">
+                            <ngx-editor-menu [editor]="editorOption2" [toolbar]="toolbar" [customMenuRef]="menuOption2">
+                                <ng-template #menuOption2>
+                                    <button type="button" (click)="fileInputoption2.click()"
+                                        style="border: none; background: none;"><i class="bi bi-image"></i></button>
+                                    <input type="file" #fileInputoption2 accept="image/*" style="display:none"
+                                        (change)="onFileSelected(editorOption2,$event)">
+                                </ng-template>
+                            </ngx-editor-menu>
+                            <ngx-editor [editor]="editorOption2" [(ngModel)]="editorModel.option2" [disabled]="false"
+                                (ngModelChange)="onChange('option2')" [placeholder]="'Type here...'"></ngx-editor>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row marginTop15">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <p class="bottomMarginNull">Option C :</p>
+                    <div class="borderdiv">
+                        <div class="NgxEditor__Wrapper">
+                            <ngx-editor-menu [editor]="editorOption3" [toolbar]="toolbar" [customMenuRef]="menuOption3">
+                                <ng-template #menuOption3>
+                                    <button type="button" (click)="fileInputoption3.click()"
+                                        style="border: none; background: none;"><i class="bi bi-image"></i></button>
+                                    <input type="file" #fileInputoption3 accept="image/*" style="display:none"
+                                        (change)="onFileSelected(editorOption3,$event)">
+                                </ng-template>
+                            </ngx-editor-menu>
+                            <ngx-editor [editor]="editorOption3" [(ngModel)]="editorModel.option3" [disabled]="false"
+                                (ngModelChange)="onChange('option3')" [placeholder]="'Type here...'"></ngx-editor>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row marginTop15">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <p class="bottomMarginNull">Option D :</p>
+                    <div class="borderdiv">
+                        <div class="NgxEditor__Wrapper">
+                            <ngx-editor-menu [editor]="editorOption4" [toolbar]="toolbar" [customMenuRef]="menuOption4">
+                                <ng-template #menuOption4>
+                                    <button type="button" (click)="fileInputoption4.click()"
+                                        style="border: none; background: none;"><i class="bi bi-image"></i></button>
+                                    <input type="file" #fileInputoption4 accept="image/*" style="display:none"
+                                        (change)="onFileSelected(editorOption4,$event)">
+                                </ng-template>
+                            </ngx-editor-menu>
+                            <ngx-editor [editor]="editorOption4" [(ngModel)]="editorModel.option4" [disabled]="false"
+                                (ngModelChange)="onChange('option4')" [placeholder]="'Type here...'"></ngx-editor>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="IsBooleanQuestion && isMatchType==false" class="col-md-12 col-sm-12 col-xs-12">
+            <div class="row marginTop15">
+                <div class="col-md-12 col-sm-12 col-xs-12 ">
+                    <p class="bottomMarginNull">Question :</p>
+                    <div class="borderdiv height">
+                        <div class="NgxEditor__Wrapper">
+                            <ngx-editor-menu [editor]="editorQuestion" [toolbar]="toolbar"
+                                [customMenuRef]="customboolMenu">
+                                <ng-template #customboolMenu>
+                                    <button type="button" (click)="fileInputQuestion.click()"
+                                        style="border: none; background: none;"><i class="bi bi-image"></i></button>
+                                    <input type="file" #fileInputQuestion accept="image/*" style="display:none"
+                                        (change)="onFileSelected(editorQuestion,$event)">
+                                </ng-template>
+                            </ngx-editor-menu>
+                            <ngx-editor [editor]="editorQuestion" [(ngModel)]="editorModel.question" [disabled]="false"
+                                (ngModelChange)="onChange('question')" [placeholder]="'Type here...'"></ngx-editor>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row marginTop15">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <p class="bottomMarginNull">Option A :</p>
+                    <div class="borderdiv">
+                        <div class="NgxEditor__Wrapper">
+                            <ngx-editor-menu [editor]="editorOption1" [toolbar]="toolbar" [customMenuRef]="booloption1">
+                                <ng-template #booloption1>
+                                    <button type="button" (click)="fileInputoption1.click()"
+                                        style="border: none; background: none;"><i class="bi bi-image"></i></button>
+                                    <input type="file" #fileInputoption1 accept="image/*" style="display:none"
+                                        (change)="onFileSelected(editorOption1,$event)">
+                                </ng-template>
+                            </ngx-editor-menu>
+                            <ngx-editor [editor]="editorOption1" [(ngModel)]="editorModel.option1" [disabled]="false"
+                                (ngModelChange)="onChange('option1')" [placeholder]="'Type here...'"></ngx-editor>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row marginTop15">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <p class="bottomMarginNull">Option B :</p>
+                    <div class="borderdiv">
+                        <div class="NgxEditor__Wrapper">
+                            <ngx-editor-menu [editor]="editorOption2" [toolbar]="toolbar" [customMenuRef]="booloption2">
+                                <ng-template #booloption2>
+                                    <button type="button" (click)="fileInputoption2.click()"
+                                        style="border: none; background: none;"><i class="bi bi-image"></i></button>
+                                    <input type="file" #fileInputoption2 accept="image/*" style="display:none"
+                                        (change)="onFileSelected(editorOption2,$event)">
+                                </ng-template>
+                            </ngx-editor-menu>
+                            <ngx-editor [editor]="editorOption2" [(ngModel)]="editorModel.option2" [disabled]="false"
+                                (ngModelChange)="onChange('option2')" [placeholder]="'Type here...'"></ngx-editor>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row col-md-12 col-sm-12 col-xs-12 marginTop15 ">
+            <div class="col-md-6 col-sm-12 col-xs-12 pullLeft">
+                <mat-form-field *ngIf="isMultipleChoice || isMatchType">
+                    <mat-label>Select Correct Option</mat-label>
+                    <mat-select [formControl]="correctanswer" name="Options">
+                        <mat-option *ngFor="let opt of options" [value]="opt">
+                            {{ opt }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error>Correct Option is <strong>required</strong></mat-error>
+                </mat-form-field>
+
+                <!-- Boolean select -->
+                <mat-form-field *ngIf="IsBooleanQuestion">
+                    <mat-label>Select Correct Option</mat-label>
+                    <mat-select [formControl]="correctanswer" name="booloptions">
+                        <mat-option *ngFor="let opt of booloptions" [value]="opt">
+                            {{ opt }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error>Correct Option is <strong>required</strong></mat-error>
+                </mat-form-field>
+
+                <!-- Multiselect -->
+                <mat-form-field *ngIf="isMultiselect">
+                    <mat-label>Select Correct Option(s)</mat-label>
+                    <mat-select multiple [formControl]="multicorrectanswer" name="Options">
+                        <mat-option *ngFor="let opt of options" [value]="opt">
+                            {{ opt }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error>Correct Option is <strong>required</strong></mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6 col-sm-12 col-xs-12 d-flex MarksDiv">
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <mat-form-field>
+                        <mat-label>Score</mat-label>
+                        <input matInput type="number" [formControl]="marks" name="marks" required>
+                        <mat-error *ngIf="marks.invalid && (marks.dirty || marks.touched)">
+                            Score is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!-- <div class="col-md-3 col-sm-12 col-xs-12">
+                    <mat-form-field>
+                        <mat-label>Negative Marks</mat-label>
+                        <input matInput type="number" [formControl]="negativeMarks" name="negativeMarks">
+                    </mat-form-field>
+                </div> -->
+            </div>
+
+        </div>
+        <div class="text-end">
+            <div>
+                <button type=" button" class="btnDelete me-2" (click)="back()">
+                    Cancel
+                </button>
+                <button *ngIf="!edit"
+                    [disabled]="disabledButton() || (isMultiselect ? multicorrectanswer.invalid : correctanswer.invalid) || marks.status =='INVALID' "
+                    [ngStyle]="{ 'background-color': disabledButton() || (isMultiselect ? multicorrectanswer.invalid : correctanswer.invalid) || marks.status =='INVALID' ? '#c0c0c0' : '#ff5521' }"
+                    type="button" class="btnstyles" (click)='addquestion()'>
+                    Add
+                </button>
+                <button *ngIf="edit"
+                    [disabled]="disabledButton() || (isMultiselect ? multicorrectanswer.invalid : correctanswer.invalid)|| marks.status =='INVALID'"
+                    [ngStyle]="{ 'background-color': disabledButton() || (isMultiselect ? multicorrectanswer.invalid : correctanswer.invalid) || marks.status =='INVALID' ? '#c0c0c0' : '#ff5521'}"
+                    type="button" class="btnstyles" (click)='addquestion()'>
+                    Update
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="loader" *ngIf="isLoading"></div>
